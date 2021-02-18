@@ -85,6 +85,11 @@ void command_export(char **args, char **envp)
 	
 }
 
+void command_unset(char **args, char **envp)
+{
+
+}
+
 int our_command(char **args, char*ptr, char **envp)
 {
 	if (ft_strncmp(args[0], "cd", 2) == 0)
@@ -97,6 +102,8 @@ int our_command(char **args, char*ptr, char **envp)
 		command_env(envp);
 	else if (ft_strncmp(args[0], "export", 6) == 0)
 		command_export(args, envp);
+	else if(ft_strncmp(args[0], "unset", 6) == 0)
+		command_unset(args, envp);
 	else
 		return 2;
 	return 0;
