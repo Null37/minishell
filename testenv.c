@@ -127,8 +127,80 @@ int main(int argc, char **argv, char **envp)
 		
 		if (our_command(args, ptr, envp) == 2 && ft_strncmp(r, "\n", 1) != 0)
 		{
-			write(1, "not work yet", 12);
-			write(1, "\n", 1);
+			//write(1, "not our", 7);
+
+		int k = 0;
+		int j = 0;
+	int i = 0;
+	int k2 = 0;
+			// for(k=0; k != '\0'; k++) {
+			// 	for (i = 0; i != '\0'; i++) {
+			// 		for (j = i +1; j != '\0'; ++j) {
+			// 		if (envp[k][i] > envp[k][j])  {
+			// 			char *swap = envp[k][i];
+			// 			envp[k][i] = envp[k][j];
+			// 			envp[k][j] = swap;
+			// 		}
+			// 		}
+			// 	} 
+			// 	}
+
+
+
+			// for(k=0; k != '\0'; k++) {
+			// 	for (i = 0; i != '\0'; i++) {
+
+			// 		if (envp[k][i] > envp[k][j])  {
+			// 			char *swap = envp[k][i];
+			// 			envp[k][i] = envp[k][j];
+			// 			envp[k][j] = swap;
+
+			// 		}
+			// 	} 
+			// 	}
+	k = 0;
+
+	int k1 = 1;
+	// write(1, &envp[0][0], 1);
+	// write(1, &envp[1][0], 1);
+	while (k < 2)
+	{
+			if (envp[k][0] > envp[k1][0])
+				{
+					
+					char *swap = envp[k];
+					envp[k] = envp[k1];
+					envp[k1] = swap;
+				}
+		k++;
+		k1++;
+	}
+	// write(1, &envp[0][0], 1);
+	// write(1, &envp[1][0], 1);
+	printf("s1 = %s\n s2 = %s\ns3 = %s\n",envp[0],envp[1], envp[2] );
+			// while (k < 20)
+			// {
+				
+			// 	if (envp[k][0] > envp[k2][0])
+			// 	{
+					
+			// 		char *swap = envp[k];
+			// 		envp[k] = envp[k2];
+			// 		envp[k2] = swap;
+			// 	}
+			// 	k++;
+			// 	k2++;
+			// }
+
+
+				int hh = 0;
+			while(envp[hh] != NULL)
+    		{
+				printf("%s\n", envp[hh]);
+				hh++;
+    		}
+			// write(1, "\n", 1);
+			
 		}
 	}
 	
