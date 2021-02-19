@@ -160,7 +160,17 @@ void        split_command(t_commands *commands, int nbr_args)
             skip_single_coats(commands->command, &i);
         if ((commands->command[i] == ' ' && commands->command[i + 1] != ' ') || commands->command[i + 1] == '\0')
         {
-            commands->arguments[k++] = my_substr(commands->command, start, i + 1);
+            if (!commands->type)
+            {
+                commands->type = my_substr(commands->command, start, i + 1);
+                commands->type = deletespace(commands->type);
+            }
+            else
+            {
+                commands->arguments[k] = my_substr(commands->command, start, i + 1);
+                commands->arguments[k] = deletespace(commands->arguments[k]);
+                k++;
+            }
             start = i + 1;
         }    
     }
@@ -185,6 +195,7 @@ void        get_commands(t_commands *commands, char *cmds)
 
     i = -1;
     start = 0;
+    tmp = commands;
     while (1)
     {
         if (cmds[++i] == 34)
@@ -219,20 +230,20 @@ t_commands   *parssing_shell(char *cmds)
     t_commands   *commands, *tmp;
     commands = new_commands();
     get_commands(commands, cmds);
-    // int i;
-    // tmp = commands;
-    // while (1)
-    // {
-    //     i = -1;
-    //     while (commands->arguments[++i])
-    //     {
-    //         printf("| %s |", commands->arguments[i]);
-    //     }
-    //     printf("\n");
-    //     if (!commands->next)
-    //         break ;
-    //     commands = commands->next;
-    // }
-    // commands = tmp;
+    int i;
+    tmp = commands;
+    while (1)
+    {
+        i = -1;
+        while (commands->arguments[++i])
+        {
+            printf("| %s |", commands->arguments[i]);
+        }
+        printf("\n");
+        if (!commands->next)
+            break ;
+        commands = commands->next;
+    }
+    commands = tmp;
     return (commands);
 }
