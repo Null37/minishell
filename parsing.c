@@ -1,26 +1,11 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-
-typedef struct		s_option{
-	char *option;
-	struct s_option	*next;
-}					t_option;
-
-typedef struct		s_argument{
-	char *argument;
-	struct s_argument	*next;
-}					t_argument;
-
-typedef struct		s_commands{
-	char        *command;
-    char        *type;
-    int         option;
-    char        **arguments;
-	struct s_commands	*next;
-}					t_commands;
+#include "minishell_hr.h"
+ // typedef struct		s_commands{
+// 	char        *command;
+//     char        *type;
+//     int         option;
+//     char        **arguments;
+// 	struct s_commands	*next;
+// }					t_commands;
 
 t_commands  *new_commands()
 {
@@ -58,7 +43,7 @@ char	*my_substr(char *s, int start, int end)
 
 	if (!s)
 		return (NULL);
-	if (!(str = (char*)malloc(end - start)))
+	if (!(str = (char*)malloc(end - start + 1)))
 		return (NULL);
 	j = 0;
     i = start;
@@ -91,17 +76,6 @@ char	*get_right_path(char *str, int start, int end)
 	return (path);
 }
 
-int		ft_strlen(char *str)
-{
-	int		cpt;
-
-	cpt = 0;
-	while (str[cpt] != '\0')
-	{
-		cpt++;
-	}
-	return (cpt);
-}
 
 char	*deletespace(char *str)
 {
@@ -239,26 +213,26 @@ void        get_commands(t_commands *commands, char *cmds)
 }
 
 
-int main()
+t_commands   *parssing_shell(char *cmds)
 {
-    char *cmds = strdup("cd Desktop; env");
+    //char *cmds = strdup("cd Desktop; env");
     t_commands   *commands, *tmp;
     commands = new_commands();
     get_commands(commands, cmds);
-    int i;
-    tmp = commands;
-    while (1)
-    {
-        i = -1;
-        while (commands->arguments[++i])
-        {
-            printf("| %s |", commands->arguments[i]);
-        }
-        printf("\n");
-        if (!commands->next)
-            break ;
-        commands = commands->next;
-    }
-    commands = tmp;
-    
+    // int i;
+    // tmp = commands;
+    // while (1)
+    // {
+    //     i = -1;
+    //     while (commands->arguments[++i])
+    //     {
+    //         printf("| %s |", commands->arguments[i]);
+    //     }
+    //     printf("\n");
+    //     if (!commands->next)
+    //         break ;
+    //     commands = commands->next;
+    // }
+    // commands = tmp;
+    return (commands);
 }

@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
-#include "libft/libft.h"
+#include "minishell_hr.h"
  
 void command_cd(char **args)
 {
@@ -38,6 +31,12 @@ void command_pwd(char *ptr)
 		ech = strerror(errno);
 		write(1, ech, ft_strlen(ech));
 	}
+}
+
+void ft_putchar(char *str)
+{
+	printf("%s", str);
+	write(1, str, strlen(str));
 }
 
 void command_exit(void)
@@ -90,6 +89,26 @@ void command_unset(char **args, char **envp)
 
 }
 
+void command_variables(char **envp)
+{
+
+}
+
+void command_echo(char **args)
+{
+	int o = len_of_args(args);
+
+	if(ft_strncmp(args[0], "echo", 4) == 0 && o == 1)
+		write(1, "\n", 1);
+	else if (ft_strncmp(args[0], "echo", 4) == 0)
+	{
+		char *str = args[1];
+		ft_putchar(str);
+		write(1, "\n",1);
+	}
+
+}
+
 int our_command(char **args, char*ptr, char **envp)
 {
 	if (ft_strncmp(args[0], "cd", 2) == 0)
@@ -104,6 +123,10 @@ int our_command(char **args, char*ptr, char **envp)
 		command_export(args, envp);
 	else if(ft_strncmp(args[0], "unset", 6) == 0)
 		command_unset(args, envp);
+	else if(ft_strncmp(&args[0][0], "$", 1) == 0)
+		command_variables(envp);
+	else if(ft_strncmp(args[0], "echo", 5) == 0)
+		command_echo(args);
 	else
 		return 2;
 	return 0;
@@ -111,6 +134,8 @@ int our_command(char **args, char*ptr, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
+	t_commands   *commands;
+
 	char *r = (char*)malloc(1024);
 	while(1)
 	{
@@ -130,13 +155,14 @@ int main(int argc, char **argv, char **envp)
 			if (ft_strchr(r, '\n'))
 				*ft_strchr(r, '\n') = '\0';
 		}
-		char **args = ft_split(r, ' ');
+		commands = parssing_shell(r);
+		//char **args = ft_split(r, ' ');
 		
-		if (our_command(args, ptr, envp) == 2 && ft_strncmp(r, "\n", 1) != 0)
+		/*if (our_command(args, ptr, envp) == 2 && ft_strncmp(r, "\n", 1) != 0)
 		{
 			write(1, "not work yet", 12);
 			write(1, "\n", 1);
-		}
+		}*/
 	}
 	
 }
