@@ -41,7 +41,7 @@ void ft_putchar(char *str)
 
 void command_exit(void)
 {
-	write(1, "exit", 4);
+	write(1, "exit\n", 5);
 	exit(EXIT_SUCCESS);
 }
 
@@ -141,6 +141,12 @@ void command_variables(char **envp)
 
 }*/
 
+void command_c(int signum)
+{
+	write(1, "\b\b  ", 4);
+	write(1, "\n", 1);
+	write(1, "\033[0;33mNull37$\033[0m ", 19);
+}
 int our_command(char *ptr, char **envp)
 {
 	if (ft_strncmp(g_commands->type, "cd", 3) == 0)
@@ -155,6 +161,8 @@ int our_command(char *ptr, char **envp)
 		command_export(envp);
 	else if(ft_strncmp(g_commands->type, "unset", 6) == 0)
 		command_unset(envp);
+	// else if (ft_strncmp(g_commands->type, "^C", 3) == 0)
+	// 	command_c();
 	/*else if(ft_strncmp(&args[0][0], "$", 2) == 0)
 		command_variables(envp);
 	else if(ft_strncmp(args[0], "echo", 6) == 0)
@@ -171,10 +179,12 @@ int main(int argc, char **argv, char **envp)
 	int errcd;
 
 	buf = NULL;
+	char path[200];
 	char *line = (char *)malloc(1024);
+	
 	while (1)
 	{
-		char path[200];
+		signal(SIGINT, command_c);
 		write(1, "\033[0;33mNull37$\033[0m ", 19);
 		ptr = getcwd(buf, 1024);
 		ft_bzero(line, 1024);
