@@ -150,8 +150,8 @@ void        split_command(t_commands *commands, int nbr_args)
     k = 0;
     i = -1;
     start = 0;
-    commands->arguments = malloc(sizeof(char*) * (nbr_args + 1));
-    commands->arguments[nbr_args] = NULL;
+    commands->arguments = malloc(sizeof(char*) * (nbr_args));
+    commands->arguments[nbr_args - 1] = NULL;
     while (commands->command[++i])
     {
         if (commands->command[i] == 34)
