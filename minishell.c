@@ -55,23 +55,23 @@ void command_env(char **envp)
 	}
 }
 
-// int len_of_args(char **args)
-// {
-// 	int i = 0;
+int len_of_args(char **args)
+{
+	int i = 0;
 
-// 	while(*args != NULL)
-// 	{
-// 		i++;
-// 		args++;
-// 	}
-// 	return i;
-// }
+	while(*args != NULL)
+	{
+		i++;
+		args++;
+	}
+	return i;
+}
 
 void command_export(char **envp)
 {
 	int o = nbr_argts(g_commands);
 	int i = 0;
-	if (o == 1 && ft_strncmp(g_commands->type, "export", 6) == 0)
+	if (o == 1 && ft_strncmp(g_commands->type, "export", 7) == 0)
 	{
 		while (envp[i] != NULL)
 		{
@@ -83,9 +83,42 @@ void command_export(char **envp)
 	}
 }
 
-void command_unse(char **envp)
+void command_unset(char **envp)
 {
-	
+	int new_position = 0;
+	int lenp;
+	int lenarg;
+	int k =0;
+
+	lenp = len_of_args(envp);
+
+	lenarg = nbr_argts(g_commands);
+	while(k < lenarg)
+	{
+		for (int i = 0; i < lenp; i++) 
+		{
+			if (strncmp(envp[i], g_commands->arguments[k], 4) == 0) 
+			{
+				int j = i;
+				while (j < lenp - 1)
+				{
+					envp[j] = envp[j + 1];
+					j++;
+				}
+				envp[j]	= NULL; 
+				lenp = len_of_args(envp);
+			}
+		}
+		k++;
+	}
+    // if (new_position != i) {
+    //     //Move the other elements 
+    //     envp[new_position] = envp[i];
+    // }
+    // new_position++;
+	// }
+
+	// lenp = new_position;
 }
 
 void command_variables(char **envp)
@@ -121,7 +154,7 @@ int our_command(char *ptr, char **envp)
 	else if (ft_strncmp(g_commands->type, "export", 7) == 0)
 		command_export(envp);
 	else if(ft_strncmp(g_commands->type, "unset", 6) == 0)
-		command_unse(envp);
+		command_unset(envp);
 	/*else if(ft_strncmp(&args[0][0], "$", 2) == 0)
 		command_variables(envp);
 	else if(ft_strncmp(args[0], "echo", 6) == 0)
