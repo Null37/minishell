@@ -230,20 +230,20 @@ t_commands   *parssing_shell(char *cmds)
     t_commands   *commands, *tmp;
     commands = new_commands();
     get_commands(commands, cmds);
-    int i;
-    tmp = commands;
-    while (1)
-    {
-        i = -1;
-        while (commands->arguments[++i])
-        {
-            printf("| %s |", commands->arguments[i]);
-        }
-        printf("\n");
-        if (!commands->next)
-            break ;
-        commands = commands->next;
-    }
-    commands = tmp;
+    // int i;
+    // tmp = commands;
+    // while (1)
+    // {
+    //     i = -1;
+    //     while (commands->arguments[++i])
+    //     {
+    //         printf("| %s |", commands->arguments[i]);
+    //     }
+    //     printf("\n");
+    //     if (!commands->next)
+    //         break ;
+    //     commands = commands->next;
+    // }
+    // commands = tmp;
     return (commands);
 }
