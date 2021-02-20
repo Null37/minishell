@@ -88,16 +88,16 @@ void command_unset(char **envp)
 	int new_position = 0;
 	int lenp;
 	int lenarg;
-	int k =0;
+	int k = 0;
 
 	lenp = len_of_args(envp);
 
-	lenarg = nbr_argts(g_commands);
+	lenarg = nbr_argts(g_commands) - 1;
 	while(k < lenarg)
 	{
-		for (int i = 0; i < lenp; i++) 
+		for (int i = 0; i < lenp; i++)
 		{
-			if (strncmp(envp[i], g_commands->arguments[k], 4) == 0) 
+			if (strncmp(envp[i], g_commands->arguments[k], strlen(g_commands->arguments[k])) == 0)
 			{
 				int j = i;
 				while (j < lenp - 1)
@@ -105,7 +105,7 @@ void command_unset(char **envp)
 					envp[j] = envp[j + 1];
 					j++;
 				}
-				envp[j]	= NULL; 
+				envp[j]	= NULL;
 				lenp = len_of_args(envp);
 			}
 		}
