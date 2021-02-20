@@ -135,16 +135,17 @@ int our_command(char **args, char*ptr, char **envp)
 int main(int argc, char **argv, char **envp)
 {
 	t_commands   *commands;
+	char *buf;
+	char *ptr;
+	int errcd;
 
+	buf = NULL;
 	char *r = (char*)malloc(1024);
 	while(1)
 	{
 		//puts("\033[0;33m");
 		char path[200];
 		write(1, "\033[0;33mNull37$\033[0m ", 19);
-		int errcd;
-		char *buf;
-		char *ptr;
 		ptr = getcwd(buf, 1024);
 		//write(1, ptr, size);
 		ft_bzero(r, 1024);
