@@ -20,6 +20,38 @@ t_commands  *new_commands()
     return (commands);
 }
 
+int    find_equal(char *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+    {
+        if (str[i] == '=')
+        return (1);
+    }
+    return (0);
+}
+
+int    chck_sntx(char *str)
+{
+    int i;
+
+    if (find_equal(str))
+    {
+        if (ft_isalpha(str[0]) || str[0] == '_')
+        {
+            i =0;
+            while (str[++i])
+                if (!ft_isalnum(str[i]))
+                    return (0);
+        }
+        else
+            return (0);
+    }
+    return (1);
+}
+
 void    skip_double_coats(char *cmds, int *i)
 {
     while (cmds[++(*i)])
