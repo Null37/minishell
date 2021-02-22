@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/02/20 11:38:55 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/02/21 19:30:32 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ typedef struct		s_commands{
 
 t_commands   *parssing_shell(char *cmds);
 int           nbr_argts(t_commands *commands);
+int len_of_args(char **args);
 t_commands   *g_commands;

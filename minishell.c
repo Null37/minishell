@@ -39,10 +39,58 @@ void ft_putchar(char *str)
 	write(1, str, strlen(str));
 }
 
+int	ft_isdigit2(char number)
+{
+	if (number >= '0' && number <= '9')
+	{
+		return (1);
+	}
+	else
+		return (0);
+}
+
 void command_exit(void)
 {
-	write(1, "exit\n", 5);
-	exit(EXIT_SUCCESS);
+	int lenarg;
+	int ex;
+	int i;
+
+	i = 0;
+	write(1, "exit", 4);
+	write(1, "\n", 1);
+	lenarg = len_of_args(g_commands->arguments);
+	if(g_commands->arguments[0] != NULL)
+	{
+		while(g_commands->arguments[0][i])
+		{
+			if(ft_isdigit2(g_commands->arguments[0][i]) == 1)
+					i++;
+				else
+				{
+					write(1, "minishell: ", 11);
+					write(1, "exit: ", 6);
+					write(1, g_commands->arguments[0], strlen(g_commands->arguments[0]));
+					write(1, ": ", 2);
+					write(1, "numeric argument required", 25);
+					write(1, "\n", 1);
+					exit(-1);
+				}
+			}
+		}
+		if(lenarg == 1 || lenarg == 0)
+		{
+			if (lenarg == 0)
+				ex = 0;
+			else
+				ex = ft_atoi(g_commands->arguments[0]);
+			exit(ex);
+		}
+		else if (lenarg > 1)
+		{
+			write(1, "minishell: ", 11);
+			write(1, "too many arguments", 18);
+			write(1, "\n", 1);	
+		}
 }
 
 void command_env(char **envp)
@@ -58,7 +106,8 @@ void command_env(char **envp)
 int len_of_args(char **args)
 {
 	int i = 0;
-
+	if(*args == NULL)
+		return 0;
 	while(*args != NULL)
 	{
 		i++;
@@ -83,6 +132,32 @@ void command_export(char **envp)
 	}
 }
 
+void check_syntax(int k, int lenarg)
+{
+	int i = 0;
+
+	while(g_commands->arguments[k][i])
+	{
+		if(ft_isalpha(g_commands->arguments[k][0]) == 1)
+			i++;
+		else if (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)
+			i++;
+		else
+		{
+			write(1, "minishell: ", 11);
+			write(1, "unset: ", 7);
+			write(1, "`", 1);
+			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, "'", 1);
+			write(1, ": ", 2);
+			write(1, "not a valid identifier", 22);
+			write(1, "\n", 1);
+			break;
+		}
+	}
+
+}
+
 void command_unset(char **envp)
 {
 	int new_position = 0;
@@ -95,6 +170,7 @@ void command_unset(char **envp)
 	lenarg = nbr_argts(g_commands) - 1;
 	while(k < lenarg)
 	{
+		check_syntax(k ,lenarg);
 		for (int i = 0; i < lenp; i++)
 		{
 			if (strncmp(envp[i], g_commands->arguments[k], strlen(g_commands->arguments[k])) == 0)
@@ -111,14 +187,6 @@ void command_unset(char **envp)
 		}
 		k++;
 	}
-    // if (new_position != i) {
-    //     //Move the other elements 
-    //     envp[new_position] = envp[i];
-    // }
-    // new_position++;
-	// }
-
-	// lenp = new_position;
 }
 
 void command_variables(char **envp)
@@ -172,6 +240,13 @@ int our_command(char *ptr, char **envp)
 	return 0;
 }
 
+void command_exit_ctr_d(void)
+{
+	write(1, "exit\n", 5);
+	exit(EXIT_SUCCESS);
+	
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char *buf;
@@ -181,14 +256,16 @@ int main(int argc, char **argv, char **envp)
 	buf = NULL;
 	char path[200];
 	char *line = (char *)malloc(1024);
-	
+	int readinput;
 	while (1)
 	{
 		signal(SIGINT, command_c);
 		write(1, "\033[0;33mNull37$\033[0m ", 19);
 		ptr = getcwd(buf, 1024);
 		ft_bzero(line, 1024);
-		read(0, line, 1024);
+		readinput = read(0, line, 1024);
+		if(readinput == 0)
+			command_exit_ctr_d();
 		if (ft_strncmp(line, "\n", 1) != 0)
 		{
 			if (ft_strchr(line, '\n'))
