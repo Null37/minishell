@@ -93,13 +93,27 @@ void command_exit(void)
 		}
 }
 
+int is_equl(int i, char **envp)
+{
+	int j = 0;
+	while(envp[i][j])
+	{
+		if(envp[i][j] == '=')
+			return 1;
+		j++;
+	}
+	return 0;
+}
 void command_env(char **envp)
 {
 	int i = 0;
 	while (envp[i] != NULL)
 	{
-		write(1,envp[i], ft_strlen(envp[i]));
-		write(1, "\n", 1);
+		if(is_equl(i, envp) == 1)
+		{
+			write(1, envp[i], ft_strlen(envp[i]));
+			write(1, "\n", 1);
+		}
 		i++;
 	}
 }
@@ -117,77 +131,205 @@ int len_of_args(char **args)
 	return i;
 }
 
+
+void ok_write(char **exportp, int i, int j)
+{
+	int b = 0;
+	j = 0;
+	write(1, "declare -x ", 11);
+	while (exportp[i][j])
+	{
+		if(exportp[i][j] == '=')
+		{
+			write(1, "=", 1);
+			b = 1;
+			write(1, "\"", 1);
+			j++;
+			break;
+		}
+		else
+			write(1, &exportp[i][j], 1);
+		j++;
+		
+	}
+	while (exportp[i][j])
+	{
+		write(1, &exportp[i][j], 1);
+		j++;
+	}
+	if (b == 1)
+		write(1, "\"", 1);
+	write(1, "\n", 1);
+}
+
 void add_double_quotes(char **exportp)
 {
 	int lenp;
 	int lenarg;
-	//char **buff;
-	//char *fsf;
 	int k = 0;
 	int j = 0;
 	int  hh = 0;
 	int  i = 0;
-	while(exportp[i] != NULL)
+	// while(exportp[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	write(1, "declare -x ", 11);
+	// 	while(exportp[i][j])
+	// 	{
+	// 		if(exportp[i][j] == '=')
+	// 		{
+	// 			write(1, "=", 1);
+	// 			write(1, "\"", 1);
+	// 		}
+	// 		else
+	// 		{
+	// 			write(1, &exportp[i][j], 1);
+	// 		}
+	// 		j++;
+	// 	}
+	// 	write(1, "\"", 1);
+	// 	write(1, "\n", 1);
+	// 	i++;
+	// }
+
+
+	while (exportp[i] != NULL)
 	{
 		j = 0;
-		write(1, "declare -x ", 11);
 		while(exportp[i][j])
 		{
-			if(exportp[i][j] == '=')
+			if(exportp[i][j] != '=')
 			{
-				write(1, "=", 1);
-				write(1, "\"", 1);
-			}
-			else
-			{
-				write(1, &exportp[i][j], 1);
+				ok_write(exportp, i, j);
+				break;
 			}
 			j++;
 		}
-		write(1, "\"", 1);
-		write(1, "\n", 1);
 		i++;
 	}
 	
+	
+}
+
+void check_syntax_export_false(int k, int lenarg)
+{
+	int i = 0;
+
+	while(g_commands->arguments[k][i])
+	{
+		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
+			i++;
+		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
+			i++;
+		else
+		{
+			write(1, "minishell: ", 11);
+			write(1, "export: ", 7);
+			write(1, "`", 1);
+			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, "'", 1);
+			write(1, ": ", 2);
+			write(1, "not a valid identifier", 22);
+			write(1, "\n", 1);
+			break;
+		}
+	}
+}
+
+void check_syntax_export_true(int k, int lenarg)
+{
+	int i = 0;
+
+	while(g_commands->arguments[k][i] != '=')
+	{
+		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
+			i++;
+		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
+			i++;
+		else
+		{
+			write(1, "minishell: ", 11);
+			write(1, "export: ", 7);
+			write(1, "`", 1);
+			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, "'", 1);
+			write(1, ": ", 2);
+			write(1, "not a valid identifier", 22);
+			write(1, "\n", 1);
+			break;
+		}
+	}
+}
+
+// void  true_or_false_syntax(int k,char **envp, int true)
+// {
+
+// }
+
+void add_in_env(int k, char **envp)
+{
+	int i;
+	
+	i = 0;
+
+	while(envp[i] != NULL)
+		i++;
+	envp[i] = g_commands->arguments[k];
+	envp[i + 1] = NULL;
+}
+
+void add_in_exp(int k, char **exportp)
+{
+	int i;
+	
+	i = 0;
+
+	while(exportp[i] != NULL)
+		i++;
+	exportp[i] = g_commands->arguments[k];
+	exportp[i + 1] = NULL;
+}
+
+int  syntax_true(char **envp, int k, int lenarg)
+{
+	int  i = 0;
+	int true;
+	while(g_commands->arguments[k][i])
+	{
+		if(g_commands->arguments[k][i] == '=')
+		{
+			check_syntax_export_true(k, lenarg);
+			add_in_env(k, envp);
+			return 1;
+		}
+		i++;
+	}
+	return 0;
 }
 
 void command_export(char **envp)
 {
 	int o = nbr_argts(g_commands);
 	int i = 0;
-	int lenp;
 	int lenarg;
 	int k = 0;
 	char **exportp = envp;
 	exportp = sort_algo(exportp);
+	lenarg = nbr_argts(g_commands) - 1;
 	if (o == 1)
-	{
 		add_double_quotes(exportp);
+	else if (o > 1)
+	{	
+		while (k < lenarg)
+		{
+			if (syntax_true(envp, k, lenarg) == 0)
+			{
+				check_syntax_export_false(k, lenarg);
+				add_in_exp(k, exportp);
+			}
+			k++;
+		}
 	}
-	// if (o > 1)
-	// {
-	// 	lenp = len_of_args(envp);
-	// 	lenarg = nbr_argts(g_commands) - 1;
-	// 	while(k < lenarg)
-	// 	{
-	// 		//int c = chck_sntx(g_commands->arguments[k]);
-	// 		for (int i = 0; i < lenp; i++)
-	// 		{
-	// 			if (strncmp(envp[i], g_commands->arguments[k], strlen(g_commands->arguments[k])) == 0)
-	// 			{
-	// 				int j = i;
-	// 				while (j < lenp - 1)
-	// 				{
-	// 					envp[j] = envp[j + 1];
-	// 					j++;
-	// 				}
-	// 				envp[j]	= NULL;
-	// 				lenp = len_of_args(envp);
-	// 			}
-	// 		}
-	// 		k++;
-	// 	}
-	// }
 }
 
 void check_syntax(int k, int lenarg)
@@ -216,7 +358,7 @@ void check_syntax(int k, int lenarg)
 
 }
 
-char *search_in_env(char *variable, char **envp)
+char *search_in_env2(char *variable, char **envp)
 {
 	int lenp;
 	int lenarg;
@@ -355,14 +497,14 @@ void command_exit_ctr_d(void)
 	exit(EXIT_SUCCESS);
 }
 
-int syntax(char ch, int i)
-{
-	if((ft_isalpha(ch) == 1 && i == 0) || (ch == '_' && i == 0))
-		return 1;
-	else if(ft_isalpha(ch) == 1 || ft_isdigit(ch) == 1)
-		return 1;
-	return 0;
-}
+// int syntax(char ch, int i)
+// {
+// 	if((ft_isalpha(ch) == 1 && i == 0) || (ch == '_' && i == 0))
+// 		return 1;
+// 	else if(ft_isalpha(ch) == 1 || ft_isdigit(ch) == 1)
+// 		return 1;
+// 	return 0;
+// }
 
 int check_if_command_is_exist(char *path_file)
 {
@@ -381,7 +523,7 @@ int check_this_command(char **envp)
 	int fd;
 	int i;
 
-	path = search_in_env("PATH", envp);
+	path = search_in_env2("PATH", envp);
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
@@ -429,14 +571,14 @@ int main(int argc, char **argv, char **envp)
 			if (ft_strchr(line, '\n'))
 				*ft_strchr(line, '\n') = '\0';
 		}
-		g_commands = parssing_shell(line);
+		g_commands = parssing_shell(envp ,line);
 		if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
 		{
 			if (check_this_command(envp) == 2)
 				write(1, "not work yet\n", 13);
 			//fork();
 			//test = search_in_env(envp);
-			//write(1, test, strlen(test));
+			//write(1, test, strlen(test));ƒ
 			// int child = fork();
 			// if (child == -1) // If fork() fails it does not create a child and returns -1
 			// write(1, "Problems\n", 9);
