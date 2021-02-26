@@ -25,6 +25,7 @@ typedef struct		s_commands{
 	char        	*type;
 	int         	option;
 	char        	**arguments;
+	int				multiple;
 	struct 			s_commands	*next;
 }					t_commands;
 

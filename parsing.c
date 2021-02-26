@@ -128,18 +128,20 @@ int    chck_sntx(char *str)
 	return (1);
 }
 
-void    skip_double_coats(char *cmds, int *i)
+int		skip_double_coats(char *cmds, int *i)
 {
 	while (cmds[++(*i)])
 		if (cmds[*i] == 34 && cmds[*i - 1] != '\\')
-			break ;
+			return (0);
+	return (1);
 }
 
-void    skip_single_coats(char *cmds, int *i)
+int		skip_single_coats(char *cmds, int *i)
 {
 	while (cmds[++(*i)])
 		if (cmds[*i] == 39)
-			break ;
+			return (0);
+	return (1);
 }
 
 char	*my_substr(char *s, int start, int end)
@@ -333,7 +335,7 @@ char *deletecoats(char **envp, char *str)
 	char *ss;
 	char    *rstr;
 	t_tmp	*tmp;
-
+	
 	rstr = NULL;
 	tmp = malloc(sizeof(t_tmp));
 	tmp->s1 = malloc(2);
@@ -445,9 +447,11 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	commands->arguments[nbr_args - 1] = NULL;
 	while (commands->command[++i])
 	{
-		if (commands->command[i] == 34)
+		if (commands->command[i] == '\\')
+			continue ;
+		if (commands->command[i] == 34 && commands->command[i - 1] != '\\')
 			skip_double_coats(commands->command, &i);
-		else if (commands->command[i] == 39)
+		else if (commands->command[i] == 39 && commands->command[i - 1] != '\\')
 			skip_single_coats(commands->command, &i);
 		if ((commands->command[i] == ' ' && commands->command[i + 1] != ' ')
 		|| commands->command[i + 1] == '\0')
@@ -483,7 +487,7 @@ void        trait_command(char **envp, t_commands *commands)
 	//printf("%d", nbr_args);
 
 }
-void        get_commands(char **envp, t_commands *commands, char *cmds)
+int        get_commands(char **envp, t_commands *commands, char *cmds)
 {
 	int     i;
 	int     start;
@@ -494,10 +498,20 @@ void        get_commands(char **envp, t_commands *commands, char *cmds)
 	tmp = commands;
 	while (1)
 	{
-		if (cmds[++i] == 34)
-			skip_double_coats(cmds, &i);
-		else if (cmds[i] == 39)
-			skip_single_coats(cmds, &i);
+		if (cmds[++i] == '\\')
+		{
+			continue ;
+		}
+		if (cmds[++i] == 34 && cmds[i - 1] != '\\')
+		{
+			if ((commands->multiple = skip_double_coats(cmds, &i)))
+				return (0);
+		}
+		else if (cmds[i] == 39 && cmds[i - 1] != '\\')
+		{
+			if ((commands->multiple = skip_single_coats(cmds, &i)))
+				return (0);
+		}
 		if (cmds[i] == 59)
 		{
 			commands->command = my_substr(cmds, start, i);
@@ -521,6 +535,7 @@ void        get_commands(char **envp, t_commands *commands, char *cmds)
 	}
 
 	commands = tmp;
+	return (1);
 }
 
 t_commands   *parssing_shell(char **envp, char *cmds)
@@ -529,7 +544,7 @@ t_commands   *parssing_shell(char **envp, char *cmds)
 	t_commands   *commands, *tmp;
 	commands = new_commands();
 	get_commands(envp, commands, cmds);
-	int i;
+	/*int i;
 	tmp = commands;
 	while (1)
 	{
@@ -543,7 +558,7 @@ t_commands   *parssing_shell(char **envp, char *cmds)
 			break ;
 		commands = commands->next;
 	}
-	commands = tmp;
+	commands = tmp;*/
 	/*int i = -1;
 	char c;
 	while (commands->arguments[0][++i])
