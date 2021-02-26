@@ -4,7 +4,7 @@ void command_cd()
 {
 	write(1, "\033[0;32m", 8);
 	int eee = chdir(g_commands->arguments[0]);
-	if (eee == -1)
+	if (eee == -1 && g_commands->arguments[0] != NULL)
 	{
 		write(1, "Minishell: ", 11);
 		write(1, "cd: ", 4);
@@ -98,7 +98,8 @@ void command_env(char **envp)
 	int i = 0;
 	while (envp[i] != NULL)
 	{
-		printf("%s\n", envp[i]);
+		write(1,envp[i], ft_strlen(envp[i]));
+		write(1, "\n", 1);
 		i++;
 	}
 }
@@ -116,20 +117,77 @@ int len_of_args(char **args)
 	return i;
 }
 
+void add_double_quotes(char **exportp)
+{
+	int lenp;
+	int lenarg;
+	//char **buff;
+	//char *fsf;
+	int k = 0;
+	int j = 0;
+	int  hh = 0;
+	int  i = 0;
+	while(exportp[i] != NULL)
+	{
+		j = 0;
+		write(1, "declare -x ", 11);
+		while(exportp[i][j])
+		{
+			if(exportp[i][j] == '=')
+			{
+				write(1, "=", 1);
+				write(1, "\"", 1);
+			}
+			else
+			{
+				write(1, &exportp[i][j], 1);
+			}
+			j++;
+		}
+		write(1, "\"", 1);
+		write(1, "\n", 1);
+		i++;
+	}
+	
+}
+
 void command_export(char **envp)
 {
 	int o = nbr_argts(g_commands);
 	int i = 0;
-	if (o == 1 && ft_strncmp(g_commands->type, "export", 7) == 0)
+	int lenp;
+	int lenarg;
+	int k = 0;
+	char **exportp = envp;
+	exportp = sort_algo(exportp);
+	if (o == 1)
 	{
-		while (envp[i] != NULL)
-		{
-			write(1, "declare -x ", 11);
-			write(1, envp[i], ft_strlen(envp[i]));
-			write(1, "\n", 1);
-			i++;
-		}
+		add_double_quotes(exportp);
 	}
+	// if (o > 1)
+	// {
+	// 	lenp = len_of_args(envp);
+	// 	lenarg = nbr_argts(g_commands) - 1;
+	// 	while(k < lenarg)
+	// 	{
+	// 		//int c = chck_sntx(g_commands->arguments[k]);
+	// 		for (int i = 0; i < lenp; i++)
+	// 		{
+	// 			if (strncmp(envp[i], g_commands->arguments[k], strlen(g_commands->arguments[k])) == 0)
+	// 			{
+	// 				int j = i;
+	// 				while (j < lenp - 1)
+	// 				{
+	// 					envp[j] = envp[j + 1];
+	// 					j++;
+	// 				}
+	// 				envp[j]	= NULL;
+	// 				lenp = len_of_args(envp);
+	// 			}
+	// 		}
+	// 		k++;
+	// 	}
+	// }
 }
 
 void check_syntax(int k, int lenarg)
@@ -138,9 +196,9 @@ void check_syntax(int k, int lenarg)
 
 	while(g_commands->arguments[k][i])
 	{
-		if(ft_isalpha(g_commands->arguments[k][0]) == 1)
+		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
 			i++;
-		else if (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)
+		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
 			i++;
 		else
 		{
@@ -158,9 +216,47 @@ void check_syntax(int k, int lenarg)
 
 }
 
+char *search_in_env(char *variable, char **envp)
+{
+	int lenp;
+	int lenarg;
+	char *buff;
+	char *fsf;
+	int k = 0;
+	int j = 0;
+	int  hh = 0;
+	fsf = ft_strdup(" ");
+	buff = ft_strdup("");
+	lenp = len_of_args(envp);
+	lenarg = nbr_argts(g_commands) - 1;
+
+		for (int i = 0; i < lenp; i++)
+		{
+			if (strncmp(envp[i], variable, strlen(variable)) == 0)
+			{
+				j = 0;
+				while (envp[i][j])
+				{
+					if(envp[i][j] == '=')
+					{
+						j += 1;
+						while(envp[i][j])
+						{
+							fsf[0] = envp[i][j];
+							buff = ft_strjoin(buff, fsf);
+							j++;
+						}
+						break;
+					}
+					j++;
+				}
+			}
+		}
+	return buff;
+}
+
 void command_unset(char **envp)
 {
-	int new_position = 0;
 	int lenp;
 	int lenarg;
 	int k = 0;
@@ -191,23 +287,39 @@ void command_unset(char **envp)
 
 void command_variables(char **envp)
 {
-
+	
 }
 
-/*void command_echo()
+void big_putchar()
 {
-	int o = len_of_args();
-
-	if(ft_strncmp(args[0], "echo", 4) == 0 && o == 1)
-		write(1, "\n", 1);
-	else if (ft_strncmp(args[0], "echo", 4) == 0)
+	int i = 0;
+	while(g_commands->arguments[i] != NULL)
 	{
-		char *str = args[1];
-		ft_putchar(str);
-		write(1, "\n",1);
+		ft_putchar(g_commands->arguments[i]);
+		write(1, "\n", 1);
+		i++;
 	}
+}
 
-}*/
+void command_echo()
+{
+	int o = len_of_args(g_commands->arguments);
+	int i = 0;
+	if(o == 0)
+		write(1, "\n", 1);
+	else if (o > 0)
+	{
+			
+		while(g_commands->arguments[i] != NULL)
+		{
+			ft_putchar(g_commands->arguments[i]);
+			if (o > 1)
+				write(1, " ", 1);
+			i++;
+		}
+	}
+	write(1, "\n", 1);
+}
 
 void command_c(int signum)
 {
@@ -215,6 +327,7 @@ void command_c(int signum)
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 }
+
 int our_command(char *ptr, char **envp)
 {
 	if (ft_strncmp(g_commands->type, "cd", 3) == 0)
@@ -229,12 +342,8 @@ int our_command(char *ptr, char **envp)
 		command_export(envp);
 	else if(ft_strncmp(g_commands->type, "unset", 6) == 0)
 		command_unset(envp);
-	// else if (ft_strncmp(g_commands->type, "^C", 3) == 0)
-	// 	command_c();
-	/*else if(ft_strncmp(&args[0][0], "$", 2) == 0)
-		command_variables(envp);
-	else if(ft_strncmp(args[0], "echo", 6) == 0)
-		command_echo(args);*/
+	else if(ft_strncmp(g_commands->type, "echo", 6) == 0)
+		command_echo();
 	else
 		return 2;
 	return 0;
@@ -244,7 +353,56 @@ void command_exit_ctr_d(void)
 {
 	write(1, "exit\n", 5);
 	exit(EXIT_SUCCESS);
+}
+
+int syntax(char ch, int i)
+{
+	if((ft_isalpha(ch) == 1 && i == 0) || (ch == '_' && i == 0))
+		return 1;
+	else if(ft_isalpha(ch) == 1 || ft_isdigit(ch) == 1)
+		return 1;
+	return 0;
+}
+
+int check_if_command_is_exist(char *path_file)
+{
+	int fd;
+
+	fd = open(path_file, O_RDONLY);
+	close(fd);
+	return fd;
+}
+
+int check_this_command(char **envp)
+{
+	char *path;
+	char **command_path;
+	int o;
+	int fd;
+	int i;
+
+	path = search_in_env("PATH", envp);
+	command_path =  ft_split(path, ':');
+	o = len_of_args(command_path);
+	i = 0;
 	
+	while(i != o)
+	{
+		command_path[i] = ft_strjoin(command_path[i], "/");
+		command_path[i] = ft_strjoin(command_path[i], g_commands->type);
+		fd = check_if_command_is_exist(command_path[i]);
+		if (fd == 3)
+			return 2;
+		else if (fd == -1 &&  i == o - 1)
+		{
+			write(1, "minishell: ", 11);
+			write(1, g_commands->type, ft_strlen(g_commands->type));
+			write(1,": ", 2);
+			write(1, "command not found\n", 18);
+		}
+		i++;
+	}
+	return 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -252,10 +410,10 @@ int main(int argc, char **argv, char **envp)
 	char *buf;
 	char *ptr;
 	int errcd;
-
+	char *test;
 	buf = NULL;
 	char path[200];
-	char *line = (char *)malloc(1024);
+	char *line = (char *)malloc(BUFSIZ);
 	int readinput;
 	while (1)
 	{
@@ -274,8 +432,25 @@ int main(int argc, char **argv, char **envp)
 		g_commands = parssing_shell(line);
 		if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
 		{
-			write(1, "not work yet", 12);
-			write(1, "\n", 1);
+			if (check_this_command(envp) == 2)
+				write(1, "not work yet\n", 13);
+			//fork();
+			//test = search_in_env(envp);
+			//write(1, test, strlen(test));
+			// int child = fork();
+			// if (child == -1) // If fork() fails it does not create a child and returns -1
+			// write(1, "Problems\n", 9);
+			// if (child == 0) // In the child process
+			// {
+			// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
+			// 	{
+			// 		write(1, "Child Problems\n", 15);
+			// 		return(-1);
+			// 	}
+			// }
+			 
+			//write(1, "\n", 1);
+			// 	}
 		}
 	}
 }

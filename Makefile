@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/02/20 08:58:46 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/02/25 15:13:40 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 FLAGS = -fsanitize=address
 
-SRC = minishell.c parsing.c
+SRC = minishell.c parsing.c algo_sort.c
 
 CC = gcc
 
