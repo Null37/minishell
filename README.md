@@ -1,6 +1,6 @@
 # minishell
 
-## subject for this project
+## subject for this project(minishell)
 [SUBJECT](https://drive.google.com/file/d/1DV7pYTgNCf-KjJhrDDLcWtqwH_jmJZLo/view?usp=sharing)
 ## H2 source
 All source in my 
