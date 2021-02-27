@@ -284,7 +284,8 @@ char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp)
 			rstr = add_vrbs(envp, rstr, tmp, str);
 			continue ;
 		}
-		if (str[tmp->i] == '\\')
+		if (str[tmp->i] == '\\' &&
+		(str[tmp->i + 1] == '\\' || str[tmp->i + 1] == 34))
 		{
 			tmp->s1[0] = str[tmp->i + 1];
 			rstr = ft_strjoin1(rstr, tmp->s1);
@@ -447,11 +448,11 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	commands->arguments[nbr_args - 1] = NULL;
 	while (commands->command[++i])
 	{
-		if (commands->command[i] == '\\')
-			continue ;
-		if (commands->command[i] == 34 && commands->command[i - 1] != '\\')
+		if ((commands->command[i] == 34 && i == 0)
+			|| (commands->command[i] == 34 && commands->command[i - 1] != '\\'))
 			skip_double_coats(commands->command, &i);
-		else if (commands->command[i] == 39 && commands->command[i - 1] != '\\')
+		else if ((commands->command[i] == 39 && i == 0)
+			|| (commands->command[i] == 39 && commands->command[i - 1] != '\\'))
 			skip_single_coats(commands->command, &i);
 		if ((commands->command[i] == ' ' && commands->command[i + 1] != ' ')
 		|| commands->command[i + 1] == '\0')
@@ -498,11 +499,7 @@ int        get_commands(char **envp, t_commands *commands, char *cmds)
 	tmp = commands;
 	while (1)
 	{
-		if (cmds[++i] == '\\')
-		{
-			continue ;
-		}
-		if ((cmds[i] == 34 && i == 0)
+		if ((cmds[++i] == 34 && i == 0)
 		|| (cmds[i] == 34 && cmds[i - 1] != '\\'))
 		{
 			if ((commands->multiple = skip_double_coats(cmds, &i)))
