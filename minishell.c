@@ -572,6 +572,8 @@ int main(int argc, char **argv, char **envp)
 				*ft_strchr(line, '\n') = '\0';
 		}
 		g_commands = parssing_shell(envp ,line);
+		if(g_commands->multiple == 1)
+			continue;
 		if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
 		{
 			if (check_this_command(envp) == 2)
