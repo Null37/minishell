@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "libft/libft.h"
+#include "libft1/libft.h"
  
 void command_cd(char **args)
 {

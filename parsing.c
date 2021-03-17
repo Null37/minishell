@@ -379,6 +379,8 @@ int        check_cmd(char *cmnd)
 	int i;
 
 	i = -1;
+	if (!cmnd)
+		return (0);
 	while(cmnd[++i])
 	{
 		if (cmnd[i] != ' ')
@@ -484,16 +486,18 @@ void        trait_command(char **envp, t_commands *commands)
 	i = -1;
 	int nbr_args;
 	nbr_args = nbr_argts(commands);
-	split_command(envp,commands, nbr_args);
+	if (nbr_args > 0)
+		split_command(envp,commands, nbr_args);
 	//printf("%d", nbr_args);
 
 }
-int        get_commands(char **envp, t_commands *commands, char *cmds)
+int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds)
 {
 	int     i;
 	int     start;
 	t_commands  *tmp;
-
+	char *buf;
+	buf = NULL;
 	i = -1;
 	start = 0;
 	tmp = commands;
@@ -513,10 +517,12 @@ int        get_commands(char **envp, t_commands *commands, char *cmds)
 		}
 		if (cmds[i] == 59)
 		{
+			ptr = getcwd(buf, 1024);
 			commands->command = my_substr(cmds, start, i);
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
+			our_command(commands, ptr, envp);
 			commands->next = new_commands();
 			commands = commands->next;
 			start = i + 1;
@@ -525,10 +531,12 @@ int        get_commands(char **envp, t_commands *commands, char *cmds)
 		{
 			if (start == i)
 				break ;
+			ptr = getcwd(buf, 1024);
 			commands->command = my_substr(cmds, start, i);
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
+			our_command(commands, ptr, envp);
 			break ;
 		}
 	}
@@ -537,12 +545,15 @@ int        get_commands(char **envp, t_commands *commands, char *cmds)
 	return (1);
 }
 
-t_commands   *parssing_shell(char **envp, char *cmds)
+t_commands   *parssing_shell(char *ptr, char **envp, char *cmds)
 {
 	//char *cmds = strdup("cd Desktop; env");
+	char *buf;
+	buf= NULL;
 	t_commands   *commands, *tmp;
 	commands = new_commands();
-	get_commands(envp, commands, cmds);
+	ptr = getcwd(buf, 1024);
+	get_commands(ptr, envp, commands, cmds);
 	/*int i;
 	tmp = commands;
 	while (1)

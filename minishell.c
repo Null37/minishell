@@ -1,18 +1,18 @@
 #include "minishell_hr.h"
 
-void command_cd()
+void command_cd(t_commands *tmp)
 {
 	write(1, "\033[0;32m", 8);
-	int eee = chdir(g_commands->arguments[0]);
-	if (eee == -1 && g_commands->arguments[0] != NULL)
+	int eee = chdir(tmp->arguments[0]);
+	if (eee == -1 && tmp->arguments[0] != NULL)
 	{
-		write(1, "Minishell: ", 11);
-		write(1, "cd: ", 4);
-		write(1, g_commands->arguments[0], ft_strlen(g_commands->arguments[0]));
-		write(1, ": ", 2);
+		write(2, "Minishell: ", 11);
+		write(2, "cd: ", 4);
+		write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
+		write(2, ": ", 2);
 		char *ee = strerror(errno);
-		write(1, ee, strlen(ee));
-		write(1, "\n", 1);
+		write(2, ee, strlen(ee));
+		write(2, "\n", 1);
 	}
 }
 
@@ -35,7 +35,6 @@ void command_pwd(char *ptr)
 
 void ft_putchar(char *str)
 {
-	printf("%s", str);
 	write(1, str, strlen(str));
 }
 
@@ -49,30 +48,31 @@ int	ft_isdigit2(char number)
 		return (0);
 }
 
-void command_exit(void)
+void command_exit(t_commands *tmp)
 {
 	int lenarg;
 	int ex;
 	int i;
-
 	i = 0;
 	write(1, "exit", 4);
 	write(1, "\n", 1);
-	lenarg = len_of_args(g_commands->arguments);
-	if(g_commands->arguments[0] != NULL)
+	lenarg = len_of_args(tmp->arguments);
+	if(tmp->arguments[0] != NULL)
 	{
-		while(g_commands->arguments[0][i])
+		while(tmp->arguments[0][i])
 		{
-			if(ft_isdigit2(g_commands->arguments[0][i]) == 1)
+			if(ft_isdigit2(tmp->arguments[0][i]) == 1)
 					i++;
 				else
 				{
-					write(1, "minishell: ", 11);
-					write(1, "exit: ", 6);
-					write(1, g_commands->arguments[0], strlen(g_commands->arguments[0]));
-					write(1, ": ", 2);
-					write(1, "numeric argument required", 25);
-					write(1, "\n", 1);
+					write(2, "minishell: ", 11);
+					write(2, "exit: ", 6);
+					write(2, tmp->arguments[0], strlen(tmp->arguments[0]));
+					write(2, ": ", 2);
+					write(2, "numeric argument required", 25);
+					write(2, "\n", 1);
+					free(tmp->arguments[0]);
+					tmp->arguments[0] = NULL;
 					exit(-1);
 				}
 			}
@@ -82,14 +82,16 @@ void command_exit(void)
 			if (lenarg == 0)
 				ex = 0;
 			else
-				ex = ft_atoi(g_commands->arguments[0]);
+				ex = ft_atoi(tmp->arguments[0]);
+			free(tmp->arguments[0]);
+			tmp->arguments[0] = NULL;
 			exit(ex);
 		}
 		else if (lenarg > 1)
 		{
-			write(1, "minishell: ", 11);
-			write(1, "too many arguments", 18);
-			write(1, "\n", 1);	
+			write(2, "minishell: ", 11);
+			write(2, "too many arguments", 18);
+			write(2, "\n", 1);	
 		}
 }
 
@@ -211,54 +213,55 @@ void add_double_quotes(char **exportp)
 	
 }
 
-void check_syntax_export_false(int k, int lenarg)
+int check_syntax_export_false(t_commands *tmp ,int k, int lenarg)
 {
 	int i = 0;
 
-	while(g_commands->arguments[k][i])
+	while(tmp->arguments[k][i])
 	{
-		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][0]) == 1 || tmp->arguments[k][0] == '_')
 			i++;
-		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
+		else if ((ft_isdigit2(tmp->arguments[k][i]) && i != 0 )|| tmp->arguments[k][i] == '_')
 			i++;
 		else
 		{
 			write(1, "minishell: ", 11);
 			write(1, "export: ", 7);
 			write(1, "`", 1);
-			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
 			write(1, "'", 1);
 			write(1, ": ", 2);
 			write(1, "not a valid identifier", 22);
 			write(1, "\n", 1);
-			break;
+			return 1;
 		}
 	}
+	return 0;
 }
 
-void check_syntax_export_true(int k, int lenarg)
+int check_syntax_export_true(t_commands *tmp,int k, int lenarg)
 {
 	int i = 0;
-
-	while(g_commands->arguments[k][i] != '=')
+	while(tmp->arguments[k][i] != '=')
 	{
-		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
 			i++;
-		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
+		else if ((ft_isdigit2(tmp->arguments[k][i]) == 1 && i != 0 )|| tmp->arguments[k][i] == '_')
 			i++;
 		else
 		{
 			write(1, "minishell: ", 11);
 			write(1, "export: ", 7);
 			write(1, "`", 1);
-			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
 			write(1, "'", 1);
 			write(1, ": ", 2);
 			write(1, "not a valid identifier", 22);
 			write(1, "\n", 1);
-			break;
+			return 1;
 		}
 	}
+	return 0;
 }
 
 // void  true_or_false_syntax(int k,char **envp, int true)
@@ -266,40 +269,171 @@ void check_syntax_export_true(int k, int lenarg)
 
 // }
 
-void add_in_env(int k, char **envp)
+void add_in_env(t_commands *tmp, int k, char **envp)
 {
 	int i;
-	
-	i = 0;
+	int j;
+	int b =0;
+	int c = 0;
+	int lenp;
+	char *nameenv;
 
+	lenp =0;
+	j = 0;
+	i = 0;
+	while(tmp->arguments[k][b] != '=')
+			b++;
+	char *varibale = malloc(sizeof(char) * b + 1);
+	while(c != b)
+	{
+		varibale[c] = tmp->arguments[k][c];
+		c++;
+	}
+	varibale[c] = '\0';
+	char *ef = search_in_env2(varibale, envp);
 	while(envp[i] != NULL)
 		i++;
-	envp[i] = g_commands->arguments[k];
-	envp[i + 1] = NULL;
+	if(ft_strncmp(ef, "\0", 1) == 0)
+	{
+		envp[i] = tmp->arguments[k];
+		envp[i + 1] = NULL;
+	}
+	else
+	{
+		b += 1;
+		char *te = (tmp->arguments[k] + b);
+		int t;
+		int tee = 0;;
+
+		t = ft_strlen(te);
+		lenp = len_of_args(envp);
+		for (int i = 0; i < lenp; i++)
+		{
+			nameenv = get_env_name(envp[i]);
+			if (my_strcmp(nameenv, varibale) == 0)
+			{
+				// j = 0;
+				
+				// while (envp[i][j])
+				// {
+				// 	if(envp[i][j] == '=')
+				// 	{
+				// 		j += 1;
+				// 		envp[i] = (char*)malloc(sizeof(char) * t);
+				// 		while(tee != t)
+				// 		{
+				// 			envp[i][j] = tmp->arguments[k][b];
+				// 			j++;
+				// 			b++;
+				// 			tee++;
+				// 		}
+						
+				// 	}
+				// 	j++;
+				// }
+				varibale = ft_strjoin(varibale, "=");
+				envp[i] = ft_strjoin(varibale, te);
+						// envp[i] = ft_strjoin(envp[i], (g_commands->arguments[k] + b));
+						// envp[i] = ft_strjoin(envp[i],(g_commands->arguments[k] + b));
+				return;
+				/// if n=
+				// envp[i] = ft_strjoin(envp[i], "=");
+				// j++;
+				// while(tee != t)
+				// {
+				// 	envp[i][j] = g_commands->arguments[k][b];
+				// 	j++;
+				// 	b++;
+				// 	tee++;
+				// }
+				// envp[i][j] ='\0';
+				// envp[i] = ft_strjoin(envp[i], (g_commands->arguments[k] + b));
+				// return;
+			}
+		}
+	}
 }
 
-void add_in_exp(int k, char **exportp)
+void add_in_exp(t_commands *tmp, int k, char **exportp)
 {
 	int i;
-	
+	int j;
+	int b =0;
+	int c = 0;
+	int lenp;
+
+	lenp =0;
+	j = 0;
 	i = 0;
 
+	//char *varibale = malloc(sizeof(char) * 500);
+
+	char *varibale = tmp->arguments[k];
+	ft_putchar(varibale);
+	char *ef = search_in_env2(varibale, exportp);
+	
 	while(exportp[i] != NULL)
 		i++;
-	exportp[i] = g_commands->arguments[k];
-	exportp[i + 1] = NULL;
+	if(ft_strncmp(ef, "\0", 1) == 0)
+	{
+		exportp[i] = tmp->arguments[k];
+		exportp[i + 1] = NULL;
+	}
+	else
+	{
+		b += 1;
+		char *te = (tmp->arguments[k] + b);
+		int t;
+		int tee = 0;;
+
+		t = ft_strlen(te);
+		lenp = len_of_args(exportp);
+		for (int i = 0; i < lenp; i++)
+		{
+			int g = 0;
+			while(varibale[g])
+			{
+				if(varibale[g] == '=')
+					break;
+				g++;
+			}
+			if(varibale[g] == '\0')
+				continue;
+			if (my_strcmp(exportp[i], varibale) == 0)
+			{
+				j = 0;
+				while (exportp[i][j])
+				{
+					if(exportp[i][j] == '=')
+					{
+						j += 1;
+						while(tee != t)
+						{
+							exportp[i][j] = tmp->arguments[k][b];
+							j++;
+							b++;
+							tee++;
+						}
+						exportp[i][j] ='\0';
+						break;
+					}
+					j++;
+				}
+			}
+		}
+	}
 }
 
-int  syntax_true(char **envp, int k, int lenarg)
+int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 {
 	int  i = 0;
 	int true;
-	while(g_commands->arguments[k][i])
+	while(tmp->arguments[k][i])
 	{
-		if(g_commands->arguments[k][i] == '=')
+		if(tmp->arguments[k][i] == '=')
 		{
-			check_syntax_export_true(k, lenarg);
-			add_in_env(k, envp);
+			if (check_syntax_export_true(tmp, k, lenarg) == 0)
+				add_in_env(tmp, k, envp);
 			return 1;
 		}
 		i++;
@@ -307,47 +441,47 @@ int  syntax_true(char **envp, int k, int lenarg)
 	return 0;
 }
 
-void command_export(char **envp)
+void command_export(t_commands *tmp, char **envp)
 {
-	int o = nbr_argts(g_commands);
+	int o = nbr_argts(tmp);
 	int i = 0;
 	int lenarg;
 	int k = 0;
 	char **exportp = envp;
 	exportp = sort_algo(exportp);
-	lenarg = nbr_argts(g_commands) - 1;
+	lenarg = nbr_argts(tmp) - 1;
 	if (o == 1)
 		add_double_quotes(exportp);
 	else if (o > 1)
 	{	
 		while (k < lenarg)
 		{
-			if (syntax_true(envp, k, lenarg) == 0)
+			if (syntax_true(tmp, envp, k, lenarg) == 0)
 			{
-				check_syntax_export_false(k, lenarg);
-				add_in_exp(k, exportp);
+				if (check_syntax_export_false(tmp ,k, lenarg) == 0)
+					add_in_exp(tmp,k, exportp);
 			}
 			k++;
 		}
 	}
 }
 
-void check_syntax(int k, int lenarg)
+void check_syntax(t_commands *tmp,int k, int lenarg)
 {
 	int i = 0;
 
-	while(g_commands->arguments[k][i])
+	while(tmp->arguments[k][i])
 	{
-		if(ft_isalpha(g_commands->arguments[k][0]) == 1 || g_commands->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][0]) == 1 || tmp->arguments[k][0] == '_')
 			i++;
-		else if ((ft_isdigit2(g_commands->arguments[k][i]) && i != 0 )|| g_commands->arguments[k][i] == '_')
+		else if ((ft_isdigit2(tmp->arguments[k][i]) && i != 0 )|| tmp->arguments[k][i] == '_')
 			i++;
 		else
 		{
 			write(1, "minishell: ", 11);
 			write(1, "unset: ", 7);
 			write(1, "`", 1);
-			write(1, g_commands->arguments[k], strlen(g_commands->arguments[k]));
+			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
 			write(1, "'", 1);
 			write(1, ": ", 2);
 			write(1, "not a valid identifier", 22);
@@ -357,11 +491,49 @@ void check_syntax(int k, int lenarg)
 	}
 
 }
+int my_strcmp(char *s1, char *s2)
+{
+  int i;
+  i = -1;
+  int j = -1;
+  if (!s1 || !s2)
+    return (1);
+  while (1)
+  {
+    if (s1[++i] != s2[++j])
+      return (1);
+    if (s1[i] == '\0' || s2[j] == '\0')
+      break ;
+  }
+  return (0);
+}
+
+char *get_env_name(char *envp)
+{
+	int b = 0;
+	int c = 0;
+
+	while(envp[b])
+	{
+		if(envp[b] == '=')
+			break;
+		b++;
+	}
+	char *varibale = malloc(sizeof(char) * b + 1);
+	while(c != b)
+	{
+		varibale[c] = envp[c];
+		c++;
+	}
+	varibale[c] = '\0';
+	return (varibale);
+}
 
 char *search_in_env2(char *variable, char **envp)
 {
 	int lenp;
 	int lenarg;
+	char *nameenv;
 	char *buff;
 	char *fsf;
 	int k = 0;
@@ -370,11 +542,12 @@ char *search_in_env2(char *variable, char **envp)
 	fsf = ft_strdup(" ");
 	buff = ft_strdup("");
 	lenp = len_of_args(envp);
-	lenarg = nbr_argts(g_commands) - 1;
+	// lenarg = nbr_argts(g_commands) - 1;
 
 		for (int i = 0; i < lenp; i++)
 		{
-			if (strncmp(envp[i], variable, strlen(variable)) == 0)
+			nameenv = get_env_name(envp[i]);
+			if (my_strcmp(nameenv, variable) == 0)
 			{
 				j = 0;
 				while (envp[i][j])
@@ -388,16 +561,18 @@ char *search_in_env2(char *variable, char **envp)
 							buff = ft_strjoin(buff, fsf);
 							j++;
 						}
-						break;
+						return buff;
 					}
 					j++;
 				}
+				buff = "k";
+				return buff;
 			}
 		}
 	return buff;
 }
 
-void command_unset(char **envp)
+void command_unset(t_commands *tmp ,char **envp)
 {
 	int lenp;
 	int lenarg;
@@ -405,13 +580,13 @@ void command_unset(char **envp)
 
 	lenp = len_of_args(envp);
 
-	lenarg = nbr_argts(g_commands) - 1;
+	lenarg = nbr_argts(tmp) - 1;
 	while(k < lenarg)
 	{
-		check_syntax(k ,lenarg);
+		check_syntax(tmp, k ,lenarg);
 		for (int i = 0; i < lenp; i++)
 		{
-			if (strncmp(envp[i], g_commands->arguments[k], strlen(g_commands->arguments[k])) == 0)
+			if (strncmp(envp[i], tmp->arguments[k], strlen(tmp->arguments[k])) == 0)
 			{
 				int j = i;
 				while (j < lenp - 1)
@@ -443,18 +618,18 @@ void big_putchar()
 	}
 }
 
-void command_echo()
+void command_echo(t_commands *tmp)
 {
-	int o = len_of_args(g_commands->arguments);
+	int o = len_of_args(tmp->arguments);
 	int i = 0;
 	if(o == 0)
 		write(1, "\n", 1);
 	else if (o > 0)
 	{
 			
-		while(g_commands->arguments[i] != NULL)
+		while(tmp->arguments[i] != NULL)
 		{
-			ft_putchar(g_commands->arguments[i]);
+			ft_putchar(tmp->arguments[i]);
 			if (o > 1)
 				write(1, " ", 1);
 			i++;
@@ -470,24 +645,40 @@ void command_c(int signum)
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 }
 
-int our_command(char *ptr, char **envp)
+int our_command(t_commands *tmp, char *ptr, char **envp)
 {
-	if (ft_strncmp(g_commands->type, "cd", 3) == 0)
-		command_cd();
-	else if (ft_strncmp(g_commands->type, "pwd", 4) == 0)
-		command_pwd(ptr);
-	else if (ft_strncmp(g_commands->type, "exit", 5) == 0)
-		command_exit();
-	else if (ft_strncmp(g_commands->type, "env", 4) == 0)
-		command_env(envp);
-	else if (ft_strncmp(g_commands->type, "export", 7) == 0)
-		command_export(envp);
-	else if(ft_strncmp(g_commands->type, "unset", 6) == 0)
-		command_unset(envp);
-	else if(ft_strncmp(g_commands->type, "echo", 6) == 0)
-		command_echo();
-	else
-		return 2;
+	// t_commands *tmp;
+	// tmp = g_commands;
+	// while (1)
+	// {
+		if(tmp->type == NULL && tmp->next)
+		{
+			write(2, "minishell: syntax error near unexpected token `;'", 49);
+			write(2, "\n", 1);
+			return -1;
+		}
+		else if (tmp->type == NULL && !tmp->next)
+			return 0;
+		if (ft_strncmp(tmp->type, "cd", 3) == 0)
+			command_cd(tmp);
+		else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
+			command_pwd(ptr);
+		else if (ft_strncmp(tmp->type, "exit", 5) == 0)
+			command_exit(tmp);
+		else if (ft_strncmp(tmp->type, "env", 4) == 0)
+			command_env(envp);
+		else if (ft_strncmp(tmp->type, "export", 7) == 0)
+			command_export(tmp, envp);
+		else if(ft_strncmp(tmp->type, "unset", 6) == 0)
+			command_unset(tmp, envp);
+		else if(ft_strncmp(tmp->type, "echo", 6) == 0)
+			command_echo(tmp);
+		else
+			return 2;
+	// 	if (!tmp->next)
+	// 		break ;
+	// 	tmp = tmp->next;
+	// }
 	return 0;
 }
 
@@ -571,30 +762,34 @@ int main(int argc, char **argv, char **envp)
 			if (ft_strchr(line, '\n'))
 				*ft_strchr(line, '\n') = '\0';
 		}
-		g_commands = parssing_shell(envp ,line);
+		g_commands = parssing_shell(ptr, envp ,line);
 		if(g_commands->multiple == 1)
 			continue;
-		if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
-		{
-			if (check_this_command(envp) == 2)
-				write(1, "not work yet\n", 13);
-			//fork();
-			//test = search_in_env(envp);
-			//write(1, test, strlen(test));ƒ
-			// int child = fork();
-			// if (child == -1) // If fork() fails it does not create a child and returns -1
-			// write(1, "Problems\n", 9);
-			// if (child == 0) // In the child process
-			// {
-			// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
-			// 	{
-			// 		write(1, "Child Problems\n", 15);
-			// 		return(-1);
-			// 	}
-			// }
+		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
+		// {
+		// 	if (check_this_command(envp) == 2)
+		// 		write(1, "not work yet\n", 13);
+		// 	//fork();
+		// 	//test = search_in_env(envp);
+		// 	//write(1, test, strlen(test));ƒ
+		// 	// int child = fork();
+		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
+		// 	// write(1, "Problems\n", 9);
+		// 	// if (child == 0) // In the child process
+		// 	// {
+		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
+		// 	// 	{
+		// 	// 		write(1, "Child Problems\n", 15);
+		// 	// 		return(-1);
+		// 	// 	}
+		// 	// }
 			 
-			//write(1, "\n", 1);
-			// 	}
-		}
+		// 	//write(1, "\n", 1);
+		// 	// 	}
+		// }
 	}
 }
+//export "Hello World=test"
+//export A;
+// export ttat@tet=test
+//(ft_isalpha(g_commands->arguments[k][0]) != 1 || g_commands->arguments[k][0] != '_' || (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)  || g_commands->arguments[k][i] != '_')
