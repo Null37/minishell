@@ -369,7 +369,6 @@ void add_in_exp(t_commands *tmp, int k, char **exportp)
 	//char *varibale = malloc(sizeof(char) * 500);
 
 	char *varibale = tmp->arguments[k];
-	ft_putchar(varibale);
 	char *ef = search_in_env2(varibale, exportp);
 	
 	while(exportp[i] != NULL)
