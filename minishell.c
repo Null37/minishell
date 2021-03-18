@@ -643,13 +643,29 @@ void command_c(int signum)
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 }
-
+void command_in_the_sys(char **envp)
+{
+	int pid;
+	char* argv[] = {"ls","hh",NULL};
+	int stat_loc;
+	pid = fork();
+        if (pid == 0) {
+            /* Never returns if the call is successful */
+            execve("/bin/ls", argv, envp);
+        } else {
+            waitpid(pid, &stat_loc, WUNTRACED);
+			if(stat_loc == 256)
+				stat_loc = 1;
+			printf("%d", stat_loc);
+        }
+}
 int our_command(t_commands *tmp, char *ptr, char **envp)
 {
 	// t_commands *tmp;
 	// tmp = g_commands;
 	// while (1)
 	// {
+		//check_this_command(tmp,envp);
 		if(tmp->type == NULL && tmp->next)
 		{
 			write(2, "minishell: syntax error near unexpected token `;'", 49);
@@ -673,7 +689,7 @@ int our_command(t_commands *tmp, char *ptr, char **envp)
 		else if(ft_strncmp(tmp->type, "echo", 6) == 0)
 			command_echo(tmp);
 		else
-			return 2;
+			command_in_the_sys(envp);
 	// 	if (!tmp->next)
 	// 		break ;
 	// 	tmp = tmp->next;
@@ -705,30 +721,30 @@ int check_if_command_is_exist(char *path_file)
 	return fd;
 }
 
-int check_this_command(char **envp)
+int check_this_command(t_commands *tmp,char **envp)
 {
 	char *path;
 	char **command_path;
 	int o;
 	int fd;
 	int i;
-
+	if (my_strcmp("exit", tmp->type) == 0)
+		return 0;
 	path = search_in_env2("PATH", envp);
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
-	
 	while(i != o)
 	{
 		command_path[i] = ft_strjoin(command_path[i], "/");
-		command_path[i] = ft_strjoin(command_path[i], g_commands->type);
+		command_path[i] = ft_strjoin(command_path[i], tmp->type);
 		fd = check_if_command_is_exist(command_path[i]);
 		if (fd == 3)
 			return 2;
 		else if (fd == -1 &&  i == o - 1)
 		{
 			write(1, "minishell: ", 11);
-			write(1, g_commands->type, ft_strlen(g_commands->type));
+			write(1, tmp->type, ft_strlen(tmp->type));
 			write(1,": ", 2);
 			write(1, "command not found\n", 18);
 		}

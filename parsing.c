@@ -522,6 +522,7 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
+			check_this_command(tmp,envp);
 			our_command(commands, ptr, envp);
 			commands->next = new_commands();
 			commands = commands->next;
@@ -536,6 +537,7 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
+			check_this_command(tmp,envp);
 			our_command(commands, ptr, envp);
 			break ;
 		}

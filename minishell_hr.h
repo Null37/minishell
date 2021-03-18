@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/17 18:17:12 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/03/18 10:15:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_commands{
 
 t_commands   *parssing_shell(char *ptr, char **envp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, char **envp);
+int check_this_command(t_commands *tmp,char **envp);
 int         nbr_argts2(char *command);
 int		my_strcmp(char *s1, char *s2);
 int           nbr_argts(t_commands *commands);
