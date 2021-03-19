@@ -495,6 +495,53 @@ void        trait_command(char **envp, t_commands *commands)
 	//printf("%d", nbr_args);
 
 }
+
+int	split_pipe(char **envp, t_commands *commands)
+{
+	int     i;
+	int     start;
+	t_commands  *tmp;
+	char *cmd;
+
+	i = -1;
+	start = 0;
+	tmp = commands;
+	cmd = ft_strdup(commands->command);
+	while (1)
+	{
+		if ((cmd[++i] == 34 && i == 0))
+		{
+			if ((commands->multiple = skip_double_coats(cmd, &i)))
+				return (0);
+		}
+		else if ((cmd[i] == 39 && i == 0))
+		{
+			if ((commands->multiple = skip_single_coats(cmd, &i)))
+				return (0);
+		}
+		if (cmd[i] == 124)
+		{
+			commands->command = my_substr(cmd, start, i);
+			commands->command = deletespace(commands->command);
+			trait_command(envp, commands);
+			commands->next_p = new_commands();
+			commands = commands->next_p;
+			start = i + 1;
+		}
+		else if (cmd[i] == '\0')
+		{
+			if (start == i)
+				break ;
+			commands->command = my_substr(cmd, start, i);
+			commands->command = deletespace(commands->command);
+			trait_command(envp, commands);
+			break ;
+		}
+	}
+	commands = tmp;
+	return (1);
+}
+
 int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds)
 {
 	int     i;
@@ -525,7 +572,8 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = my_substr(cmds, start, i);
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
-			trait_command(envp, commands);
+			//trait_command(envp, commands);
+			split_pipe(envp, commands);
 			if(check_this_command(commands,envp) == 2)
 				our_command(commands, ptr, envp);
 			commands->next = new_commands();
@@ -540,7 +588,8 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = my_substr(cmds, start, i);
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
-			trait_command(envp, commands);
+			//trait_command(envp, commands);
+			split_pipe(envp, commands);
 			if(check_this_command(commands,envp) == 2)
 				our_command(commands, ptr, envp);
 			break ;

@@ -31,6 +31,7 @@ typedef struct		s_commands{
 	char        	**arguments;
 	int				multiple;
 	char        	**all;
+	struct 			s_commands	*next_p;
 	struct 			s_commands	*next;
 }					t_commands;
 
