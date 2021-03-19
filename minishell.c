@@ -640,17 +640,22 @@ void command_echo(t_commands *tmp)
 
 void command_c(int signum)
 {
-	write(1, "\b\b  ", 4);
+	if(fuck != 0)
+		write(1, "\b\b  ", 4);
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
+	fuck = 1;
 }
+
 void command_in_the_sys(t_commands *tmp, char **envp)
 {
-	int pid;
+	// int pid;
 	//char* argv[] = {"ls","-la",NULL};
 	int stat_loc;
 	char *error;
+	pid = 0;
 	pid = fork();
+	//g_commands->pid = pid;
         if (pid == 0) 
 		{
             /* Never returns if the call is successful */
@@ -742,7 +747,8 @@ int check_this_command(t_commands *tmp,char **envp)
 	int o;
 	int fd;
 	int i;
-	if (my_strcmp("exit", tmp->type) == 0 || my_strcmp("export", tmp->type) == 0)
+	if (my_strcmp("exit", tmp->type) == 0 || my_strcmp("export", tmp->type) == 0
+	|| my_strcmp("unset", tmp->type) == 0)
 		return 2;
 	path = search_in_env2("PATH", envp);
 	command_path =  ft_split(path, ':');
@@ -814,13 +820,20 @@ int main(int argc, char **argv, char **envp)
 	char path[200];
 	char *line = (char *)malloc(BUFSIZ);
 	int readinput;
+	fuck = 0;
 	while (1)
 	{
 		signal(SIGINT, command_c);
-		write(1, "\033[0;33mNull37$\033[0m ", 19);
+		// signal(SIGQUIT, command_c);
+		if (fuck == 0)
+		{
+			write(1, "\033[0;33mNull37$\033[0m ", 19);
+			fuck = 1;
+		}
 		ptr = getcwd(buf, 1024);
 		ft_bzero(line, 1024);
 		readinput = read(0, line, 1024);
+		fuck = 0;
 		if(readinput == 0)
 			command_exit_ctr_d();
 		if (ft_strncmp(line, "\n", 1) != 0)

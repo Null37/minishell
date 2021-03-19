@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/19 11:10:16 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/03/19 15:52:17 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct		s_commands{
 	char        	*command;
 	char        	*type;
 	char			*path;
+	int				pid;
 	int         	option;
 	char        	**arguments;
 	int				multiple;
@@ -45,4 +46,6 @@ int len_of_args(char **args);
 char		*get_env_name(char *envp);
 int    chck_sntx(char *str);
 char *g_cmds;
+int pid;
+int fuck;
 t_commands   *g_commands;
