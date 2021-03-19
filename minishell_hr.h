@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/18 10:15:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/03/19 11:10:16 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <dirent.h>
 #include <errno.h>
 #include "libft1/libft.h"
 
@@ -23,9 +25,11 @@
 typedef struct		s_commands{
 	char        	*command;
 	char        	*type;
+	char			*path;
 	int         	option;
 	char        	**arguments;
 	int				multiple;
+	char        	**all;
 	struct 			s_commands	*next;
 }					t_commands;
 

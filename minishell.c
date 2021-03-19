@@ -85,6 +85,7 @@ void command_exit(t_commands *tmp)
 				ex = ft_atoi(tmp->arguments[0]);
 			free(tmp->arguments[0]);
 			tmp->arguments[0] = NULL;
+			//kill(tmp->pid, SIGKILL);
 			exit(ex);
 		}
 		else if (lenarg > 1)
@@ -643,16 +644,29 @@ void command_c(int signum)
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 }
-void command_in_the_sys(char **envp)
+void command_in_the_sys(t_commands *tmp, char **envp)
 {
 	int pid;
-	char* argv[] = {"ls","hh",NULL};
+	//char* argv[] = {"ls","-la",NULL};
 	int stat_loc;
+	char *error;
 	pid = fork();
-        if (pid == 0) {
+        if (pid == 0) 
+		{
             /* Never returns if the call is successful */
-            execve("/bin/ls", argv, envp);
-        } else {
+            if(execve(tmp->path, tmp->all, envp) < 0)
+			{
+				error = strerror(errno);
+				write(2, "minishell: ", 11);
+				write(2, tmp->type, ft_strlen(tmp->type));
+				write(2, ": ", 2);
+				write(2, error, ft_strlen(error));
+				write(2, "\n", 1);
+				exit(-1);
+			}
+        } 
+		else 
+		{
             waitpid(pid, &stat_loc, WUNTRACED);
 			if(stat_loc == 256)
 				stat_loc = 1;
@@ -689,7 +703,7 @@ int our_command(t_commands *tmp, char *ptr, char **envp)
 		else if(ft_strncmp(tmp->type, "echo", 6) == 0)
 			command_echo(tmp);
 		else
-			command_in_the_sys(envp);
+			command_in_the_sys(tmp, envp);
 	// 	if (!tmp->next)
 	// 		break ;
 	// 	tmp = tmp->next;
@@ -728,19 +742,56 @@ int check_this_command(t_commands *tmp,char **envp)
 	int o;
 	int fd;
 	int i;
-	if (my_strcmp("exit", tmp->type) == 0)
-		return 0;
+	if (my_strcmp("exit", tmp->type) == 0 || my_strcmp("export", tmp->type) == 0)
+		return 2;
 	path = search_in_env2("PATH", envp);
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
 	while(i != o)
 	{
-		command_path[i] = ft_strjoin(command_path[i], "/");
-		command_path[i] = ft_strjoin(command_path[i], tmp->type);
-		fd = check_if_command_is_exist(command_path[i]);
+		if(ft_strncmp(tmp->type, "/", 1) != 0)
+		{
+			command_path[i] = ft_strjoin(command_path[i], "/");
+			command_path[i] = ft_strjoin(command_path[i], tmp->type);
+			fd = check_if_command_is_exist(command_path[i]);
+		}
+		else if(ft_strncmp(tmp->type, "/", 1) == 0)
+		{
+			fd = check_if_command_is_exist(tmp->type);
+			DIR* dir = opendir(tmp->type);
+			if(dir == NULL)
+			{
+				tmp->path = tmp->type;
+				return 2;
+			}
+			else if (dir)
+			{
+				write(2, "minishell: ", 11);
+				write(2, tmp->type, ft_strlen(tmp->type));
+				write(2, ": ", 2);
+				write(2, "is a directory\n", 15);
+				closedir(dir);
+				return 0;
+			}
+			else if(ENOENT == errno)
+			{
+				char *error = strerror(errno);
+				write(2, error, ft_strlen(error));
+				write(2, "\n", 1);
+			}
+			// if(fd < 0)
+			// {
+			// 	char *error = strerror(errno);
+			// 	write(2, error, ft_strlen(error));
+			// 	return 0;
+			// }
+		}
 		if (fd == 3)
+		{
+			tmp->path = command_path[i];
 			return 2;
+		}
 		else if (fd == -1 &&  i == o - 1)
 		{
 			write(1, "minishell: ", 11);

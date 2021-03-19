@@ -448,6 +448,8 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	start = 0;
 	commands->arguments = malloc(sizeof(char*) * (nbr_args));
 	commands->arguments[nbr_args - 1] = NULL;
+	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
+	commands->all[nbr_args] = NULL;
 	while (commands->command[++i])
 	{
 		if ((commands->command[i] == 34 && i == 0)
@@ -464,6 +466,7 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 				commands->type = my_substr(commands->command, start, i + 1);
 				commands->type = deletespace(commands->type);
 				commands->type = deletecoats(envp,commands->type);
+				commands->all[0] = commands->type;
 			}
 			else
 			{
@@ -471,6 +474,7 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 				commands->arguments[k] = deletespace(commands->arguments[k]);
 				commands->arguments[k] = deletecoats(envp, commands->arguments[k]);
 				k++;
+				commands->all[k] = commands->arguments[k - 1];
 			}
 			start = i + 1;
 		}
@@ -522,8 +526,8 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
-			check_this_command(tmp,envp);
-			our_command(commands, ptr, envp);
+			if(check_this_command(commands,envp) == 2)
+				our_command(commands, ptr, envp);
 			commands->next = new_commands();
 			commands = commands->next;
 			start = i + 1;
@@ -537,8 +541,8 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			trait_command(envp, commands);
-			check_this_command(tmp,envp);
-			our_command(commands, ptr, envp);
+			if(check_this_command(commands,envp) == 2)
+				our_command(commands, ptr, envp);
 			break ;
 		}
 	}
