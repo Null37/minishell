@@ -123,26 +123,25 @@ void command_env(char **envp)
 
 int len_of_args(char **args)
 {
-	int i = 0;
-	if(*args == NULL)
-		return 0;
-	while(*args != NULL)
+	int		i;
+
+	i = 0;
+	while (args[i] != NULL)
 	{
 		i++;
-		args++;
 	}
-	return i;
+	return (i);
 }
 
 
-void ok_write(char **exportp, int i, int j)
+void ok_write(char **my_env, int i, int j)
 {
 	int b = 0;
 	j = 0;
 	write(1, "declare -x ", 11);
-	while (exportp[i][j])
+	while (my_env[i][j])
 	{
-		if(exportp[i][j] == '=')
+		if(my_env[i][j] == '=')
 		{
 			write(1, "=", 1);
 			b = 1;
@@ -151,13 +150,13 @@ void ok_write(char **exportp, int i, int j)
 			break;
 		}
 		else
-			write(1, &exportp[i][j], 1);
+			write(1, &my_env[i][j], 1);
 		j++;
 		
 	}
-	while (exportp[i][j])
+	while (my_env[i][j])
 	{
-		write(1, &exportp[i][j], 1);
+		write(1, &my_env[i][j], 1);
 		j++;
 	}
 	if (b == 1)
@@ -165,7 +164,7 @@ void ok_write(char **exportp, int i, int j)
 	write(1, "\n", 1);
 }
 
-void add_double_quotes(char **exportp)
+void add_double_quotes(char **my_env)
 {
 	int lenp;
 	int lenarg;
@@ -196,14 +195,14 @@ void add_double_quotes(char **exportp)
 	// }
 
 
-	while (exportp[i] != NULL)
+	while (my_env[i] != NULL)
 	{
 		j = 0;
-		while(exportp[i][j])
+		while(my_env[i][j])
 		{
-			if(exportp[i][j] != '=')
+			if(my_env[i][j] != '=')
 			{
-				ok_write(exportp, i, j);
+				ok_write(my_env, i, j);
 				break;
 			}
 			j++;
@@ -313,49 +312,17 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 			nameenv = get_env_name(envp[i]);
 			if (my_strcmp(nameenv, varibale) == 0)
 			{
-				// j = 0;
-				
-				// while (envp[i][j])
-				// {
-				// 	if(envp[i][j] == '=')
-				// 	{
-				// 		j += 1;
-				// 		envp[i] = (char*)malloc(sizeof(char) * t);
-				// 		while(tee != t)
-				// 		{
-				// 			envp[i][j] = tmp->arguments[k][b];
-				// 			j++;
-				// 			b++;
-				// 			tee++;
-				// 		}
-						
-				// 	}
-				// 	j++;
-				// }
+	
 				varibale = ft_strjoin(varibale, "=");
 				envp[i] = ft_strjoin(varibale, te);
-						// envp[i] = ft_strjoin(envp[i], (g_commands->arguments[k] + b));
-						// envp[i] = ft_strjoin(envp[i],(g_commands->arguments[k] + b));
 				return;
-				/// if n=
-				// envp[i] = ft_strjoin(envp[i], "=");
-				// j++;
-				// while(tee != t)
-				// {
-				// 	envp[i][j] = g_commands->arguments[k][b];
-				// 	j++;
-				// 	b++;
-				// 	tee++;
-				// }
-				// envp[i][j] ='\0';
-				// envp[i] = ft_strjoin(envp[i], (g_commands->arguments[k] + b));
-				// return;
+	
 			}
 		}
 	}
 }
 
-void add_in_exp(t_commands *tmp, int k, char **exportp)
+void add_in_exp(t_commands *tmp, int k, char **my_env)
 {
 	int i;
 	int j;
@@ -370,14 +337,13 @@ void add_in_exp(t_commands *tmp, int k, char **exportp)
 	//char *varibale = malloc(sizeof(char) * 500);
 
 	char *varibale = tmp->arguments[k];
-	char *ef = search_in_env2(varibale, exportp);
-	
-	while(exportp[i] != NULL)
+	char *ef = search_in_env2(varibale, my_env);
+	lenp = len_of_args(my_env);
+	while(my_env[i] != NULL)
 		i++;
 	if(ft_strncmp(ef, "\0", 1) == 0)
 	{
-		exportp[i] = tmp->arguments[k];
-		exportp[i + 1] = NULL;
+		my_env[i] = tmp->arguments[k];
 	}
 	else
 	{
@@ -387,7 +353,6 @@ void add_in_exp(t_commands *tmp, int k, char **exportp)
 		int tee = 0;;
 
 		t = ft_strlen(te);
-		lenp = len_of_args(exportp);
 		for (int i = 0; i < lenp; i++)
 		{
 			int g = 0;
@@ -399,22 +364,22 @@ void add_in_exp(t_commands *tmp, int k, char **exportp)
 			}
 			if(varibale[g] == '\0')
 				continue;
-			if (my_strcmp(exportp[i], varibale) == 0)
+			if (my_strcmp(my_env[i], varibale) == 0)
 			{
 				j = 0;
-				while (exportp[i][j])
+				while (my_env[i][j])
 				{
-					if(exportp[i][j] == '=')
+					if(my_env[i][j] == '=')
 					{
 						j += 1;
 						while(tee != t)
 						{
-							exportp[i][j] = tmp->arguments[k][b];
+							my_env[i][j] = tmp->arguments[k][b];
 							j++;
 							b++;
 							tee++;
 						}
-						exportp[i][j] ='\0';
+						my_env[i][j] ='\0';
 						break;
 					}
 					j++;
@@ -427,7 +392,6 @@ void add_in_exp(t_commands *tmp, int k, char **exportp)
 int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 {
 	int  i = 0;
-	int true;
 	while(tmp->arguments[k][i])
 	{
 		if(tmp->arguments[k][i] == '=')
@@ -441,25 +405,55 @@ int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 	return 0;
 }
 
-void command_export(t_commands *tmp, char **envp)
+char **copy_envp(char **envp_l)
+{
+	char **tmpr;
+	int lenp = len_of_args(envp_l);
+	tmpr = malloc(sizeof(char*) * (lenp + 1));
+	tmpr[lenp] = NULL;
+	int z = -1;
+	while (envp_l[++z])
+	{
+		tmpr[z] = envp_l[z];
+	}
+	return(tmpr);
+}
+
+void command_export(t_commands *tmp, t_env *evp)
 {
 	int o = nbr_argts(tmp);
 	int i = 0;
 	int lenarg;
+	char *s;
 	int k = 0;
-	char **exportp = envp;
-	exportp = sort_algo(exportp);
+	int z;
+	evp->my_env = sort_algo(evp->my_env);
 	lenarg = nbr_argts(tmp) - 1;
 	if (o == 1)
-		add_double_quotes(exportp);
+		add_double_quotes(evp->my_env);
 	else if (o > 1)
-	{	
+	{
+		char **tprr;
+		int lenp = len_of_args(evp->my_env);
+		int o = nbr_argts(tmp);
+		tprr = malloc(sizeof(char*) * (lenp + o));
+		tprr[lenp + o - 1] = NULL;
+		z = -1;
+		while(tprr[++z] != NULL)
+			tprr[z] = NULL;
+		z = -1;
+		while(evp->my_env[++z] != NULL)
+		{
+			tprr[z] = evp->my_env[z];
+		}
+		free(evp->my_env);
+		evp->my_env = tprr;
 		while (k < lenarg)
 		{
-			if (syntax_true(tmp, envp, k, lenarg) == 0)
+			if (syntax_true(tmp, evp->my_env, k, lenarg) == 0)
 			{
 				if (check_syntax_export_false(tmp ,k, lenarg) == 0)
-					add_in_exp(tmp,k, exportp);
+					add_in_exp(tmp,k, evp->my_env);
 			}
 			k++;
 		}
@@ -572,13 +566,13 @@ char *search_in_env2(char *variable, char **envp)
 	return buff;
 }
 
-void command_unset(t_commands *tmp ,char **envp)
+void command_unset(t_commands *tmp ,t_env *evp)
 {
 	int lenp;
 	int lenarg;
 	int k = 0;
 
-	lenp = len_of_args(envp);
+	lenp = len_of_args(evp->my_env);
 
 	lenarg = nbr_argts(tmp) - 1;
 	while(k < lenarg)
@@ -586,16 +580,16 @@ void command_unset(t_commands *tmp ,char **envp)
 		check_syntax(tmp, k ,lenarg);
 		for (int i = 0; i < lenp; i++)
 		{
-			if (strncmp(envp[i], tmp->arguments[k], strlen(tmp->arguments[k])) == 0)
+			if (strncmp(evp->my_env[i], tmp->arguments[k], strlen(tmp->arguments[k])) == 0)
 			{
 				int j = i;
 				while (j < lenp - 1)
 				{
-					envp[j] = envp[j + 1];
+					evp->my_env[j] = evp->my_env[j + 1];
 					j++;
 				}
-				envp[j]	= NULL;
-				lenp = len_of_args(envp);
+				evp->my_env[j]	= NULL;
+				lenp = len_of_args(evp->my_env);
 			}
 		}
 		k++;
@@ -678,7 +672,7 @@ void command_in_the_sys(t_commands *tmp, char **envp)
 			printf("%d", stat_loc);
         }
 }
-int our_command(t_commands *tmp, char *ptr, char **envp)
+int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
 	// t_commands *tmp;
 	// tmp = g_commands;
@@ -700,15 +694,15 @@ int our_command(t_commands *tmp, char *ptr, char **envp)
 		else if (ft_strncmp(tmp->type, "exit", 5) == 0)
 			command_exit(tmp);
 		else if (ft_strncmp(tmp->type, "env", 4) == 0)
-			command_env(envp);
+			command_env(evp->my_env);
 		else if (ft_strncmp(tmp->type, "export", 7) == 0)
-			command_export(tmp, envp);
+			command_export(tmp, evp);
 		else if(ft_strncmp(tmp->type, "unset", 6) == 0)
-			command_unset(tmp, envp);
+			command_unset(tmp, evp);
 		else if(ft_strncmp(tmp->type, "echo", 6) == 0)
 			command_echo(tmp);
 		else
-			command_in_the_sys(tmp, envp);
+			command_in_the_sys(tmp,evp->my_env);
 	// 	if (!tmp->next)
 	// 		break ;
 	// 	tmp = tmp->next;
@@ -733,24 +727,24 @@ void command_exit_ctr_d(void)
 
 int check_if_command_is_exist(char *path_file)
 {
-	int fd;
+	int fs;
+	struct stat buf;
 
-	fd = open(path_file, O_RDONLY);
-	close(fd);
-	return fd;
+	fs = stat(path_file, &buf);
+	return fs;
 }
 
-int check_this_command(t_commands *tmp,char **envp)
+int check_this_command(t_commands *tmp,t_env *evp)
 {
 	char *path;
 	char **command_path;
 	int o;
-	int fd;
+	int fs;
 	int i;
 	if (my_strcmp("exit", tmp->type) == 0 || my_strcmp("export", tmp->type) == 0
 	|| my_strcmp("unset", tmp->type) == 0)
 		return 2;
-	path = search_in_env2("PATH", envp);
+	path = search_in_env2("PATH", evp->my_env);
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
@@ -760,45 +754,60 @@ int check_this_command(t_commands *tmp,char **envp)
 		{
 			command_path[i] = ft_strjoin(command_path[i], "/");
 			command_path[i] = ft_strjoin(command_path[i], tmp->type);
-			fd = check_if_command_is_exist(command_path[i]);
+			fs = check_if_command_is_exist(command_path[i]);
 		}
 		else if(ft_strncmp(tmp->type, "/", 1) == 0)
 		{
-			fd = check_if_command_is_exist(tmp->type);
-			DIR* dir = opendir(tmp->type);
-			if(dir == NULL)
+			fs = check_if_command_is_exist(tmp->type);
+			// DIR* dir = opendir(tmp->type);
+			// if(dir == NULL)
+			// {
+			// 	tmp->path = tmp->type;
+			// 	return 2;
+			// }
+			// else if (dir)
+			// {
+			// 	write(2, "minishell: ", 11);
+			// 	write(2, tmp->type, ft_strlen(tmp->type));
+			// 	write(2, ": ", 2);
+			// 	write(2, "is a directory\n", 15);
+			// 	closedir(dir);
+			// 	return 0;
+			// }
+			// else if(ENOENT == errno)
+			// {
+			// 	char *error = strerror(errno);
+			// 	write(2, error, ft_strlen(error));
+			// 	write(2, "\n", 1);
+			// }
+			if(fs == 0)
 			{
 				tmp->path = tmp->type;
 				return 2;
 			}
-			else if (dir)
+			else if (fs == -1 &&  i == o - 1)
 			{
+				char *eir = strerror(errno);
 				write(2, "minishell: ", 11);
 				write(2, tmp->type, ft_strlen(tmp->type));
 				write(2, ": ", 2);
-				write(2, "is a directory\n", 15);
-				closedir(dir);
+				write(2, eir, strlen(eir));
+				write(2, "\n", 1);
 				return 0;
 			}
-			else if(ENOENT == errno)
-			{
-				char *error = strerror(errno);
-				write(2, error, ft_strlen(error));
-				write(2, "\n", 1);
-			}
-			// if(fd < 0)
+			// if(fs < 0)
 			// {
 			// 	char *error = strerror(errno);
 			// 	write(2, error, ft_strlen(error));
 			// 	return 0;
 			// }
 		}
-		if (fd == 3)
+		if (fs == 0)
 		{
 			tmp->path = command_path[i];
 			return 2;
 		}
-		else if (fd == -1 &&  i == o - 1)
+		else if (fs == -1 &&  i == o - 1)
 		{
 			write(1, "minishell: ", 11);
 			write(1, tmp->type, ft_strlen(tmp->type));
@@ -810,8 +819,38 @@ int check_this_command(t_commands *tmp,char **envp)
 	return 0;
 }
 
+void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp)
+{
+	// if(tmp->type == NULL && tmp->next)
+	// {
+	// 	write(2, "minishell: syntax error near unexpected token `;'", 49);
+	// 	write(2, "\n", 1);
+	// 	return -1;
+	// }
+	// else if (tmp->type == NULL && !tmp->next)
+	// 	return 0;
+	// if (ft_strncmp(tmp->type, "cd", 3) == 0)
+	// 	command_cd(tmp);
+	// else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
+	// 	command_pwd(ptr);
+	// else if (ft_strncmp(tmp->type, "exit", 5) == 0)
+	// 	command_exit(tmp);
+	// else if (ft_strncmp(tmp->type, "env", 4) == 0)
+	// 	command_env(envp);
+	// else if (ft_strncmp(tmp->type, "export", 7) == 0)
+	// 	command_export(tmp, envp);
+	// else if(ft_strncmp(tmp->type, "unset", 6) == 0)
+	// 	command_unset(tmp, envp);
+	// else if(ft_strncmp(tmp->type, "echo", 6) == 0)
+	// 	command_echo(tmp);
+	// else
+	// 	command_in_the_sys(tmp, envp);
+}
+
 int main(int argc, char **argv, char **envp)
 {
+	t_env *evp;
+	evp = malloc(sizeof(t_env));
 	char *buf;
 	char *ptr;
 	int errcd;
@@ -820,11 +859,12 @@ int main(int argc, char **argv, char **envp)
 	char path[200];
 	char *line = (char *)malloc(BUFSIZ);
 	int readinput;
+	evp->my_env = copy_envp(envp);
+	//add SHLVL + 1
 	fuck = 0;
 	while (1)
 	{
 		signal(SIGINT, command_c);
-		// signal(SIGQUIT, command_c);
 		if (fuck == 0)
 		{
 			write(1, "\033[0;33mNull37$\033[0m ", 19);
@@ -841,7 +881,7 @@ int main(int argc, char **argv, char **envp)
 			if (ft_strchr(line, '\n'))
 				*ft_strchr(line, '\n') = '\0';
 		}
-		g_commands = parssing_shell(ptr, envp ,line);
+		g_commands = parssing_shell(ptr, evp ,line);
 		if(g_commands->multiple == 1)
 			continue;
 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)

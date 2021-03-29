@@ -21,6 +21,7 @@ t_commands  *new_commands()
 	commands->type = NULL;
 	commands->arguments = NULL;
 	commands->next = NULL;
+	commands->next_p = NULL;
 	commands->option = 0;
 	return (commands);
 }
@@ -542,7 +543,7 @@ int	split_pipe(char **envp, t_commands *commands)
 	return (1);
 }
 
-int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds)
+int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 {
 	int     i;
 	int     start;
@@ -573,9 +574,13 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			//trait_command(envp, commands);
-			split_pipe(envp, commands);
-			if(check_this_command(commands,envp) == 2)
-				our_command(commands, ptr, envp);
+			split_pipe(evp->my_env, commands);
+			if(check_this_command(commands,evp) == 2 && commands->next_p == NULL)
+				our_command(commands, ptr, evp);
+			else if (check_this_command(commands, evp) == 2)
+			{
+
+			}
 			commands->next = new_commands();
 			commands = commands->next;
 			start = i + 1;
@@ -589,9 +594,17 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 			commands->command = deletespace(commands->command);
 			g_cmds = commands->command;
 			//trait_command(envp, commands);
-			split_pipe(envp, commands);
-			if(check_this_command(commands,envp) == 2)
-				our_command(commands, ptr, envp);
+			split_pipe(evp->my_env, commands);
+			
+			if(check_this_command(commands,evp) == 2 && commands->next_p == NULL)
+				our_command(commands, ptr, evp);
+			else if(commands->next_p != NULL)
+			{
+				if(check_this_command(commands,evp) == 2)
+				{
+					
+				}
+			}
 			break ;
 		}
 	}
@@ -600,7 +613,7 @@ int        get_commands(char *ptr, char **envp, t_commands *commands, char *cmds
 	return (1);
 }
 
-t_commands   *parssing_shell(char *ptr, char **envp, char *cmds)
+t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds)
 {
 	//char *cmds = strdup("cd Desktop; env");
 	char *buf;
@@ -608,7 +621,7 @@ t_commands   *parssing_shell(char *ptr, char **envp, char *cmds)
 	t_commands   *commands, *tmp;
 	commands = new_commands();
 	ptr = getcwd(buf, 1024);
-	get_commands(ptr, envp, commands, cmds);
+	get_commands(ptr, evp, commands, cmds);
 	/*int i;
 	tmp = commands;
 	while (1)

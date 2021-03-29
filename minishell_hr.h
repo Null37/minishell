@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/19 15:52:17 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/03/29 16:19:56 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <signal.h>
 #include <dirent.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <stdbool.h>
 #include "libft1/libft.h"
 
 
@@ -35,9 +37,14 @@ typedef struct		s_commands{
 	struct 			s_commands	*next;
 }					t_commands;
 
-t_commands   *parssing_shell(char *ptr, char **envp, char *cmds);
-int our_command(t_commands *tmp, char *ptr, char **envp);
-int check_this_command(t_commands *tmp,char **envp);
+typedef struct		s_env
+{
+	char **my_env;
+}					t_env;
+t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
+int our_command(t_commands *tmp, char *ptr, t_env *evp);
+void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);
+int check_this_command(t_commands *tmp,t_env *evp);
 int         nbr_argts2(char *command);
 int		my_strcmp(char *s1, char *s2);
 int           nbr_argts(t_commands *commands);
@@ -45,6 +52,7 @@ char		*search_in_env2(char *variable, char **envp);
 char **sort_algo(char **sortest);
 int len_of_args(char **args);
 char		*get_env_name(char *envp);
+char **copy_envp(char **envp);
 int    chck_sntx(char *str);
 char *g_cmds;
 int pid;
