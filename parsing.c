@@ -548,6 +548,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 	int     i;
 	int     start;
 	t_commands  *tmp;
+	t_commands *tpp;
 	char *buf;
 	buf = NULL;
 	i = -1;
@@ -577,9 +578,19 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			split_pipe(evp->my_env, commands);
 			if(check_this_command(commands,evp) == 2 && commands->next_p == NULL)
 				our_command(commands, ptr, evp);
-			else if (check_this_command(commands, evp) == 2)
+			else if(commands->next_p != NULL)
 			{
-
+				tpp = commands;
+				while (1)
+				{
+					check_this_command(commands, evp);
+						// pipe_commmand_c(commands, ptr, evp);
+					if (!commands->next_p)
+						break ;
+					commands = commands->next_p;
+				}
+				commands = tpp;
+				pipe_commmand_c(commands, ptr, evp);
 			}
 			commands->next = new_commands();
 			commands = commands->next;
@@ -596,14 +607,24 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			//trait_command(envp, commands);
 			split_pipe(evp->my_env, commands);
 			
-			if(check_this_command(commands,evp) == 2 && commands->next_p == NULL)
-				our_command(commands, ptr, evp);
-			else if(commands->next_p != NULL)
+			if(commands->next_p == NULL)
 			{
 				if(check_this_command(commands,evp) == 2)
+					our_command(commands, ptr, evp);
+			}
+			else if(commands->next_p != NULL)
+			{
+				tpp = commands;
+				while (1)
 				{
-					
+					check_this_command(commands, evp);
+						// pipe_commmand_c(commands, ptr, evp);
+					if (!commands->next_p)
+						break ;
+					commands = commands->next_p;
 				}
+				commands = tpp;
+				pipe_commmand_c(commands, ptr, evp);
 			}
 			break ;
 		}

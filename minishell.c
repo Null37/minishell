@@ -29,7 +29,7 @@ void command_pwd(char *ptr)
 	else
 	{
 		ech = strerror(errno);
-		write(1, ech, ft_strlen(ech));
+		write(2, ech, ft_strlen(ech));
 	}
 }
 
@@ -737,6 +737,7 @@ int check_if_command_is_exist(char *path_file)
 int check_this_command(t_commands *tmp,t_env *evp)
 {
 	char *path;
+
 	char **command_path;
 	int o;
 	int fs;
@@ -748,103 +749,154 @@ int check_this_command(t_commands *tmp,t_env *evp)
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
-	while(i != o)
-	{
-		if(ft_strncmp(tmp->type, "/", 1) != 0)
+		while(i != o)
 		{
-			command_path[i] = ft_strjoin(command_path[i], "/");
-			command_path[i] = ft_strjoin(command_path[i], tmp->type);
-			fs = check_if_command_is_exist(command_path[i]);
-		}
-		else if(ft_strncmp(tmp->type, "/", 1) == 0)
-		{
-			fs = check_if_command_is_exist(tmp->type);
-			// DIR* dir = opendir(tmp->type);
-			// if(dir == NULL)
-			// {
-			// 	tmp->path = tmp->type;
-			// 	return 2;
-			// }
-			// else if (dir)
-			// {
-			// 	write(2, "minishell: ", 11);
-			// 	write(2, tmp->type, ft_strlen(tmp->type));
-			// 	write(2, ": ", 2);
-			// 	write(2, "is a directory\n", 15);
-			// 	closedir(dir);
-			// 	return 0;
-			// }
-			// else if(ENOENT == errno)
-			// {
-			// 	char *error = strerror(errno);
-			// 	write(2, error, ft_strlen(error));
-			// 	write(2, "\n", 1);
-			// }
-			if(fs == 0)
+			if(ft_strncmp(tmp->type, "/", 1) != 0)
 			{
-				tmp->path = tmp->type;
+				command_path[i] = ft_strjoin(command_path[i], "/");
+				command_path[i] = ft_strjoin(command_path[i], tmp->type);
+				fs = check_if_command_is_exist(command_path[i]);
+			}
+			else if(ft_strncmp(tmp->type, "/", 1) ==0)
+			{
+				fs = check_if_command_is_exist(tmp->type);
+				// DIR* dir = opendir(tmp->type);
+				// if(dir == NULL)
+				// {
+				// 	tmp->path = tmp->type;
+				// 	return 2;
+				// }
+				// else if (dir)
+				// {
+				// 	write(2, "minishell: ", 11);
+				// 	write(2, tmp->type, ft_strlen(tmp->type));
+				// 	write(2, ": ", 2);
+				// 	write(2, "is a directory\n", 15);
+				// 	closedir(dir);
+				// 	return 0;
+				// }
+				// else if(ENOENT == errno)
+				// {
+				// 	char *error = strerror(errno);
+				// 	write(2, error, ft_strlen(error));
+				// 	write(2, "\n", 1);
+				// }
+				if(fs == 0)
+				{
+					tmp->path = tmp->type;
+					return 2;
+				}
+				else if (fs == -1 &&  i == o - 1)
+				{
+					char *eir = strerror(errno);
+					write(2, "minishell: ", 11);
+					write(2, tmp->type, ft_strlen(tmp->type));
+					write(2, ": ", 2);
+					write(2, eir, strlen(eir));
+					write(2, "\n", 1);
+					return 0;
+				}
+				// if(fs < 0)
+				// {
+				// 	char *error = strerror(errno);
+				// 	write(2, error, ft_strlen(error));
+				// 	return 0;
+				// }
+			}
+			if (fs == 0)
+			{
+				tmp->path = command_path[i];
 				return 2;
 			}
 			else if (fs == -1 &&  i == o - 1)
 			{
-				char *eir = strerror(errno);
-				write(2, "minishell: ", 11);
-				write(2, tmp->type, ft_strlen(tmp->type));
-				write(2, ": ", 2);
-				write(2, eir, strlen(eir));
-				write(2, "\n", 1);
-				return 0;
+				write(1, "minishell: ", 11);
+				write(1, tmp->type, ft_strlen(tmp->type));
+				write(1,": ", 2);
+				write(1, "command not found\n", 18);
 			}
-			// if(fs < 0)
-			// {
-			// 	char *error = strerror(errno);
-			// 	write(2, error, ft_strlen(error));
-			// 	return 0;
-			// }
+			i++;
 		}
-		if (fs == 0)
-		{
-			tmp->path = command_path[i];
-			return 2;
-		}
-		else if (fs == -1 &&  i == o - 1)
-		{
-			write(1, "minishell: ", 11);
-			write(1, tmp->type, ft_strlen(tmp->type));
-			write(1,": ", 2);
-			write(1, "command not found\n", 18);
-		}
-		i++;
-	}
 	return 0;
 }
 
-void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp)
+void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 {
-	// if(tmp->type == NULL && tmp->next)
-	// {
-	// 	write(2, "minishell: syntax error near unexpected token `;'", 49);
-	// 	write(2, "\n", 1);
-	// 	return -1;
-	// }
-	// else if (tmp->type == NULL && !tmp->next)
-	// 	return 0;
-	// if (ft_strncmp(tmp->type, "cd", 3) == 0)
-	// 	command_cd(tmp);
-	// else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
-	// 	command_pwd(ptr);
-	// else if (ft_strncmp(tmp->type, "exit", 5) == 0)
-	// 	command_exit(tmp);
-	// else if (ft_strncmp(tmp->type, "env", 4) == 0)
-	// 	command_env(envp);
-	// else if (ft_strncmp(tmp->type, "export", 7) == 0)
-	// 	command_export(tmp, envp);
-	// else if(ft_strncmp(tmp->type, "unset", 6) == 0)
-	// 	command_unset(tmp, envp);
-	// else if(ft_strncmp(tmp->type, "echo", 6) == 0)
-	// 	command_echo(tmp);
-	// else
-	// 	command_in_the_sys(tmp, envp);
+	if (ft_strncmp(tmp->type, "cd", 3) == 0)
+		command_cd(tmp);
+	else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
+		command_pwd(ptr);
+	else if (ft_strncmp(tmp->type, "exit", 5) == 0)
+		cmd_pipe_exit();
+	else if (ft_strncmp(tmp->type, "env", 4) == 0)
+		command_env(evp->my_env);
+	else if (ft_strncmp(tmp->type, "export", 7) == 0)
+		command_export(tmp, evp);
+	else if(ft_strncmp(tmp->type, "unset", 6) == 0)
+		command_unset(tmp, evp);
+	else if(ft_strncmp(tmp->type, "echo", 6) == 0)
+		command_echo(tmp);
+	else
+		execve(tmp->path, tmp->all, evp->my_env);
+}
+void cmd_pipe_exit(void)
+{
+	exit(0);
+}
+void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
+{
+	int i;
+    int fd[2];
+    int read_fd;
+    int write_fd;
+	
+	i = 0;
+    read_fd = dup(0);
+    while (tmp)
+    {
+        // fprintf(stderr, "current cmd: %s\n", cmd_list->argv[0]);
+        fd[0] = -1;
+        fd[1] = -1;
+        if (tmp->next_p)
+        {
+            pipe(fd);
+            write_fd = dup(fd[1]);
+            close(fd[1]);
+        }
+        else
+        {
+            write_fd = dup( 1);
+        }
+        if (fork() == 0)
+        {
+            //child
+            dup2(read_fd, 0);
+            dup2(write_fd, 1);
+            close(read_fd);
+            close(write_fd);
+            if (fd[0] + 1)
+                close(fd[0]);
+            if (fd[1] + 1)
+                close(fd[1]);
+          // execve(tmp->path, tmp->all, evp->my_env);
+		   se_execute_command(tmp, ptr, evp);
+        	exit(1);
+        }
+        else
+        {
+            //parent
+            close(read_fd);
+            close(write_fd);
+            if (tmp->next_p)
+            {
+                read_fd = dup(fd[0]);
+                close(fd[0]);
+            }
+        }
+        tmp = tmp->next_p;
+    }
+    while (wait(NULL) > 0);
+
 }
 
 int main(int argc, char **argv, char **envp)
@@ -912,3 +964,8 @@ int main(int argc, char **argv, char **envp)
 //export A;
 // export ttat@tet=test
 //(ft_isalpha(g_commands->arguments[k][0]) != 1 || g_commands->arguments[k][0] != '_' || (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)  || g_commands->arguments[k][i] != '_')
+
+
+
+
+/// edit ./minishell use stat
