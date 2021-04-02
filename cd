@@ -1,5 +1,5 @@
-total 592
-drwxr-xr-x  42 ssamadi  2019    1428 Apr  1 16:00 .
+total 568
+drwxr-xr-x  37 ssamadi  2019    1258 Apr  1 15:55 .
 drwx------  33 ssamadi  2019    1122 Mar 29 16:08 ..
 -rw-r--r--   1 ssamadi  2019    8196 Mar 28 17:37 .DS_Store
 drwxr-xr-x  13 ssamadi  2019     442 Apr  1 15:44 .git
@@ -11,14 +11,11 @@ drwxr-xr-x   3 ssamadi  2019     102 Mar 27 14:44 Minishell.dSYM
 drwxr-xr-x   3 ssamadi  2019     102 Mar 30 17:29 a.out.dSYM
 -rw-r--r--   1 ssamadi  2019    1286 Mar 29 16:07 algo_sort.c
 -rw-r--r--   1 ssamadi  2019    1204 Mar 27 14:44 ascii.txt
--rw-r--r--   1 ssamadi  2019    2198 Apr  1 15:56 cd
+-rw-r--r--   1 ssamadi  2019       0 Apr  1 15:56 cd
 -rw-r--r--   1 ssamadi  2019       0 Apr  1 15:56 echo
--rw-r--r--   1 ssamadi  2019       0 Apr  1 16:06 hh
--rw-r--r--   1 ssamadi  2019       5 Apr  1 15:59 hhh1
--rw-r--r--   1 ssamadi  2019       6 Apr  1 16:00 hhh2
 -rw-r--r--   1 ssamadi  2019   32848 Apr  1 15:48 libft.a
 drwxr-xr-x  48 ssamadi  2019    1632 Mar 27 14:44 libft1
--rw-r--r--   1 ssamadi  2019       0 Apr  1 16:06 ls
+-rw-r--r--   1 ssamadi  2019     252 Mar 31 18:37 ls
 -rwxr-xr-x   1 ssamadi  2019  106240 Apr  1 15:48 minishell
 -rw-r--r--   1 ssamadi  2019   18246 Apr  1 15:48 minishell.c
 -rw-r--r--   1 ssamadi  2019    2512 Apr  1 14:59 minishell_hr.h
@@ -26,7 +23,6 @@ drwxr-xr-x  48 ssamadi  2019    1632 Mar 27 14:44 libft1
 -rw-r--r--@  1 ssamadi  2019    1074 Apr  1 15:11 pipe_test.c
 -rw-r--r--@  1 ssamadi  2019     504 Apr  1 15:15 pipe_test_1.c
 -rwxr-xr-x   1 ssamadi  2019     115 Mar 27 14:44 push.sh
--rw-r--r--   1 ssamadi  2019       0 Apr  1 16:06 pwd
 -rw-r--r--@  1 ssamadi  2019    2455 Apr  1 12:22 sickl.c
 -rw-r--r--@  1 ssamadi  2019    3276 Mar 30 18:07 sickl.c.old
 -rw-r--r--@  1 ssamadi  2019     391 Mar 31 18:52 tesetP_faysal.c
@@ -40,4 +36,3 @@ drwxr-xr-x  48 ssamadi  2019    1632 Mar 27 14:44 libft1
 -rw-r--r--@  1 ssamadi  2019       0 Mar 29 16:34 tt
 -rw-r--r--@  1 ssamadi  2019     429 Mar 29 16:43 tt.c
 -rw-r--r--@  1 ssamadi  2019    1280 Mar 28 17:37 txt
--rw-r--r--   1 ssamadi  2019     320 Apr  1 15:56 unset

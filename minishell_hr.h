@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/01 14:59:00 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/04/02 16:35:03 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ char **copy_envp(char **envp);
 int    chck_sntx(char *str);
 void command_cd(t_commands *tmp);
 void command_pwd(char *ptr);
-void command_exit(t_commands *tmp);
+void command_exit(t_commands *tmp, int pipe);
 void command_env(char **envp);
 void command_export(t_commands *tmp, t_env *evp);
 void command_unset(t_commands *tmp ,t_env *evp);
 void command_echo(t_commands *tmp);
 void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp);
 void se_execute_command(t_commands *tmp, char *ptr, t_env *evp);
-void cmd_pipe_exit(void);
 char *g_cmds;
 int pid;
 int fuck;

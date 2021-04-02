@@ -48,14 +48,17 @@ int	ft_isdigit2(char number)
 		return (0);
 }
 
-void command_exit(t_commands *tmp)
+void command_exit(t_commands *tmp, int pipe)
 {
 	int lenarg;
 	int ex;
 	int i;
 	i = 0;
-	write(1, "exit", 4);
-	write(1, "\n", 1);
+	if(pipe == 0)
+	{
+		write(1, "exit", 4);
+		write(1, "\n", 1);
+	}
 	lenarg = len_of_args(tmp->arguments);
 	if(tmp->arguments[0] != NULL)
 	{
@@ -692,7 +695,7 @@ int our_command(t_commands *tmp, char *ptr, t_env *evp)
 		else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
 			command_pwd(ptr);
 		else if (ft_strncmp(tmp->type, "exit", 5) == 0)
-			command_exit(tmp);
+			command_exit(tmp, 0);
 		else if (ft_strncmp(tmp->type, "env", 4) == 0)
 			command_env(evp->my_env);
 		else if (ft_strncmp(tmp->type, "export", 7) == 0)
@@ -827,7 +830,7 @@ void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 	else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
 		command_pwd(ptr);
 	else if (ft_strncmp(tmp->type, "exit", 5) == 0)
-		cmd_pipe_exit();
+		command_exit(tmp, 1);
 	else if (ft_strncmp(tmp->type, "env", 4) == 0)
 		command_env(evp->my_env);
 	else if (ft_strncmp(tmp->type, "export", 7) == 0)
@@ -838,10 +841,6 @@ void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 		command_echo(tmp);
 	else
 		execve(tmp->path, tmp->all, evp->my_env);
-}
-void cmd_pipe_exit(void)
-{
-	exit(0);
 }
 void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 {
@@ -967,5 +966,6 @@ int main(int argc, char **argv, char **envp)
 
 
 
-
+///edit "hello\"
+///edit "hi$"
 /// edit ./minishell use stat
