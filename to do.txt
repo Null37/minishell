@@ -1,0 +1,12 @@
+//export "Hello World=test"
+//export A;
+// export ttat@tet=test
+//(ft_isalpha(g_commands->arguments[k][0]) != 1 || g_commands->arguments[k][0] != '_' || (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)  || g_commands->arguments[k][i] != '_')
+
+
+
+///edit "hello\"
+///edit "hi$"
+/// edit ./minishell use stat
+//exit_code % 256
+$kk ls
