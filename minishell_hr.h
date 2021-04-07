@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/02 16:35:03 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/04/07 16:15:07 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void command_unset(t_commands *tmp ,t_env *evp);
 void command_echo(t_commands *tmp);
 void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp);
 void se_execute_command(t_commands *tmp, char *ptr, t_env *evp);
+char	*my_substr(char *s, int start, int end);
+int		skip_double_coats(char *cmds, int *i);
+int		skip_single_coats(char *cmds, int *i);
 char *g_cmds;
 int pid;
 int fuck;

@@ -737,6 +737,16 @@ int check_if_command_is_exist(char *path_file)
 	return fs;
 }
 
+void print_error_check_commd(t_commands *tmp)
+{
+	char *eir = strerror(errno);
+	write(2, "minishell: ", 11);
+	write(2, tmp->type, ft_strlen(tmp->type));
+	write(2, ": ", 2);
+	write(2, eir, strlen(eir));
+	write(2, "\n", 1);
+}
+
 int check_this_command(t_commands *tmp,t_env *evp)
 {
 	char *path;
@@ -752,74 +762,69 @@ int check_this_command(t_commands *tmp,t_env *evp)
 	command_path =  ft_split(path, ':');
 	o = len_of_args(command_path);
 	i = 0;
-		while(i != o)
+	while(i != o)
+	{
+		if(ft_strncmp(tmp->type, "/", 1) != 0)
 		{
-			if(ft_strncmp(tmp->type, "/", 1) != 0)
+			command_path[i] = ft_strjoin(command_path[i], "/");
+			command_path[i] = ft_strjoin(command_path[i], tmp->type);
+			fs = check_if_command_is_exist(command_path[i]);
+		}
+		else if(ft_strncmp(tmp->type, "/", 1) ==0)
+		{
+			fs = check_if_command_is_exist(tmp->type);
+			// DIR* dir = opendir(tmp->type);
+			// if(dir == NULL)
+			// {
+			// 	tmp->path = tmp->type;
+			// 	return 2;
+			// }
+			// else if (dir)
+			// {
+			// 	write(2, "minishell: ", 11);
+			// 	write(2, tmp->type, ft_strlen(tmp->type));
+			// 	write(2, ": ", 2);
+			// 	write(2, "is a directory\n", 15);
+			// 	closedir(dir);
+			// 	return 0;
+			// }
+			// else if(ENOENT == errno)
+			// {
+			// 	char *error = strerror(errno);
+			// 	write(2, error, ft_strlen(error));
+			// 	write(2, "\n", 1);
+			// }
+			if(fs == 0)
 			{
-				command_path[i] = ft_strjoin(command_path[i], "/");
-				command_path[i] = ft_strjoin(command_path[i], tmp->type);
-				fs = check_if_command_is_exist(command_path[i]);
-			}
-			else if(ft_strncmp(tmp->type, "/", 1) ==0)
-			{
-				fs = check_if_command_is_exist(tmp->type);
-				// DIR* dir = opendir(tmp->type);
-				// if(dir == NULL)
-				// {
-				// 	tmp->path = tmp->type;
-				// 	return 2;
-				// }
-				// else if (dir)
-				// {
-				// 	write(2, "minishell: ", 11);
-				// 	write(2, tmp->type, ft_strlen(tmp->type));
-				// 	write(2, ": ", 2);
-				// 	write(2, "is a directory\n", 15);
-				// 	closedir(dir);
-				// 	return 0;
-				// }
-				// else if(ENOENT == errno)
-				// {
-				// 	char *error = strerror(errno);
-				// 	write(2, error, ft_strlen(error));
-				// 	write(2, "\n", 1);
-				// }
-				if(fs == 0)
-				{
-					tmp->path = tmp->type;
-					return 2;
-				}
-				else if (fs == -1 &&  i == o - 1)
-				{
-					char *eir = strerror(errno);
-					write(2, "minishell: ", 11);
-					write(2, tmp->type, ft_strlen(tmp->type));
-					write(2, ": ", 2);
-					write(2, eir, strlen(eir));
-					write(2, "\n", 1);
-					return 0;
-				}
-				// if(fs < 0)
-				// {
-				// 	char *error = strerror(errno);
-				// 	write(2, error, ft_strlen(error));
-				// 	return 0;
-				// }
-			}
-			if (fs == 0)
-			{
-				tmp->path = command_path[i];
+				tmp->path = tmp->type;
 				return 2;
 			}
 			else if (fs == -1 &&  i == o - 1)
 			{
-				write(1, "minishell: ", 11);
-				write(1, tmp->type, ft_strlen(tmp->type));
-				write(1,": ", 2);
-				write(1, "command not found\n", 18);
+				print_error_check_commd(tmp);
+				return 0;
 			}
-			i++;
+			// if(fs < 0)
+			// {
+			// 	char *error = strerror(errno);
+			// 	write(2, error, ft_strlen(error));
+			// 	return 0;
+			// }
 		}
+		if (fs == 0)
+		{
+			tmp->path = command_path[i];
+			return 2;
+		}
+		else if (fs == -1 &&  i == o - 1)
+		{
+			write(1, "minishell: ", 11);
+			write(1, tmp->type, ft_strlen(tmp->type));
+			write(1,": ", 2);
+			write(1, "command not found\n", 18);
+		}
+		i++;
+	}
 	return 0;
 }
 
@@ -848,7 +853,7 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
     int fd[2];
     int read_fd;
     int write_fd;
-	
+	int status;
 	i = 0;
     read_fd = dup(0);
     while (tmp)
@@ -894,71 +899,71 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
         }
         tmp = tmp->next_p;
     }
-    while (wait(NULL) > 0);
+    while (wait(&status) > 0);
 
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_env *evp;
-	evp = malloc(sizeof(t_env));
-	char *buf;
-	char *ptr;
-	int errcd;
-	char *test;
-	buf = NULL;
-	char path[200];
-	char *line = (char *)malloc(BUFSIZ);
-	int readinput;
-	evp->my_env = copy_envp(envp);
-	//add SHLVL + 1
-	fuck = 0;
-	while (1)
-	{
-		signal(SIGINT, command_c);
-		if (fuck == 0)
-		{
-			write(1, "\033[0;33mNull37$\033[0m ", 19);
-			fuck = 1;
-		}
-		ptr = getcwd(buf, 1024);
-		ft_bzero(line, 1024);
-		readinput = read(0, line, 1024);
-		fuck = 0;
-		if(readinput == 0)
-			command_exit_ctr_d();
-		if (ft_strncmp(line, "\n", 1) != 0)
-		{
-			if (ft_strchr(line, '\n'))
-				*ft_strchr(line, '\n') = '\0';
-		}
-		g_commands = parssing_shell(ptr, evp ,line);
-		if(g_commands->multiple == 1)
-			continue;
-		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
-		// {
-		// 	if (check_this_command(envp) == 2)
-		// 		write(1, "not work yet\n", 13);
-		// 	//fork();
-		// 	//test = search_in_env(envp);
-		// 	//write(1, test, strlen(test));ƒ
-		// 	// int child = fork();
-		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
-		// 	// write(1, "Problems\n", 9);
-		// 	// if (child == 0) // In the child process
-		// 	// {
-		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
-		// 	// 	{
-		// 	// 		write(1, "Child Problems\n", 15);
-		// 	// 		return(-1);
-		// 	// 	}
-		// 	// }
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_env *evp;
+// 	evp = malloc(sizeof(t_env));
+// 	char *buf;
+// 	char *ptr;
+// 	int errcd;
+// 	char *test;
+// 	buf = NULL;
+// 	char path[200];
+// 	char *line = (char *)malloc(BUFSIZ);
+// 	int readinput;
+// 	evp->my_env = copy_envp(envp);
+// 	//add SHLVL + 1
+// 	fuck = 0;
+// 	while (1)
+// 	{
+// 		signal(SIGINT, command_c);
+// 		if (fuck == 0)
+// 		{
+// 			write(1, "\033[0;33mNull37$\033[0m ", 19);
+// 			fuck = 1;
+// 		}
+// 		ptr = getcwd(buf, 1024);
+// 		ft_bzero(line, 1024);
+// 		readinput = read(0, line, 1024);
+// 		fuck = 0;
+// 		if(readinput == 0)
+// 			command_exit_ctr_d();
+// 		if (ft_strncmp(line, "\n", 1) != 0)
+// 		{
+// 			if (ft_strchr(line, '\n'))
+// 				*ft_strchr(line, '\n') = '\0';
+// 		}
+// 		g_commands = parssing_shell(ptr, evp ,line);
+// 		if(g_commands->multiple == 1)
+// 			continue;
+// 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
+// 		// {
+// 		// 	if (check_this_command(envp) == 2)
+// 		// 		write(1, "not work yet\n", 13);
+// 		// 	//fork();
+// 		// 	//test = search_in_env(envp);
+// 		// 	//write(1, test, strlen(test));ƒ
+// 		// 	// int child = fork();
+// 		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
+// 		// 	// write(1, "Problems\n", 9);
+// 		// 	// if (child == 0) // In the child process
+// 		// 	// {
+// 		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
+// 		// 	// 	{
+// 		// 	// 		write(1, "Child Problems\n", 15);
+// 		// 	// 		return(-1);
+// 		// 	// 	}
+// 		// 	// }
 			 
-		// 	//write(1, "\n", 1);
-		// 	// 	}
-		// }
-	}
-}
+// 		// 	//write(1, "\n", 1);
+// 		// 	// 	}
+// 		// }
+// 	}
+// }
 //export "Hello World=test"
 //export A;
 // export ttat@tet=test
@@ -969,3 +974,4 @@ int main(int argc, char **argv, char **envp)
 ///edit "hello\"
 ///edit "hi$"
 /// edit ./minishell use stat
+//exit_code % 256

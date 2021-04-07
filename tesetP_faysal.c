@@ -19,3 +19,27 @@ int main(int ac, char **av, char **envp)
         }
     return 1;
 }
+
+// int	check_rdr(char *s, int i)
+// {
+// 	if (s[i] == '>' && s[i + 1] == '>')
+// 		return (2);
+	
+// 	return (0);
+// }
+
+// int check_syntax_rederction(char **av)
+// {
+// 	int i = -1;
+// 	int j = 0;
+// 	int h = 0;
+// 	int right = 0;
+// 	int ch = 0;
+// 	while (av[1][++i])
+// 	{
+// 		if (av[1][i] == '>' || av[1][i] == '<')
+// 			check_rdr(av[1], i);
+// 	}
+// 	return 0;
+// }
+
