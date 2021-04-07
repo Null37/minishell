@@ -100,6 +100,8 @@ int valid_type(char c1,char c2)
 
 int check_fname(int r, char *s, int i)
 {
+	int b;
+	b = 1;
 	if (r == 2)
 		i++;
 	while (s[++i])
@@ -109,13 +111,19 @@ int check_fname(int r, char *s, int i)
 		else if (s[i] == 34)
 		{
 			if(skip_double_coats(s, &i) == 1)
+			{
+				b= 0;
 				return -6;
+			}
 			return i;
 		}
 		else if (s[i] == 39)
 		{
 			if(skip_single_coats(s, &i) == 1)
+			{
+				b= 0;
 				return -6;
+			}
 			return i;
 		}
 		else if (s[i] != '|' &&  s[i] != '>' && s[i] != ';' && s[i] != '<')
@@ -123,11 +131,33 @@ int check_fname(int r, char *s, int i)
 		else if (valid_rdr(s[i]) == -1)
 		{
 			if (valid_type(s[i], s[i + 1]) == -1)
+			{
+				b= 0;
 				return -1;
+			}
 		}
 	}
-	printf("bash: syntax error near unexpected token `newline'");
+	if(!b)
+		printf("bash: syntax error near unexpected token `newline'");
 	return (-1);
+}
+
+int check_pipp_sy(char *s)
+{
+	int  i =-1;
+	while (s[++i])
+	{
+		if(s[i] == 32)
+			continue;
+		else if((s[i] == '|' && s[i + 1] != '|')|| (s[i] == ';' && s[i + 1] != ';'))
+		{
+			printf("bash: syntax error near unexpected token `%c'\n", s[i]);
+			return -1;
+		}
+		else
+			break;
+	}
+	return 0;
 }
 
 int check_syntax_rederction(char **av)
@@ -142,6 +172,8 @@ int check_syntax_rederction(char **av)
 	
 	int r;
 	i = -1;
+	if(check_pipp_sy(av[1]) == -1)
+		return -1;
 	while (av[1][++i])
 	{
 		if (av[1][i] == '>' || av[1][i] == '<')

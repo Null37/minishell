@@ -750,7 +750,8 @@ void print_error_check_commd(t_commands *tmp)
 int check_this_command(t_commands *tmp,t_env *evp)
 {
 	char *path;
-
+	if(tmp->type == NULL)
+		return -1;
 	char **command_path;
 	int o;
 	int fs;
