@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceRoot}/a.out",
+            "program": "${workspaceRoot}/minishell",
             "args": ["ls >> \">>>k\" >> ls"],
             "cwd": "${workspaceFolder}"
         }

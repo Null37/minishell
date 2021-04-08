@@ -56,8 +56,8 @@ void command_exit(t_commands *tmp, int pipe)
 	i = 0;
 	if(pipe == 0)
 	{
-		write(1, "exit", 4);
-		write(1, "\n", 1);
+		write(2, "exit", 4);
+		write(2, "\n", 1);
 	}
 	lenarg = len_of_args(tmp->arguments);
 	if(tmp->arguments[0] != NULL)
@@ -904,67 +904,69 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_env *evp;
-// 	evp = malloc(sizeof(t_env));
-// 	char *buf;
-// 	char *ptr;
-// 	int errcd;
-// 	char *test;
-// 	buf = NULL;
-// 	char path[200];
-// 	char *line = (char *)malloc(BUFSIZ);
-// 	int readinput;
-// 	evp->my_env = copy_envp(envp);
-// 	//add SHLVL + 1
-// 	fuck = 0;
-// 	while (1)
-// 	{
-// 		signal(SIGINT, command_c);
-// 		if (fuck == 0)
-// 		{
-// 			write(1, "\033[0;33mNull37$\033[0m ", 19);
-// 			fuck = 1;
-// 		}
-// 		ptr = getcwd(buf, 1024);
-// 		ft_bzero(line, 1024);
-// 		readinput = read(0, line, 1024);
-// 		fuck = 0;
-// 		if(readinput == 0)
-// 			command_exit_ctr_d();
-// 		if (ft_strncmp(line, "\n", 1) != 0)
-// 		{
-// 			if (ft_strchr(line, '\n'))
-// 				*ft_strchr(line, '\n') = '\0';
-// 		}
-// 		g_commands = parssing_shell(ptr, evp ,line);
-// 		if(g_commands->multiple == 1)
-// 			continue;
-// 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
-// 		// {
-// 		// 	if (check_this_command(envp) == 2)
-// 		// 		write(1, "not work yet\n", 13);
-// 		// 	//fork();
-// 		// 	//test = search_in_env(envp);
-// 		// 	//write(1, test, strlen(test));ƒ
-// 		// 	// int child = fork();
-// 		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
-// 		// 	// write(1, "Problems\n", 9);
-// 		// 	// if (child == 0) // In the child process
-// 		// 	// {
-// 		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
-// 		// 	// 	{
-// 		// 	// 		write(1, "Child Problems\n", 15);
-// 		// 	// 		return(-1);
-// 		// 	// 	}
-// 		// 	// }
+int main(int argc, char **argv, char **envp)
+{
+	t_env *evp;
+	evp = malloc(sizeof(t_env));
+	char *buf;
+	char *ptr;
+	int errcd;
+	char *test;
+	buf = NULL;
+	char path[200];
+	char *line = (char *)malloc(BUFSIZ);
+	int readinput;
+	evp->my_env = copy_envp(envp);
+	//add SHLVL + 1
+	fuck = 0;
+	while (1)
+	{
+		signal(SIGINT, command_c);
+		if (fuck == 0)
+		{
+			write(1, "\033[0;33mNull37$\033[0m ", 19);
+			fuck = 1;
+		}
+		ptr = getcwd(buf, 1024);
+		ft_bzero(line, 1024);
+		readinput = read(0, line, 1024);
+		fuck = 0;
+		if(readinput == 0)
+			command_exit_ctr_d();
+		if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
+		{
+			if (ft_strchr(line, '\n'))
+				*ft_strchr(line, '\n') = '\0';
+		}
+		if(check_syntax_rederction(line) == -1)
+			continue;
+		g_commands = parssing_shell(ptr, evp ,line);
+		if(g_commands->multiple == 1)
+			continue;
+		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
+		// {
+		// 	if (check_this_command(envp) == 2)
+		// 		write(1, "not work yet\n", 13);
+		// 	//fork();
+		// 	//test = search_in_env(envp);
+		// 	//write(1, test, strlen(test));ƒ
+		// 	// int child = fork();
+		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
+		// 	// write(1, "Problems\n", 9);
+		// 	// if (child == 0) // In the child process
+		// 	// {
+		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
+		// 	// 	{
+		// 	// 		write(1, "Child Problems\n", 15);
+		// 	// 		return(-1);
+		// 	// 	}
+		// 	// }
 			 
-// 		// 	//write(1, "\n", 1);
-// 		// 	// 	}
-// 		// }
-// 	}
-// }
+		// 	//write(1, "\n", 1);
+		// 	// 	}
+		// }
+	}
+}
 //export "Hello World=test"
 //export A;
 // export ttat@tet=test

@@ -10,3 +10,4 @@
 /// edit ./minishell use stat
 //exit_code % 256
 $kk ls
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

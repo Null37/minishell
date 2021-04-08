@@ -437,6 +437,20 @@ int         nbr_argts2(char *command)
 	cpt++;
 	return (cpt);
 }
+void add_null(t_commands *cmd, int nbr)
+{
+	int  i = -1;
+
+	while(++i < nbr)
+	{
+		cmd->all[i] = NULL;
+	}
+	i = -1;
+	while(++i < nbr - 1)
+	{
+		cmd->arguments[i] = NULL;
+	}
+}
 
 void        split_command(char **envp, t_commands *commands, int nbr_args)
 {
@@ -450,6 +464,7 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	commands->arguments = malloc(sizeof(char*) * (nbr_args));
 	commands->arguments[nbr_args - 1] = NULL;
 	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
+	add_null(commands, nbr_args + 1);
 	commands->all[nbr_args] = NULL;
 	while (commands->command[++i])
 	{
@@ -507,6 +522,8 @@ int	split_pipe(char **envp, t_commands *commands)
 	i = -1;
 	start = 0;
 	tmp = commands;
+	if(commands->command == NULL)
+		return 0;
 	cmd = ft_strdup(commands->command);
 	while (1)
 	{
