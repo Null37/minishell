@@ -20,11 +20,25 @@ t_commands  *new_commands()
 	commands->command = NULL;
 	commands->type = NULL;
 	commands->arguments = NULL;
+	commands->filerdr = NULL;
 	commands->next = NULL;
 	commands->next_p = NULL;
 	commands->option = 0;
 	return (commands);
 }
+
+t_filerdr	*new_files_rdr()
+{
+	t_filerdr *f;
+
+	f = malloc(sizeof(t_filerdr));
+	f->error = 0;
+	f->name = NULL;
+	f->type = -1;
+	f->next = NULL;
+	return (f);
+}
+
 int syntax(char ch, int i)
 {
     if((ft_isalpha(ch) == 1 && i == 0) || (ch == '_' && i == 0))
@@ -499,17 +513,209 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	}
 }
 
+int		skip_filename(char *cmds, int *i)
+{
+	while (cmds[++(*i)])
+		if (cmds[*i] != '>' && cmds[*i] != '<' && cmds[*i] != ' ')
+			break ;
+	while (cmds[*i])
+	{
+		if (cmds[*i] == '>' || cmds[*i] == '<' || (cmds[*i] == ' ' && cmds[*i + 1] != ' '))
+		{
+			(*i)--;
+			return (0);
+		}
+		else if (cmds[*i] == 34)
+			skip_double_coats(cmds, i);
+		else if (cmds[*i] == 39)
+			skip_single_coats(cmds, i);
+		(*i)++;
+	}
+	(*i)--;
+	return (1);
+}
+
+char		*deleterdr(char *command)
+{
+	int i;
+	char *comd;
+	char *s;
+
+	s = ft_strdup(" ");
+	comd = NULL;
+	i = -1;
+	while (1)
+	{
+		if (command[++i] == '>' && command[i + 1] == '>')
+		{
+			continue ;
+		}
+		else if (command[i] == '>' || command[i] == '<')
+		{
+			skip_filename(command, &i);
+		}
+		else
+		{
+			s[0] = command[i];
+			comd = ft_strjoin1(comd, s);
+		}
+		if (!command[i])
+			break ;
+	}
+	return (comd);
+}
+
+void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
+{
+	int i;
+	int start;
+	int k;
+	char *rdr_cmd;
+
+	k = 0;
+	i = -1;
+	start = 0;
+	if (!(rdr_cmd = deleterdr(commands->command)))
+		return ;
+	rdr_cmd = deletespace(rdr_cmd);
+	//rdr_cmd = deletecoats(envp, rdr_cmd);
+	nbr_args = nbr_argts2(rdr_cmd);
+	commands->arguments = malloc(sizeof(char*) * (nbr_args));
+	commands->arguments[nbr_args - 1] = NULL;
+	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
+	commands->all[nbr_args] = NULL;
+	while (rdr_cmd[++i])
+	{
+		if ((rdr_cmd[i] == 34 && i == 0)
+			|| (rdr_cmd[i] == 34 && rdr_cmd[i - 1] != '\\'))
+			skip_double_coats(rdr_cmd, &i);
+		else if ((rdr_cmd[i] == 39 && i == 0)
+			|| (rdr_cmd[i] == 39 && rdr_cmd[i - 1] != '\\'))
+			skip_single_coats(rdr_cmd, &i);
+		if ((rdr_cmd[i] == ' ' && rdr_cmd[i + 1] != ' ')
+		|| rdr_cmd[i + 1] == '\0')
+		{
+			if (!commands->type)
+			{
+				commands->type = my_substr(rdr_cmd, start, i + 1);
+				commands->type = deletespace(commands->type);
+				commands->type = deletecoats(envp, commands->type);
+				commands->all[0] = commands->type;
+			}
+			else
+			{
+				commands->arguments[k] = my_substr(rdr_cmd, start, i + 1);
+				commands->arguments[k] = deletespace(commands->arguments[k]);
+				commands->arguments[k] = deletecoats(envp, commands->arguments[k]);
+				k++;
+				commands->all[k] = commands->arguments[k - 1];
+			}
+			start = i + 1;
+		}
+		if (rdr_cmd[i] == '\0')
+			break ;  
+	}
+}
+
+char	*get_rdr_file(char *command, int i)
+{
+	char *flname;
+	int start;
+
+	i--;
+	start = 0;
+	while (command[++i])
+	{
+		if (command[i] == '>' || command[i] == '<' || command[i] == ' ')
+			continue ;
+		break ;
+	}
+	start = i;
+	while (command[i])
+	{
+		
+		if (command[i] == 34)
+			skip_double_coats(command, &i);
+		else if (command[i] == 39)
+			skip_single_coats(command, &i);
+		else if (command[i] == '>' || command[i] == '<' || command[i] == ' ')
+			break ;
+		i++;
+	}
+	return (deletespace(my_substr(command, start, i)));
+
+}
+
+int		get_type_rdr(char *command, int i)
+{
+	if (command[i] == '>' && command[i + 1] == '>')
+		return (2);
+	else if (command[i] == '>')
+		return (1);
+	else if (command[i] == '<')
+		return (0);
+	return (-1);
+}
+
+int		files_rdr(t_commands *commands)
+{
+	int i;
+	char *s;
+	t_filerdr *tmp;
+
+	s = ft_strdup(" ");
+	i = -1;
+	
+	tmp = NULL;
+	while (commands->command[++i])
+	{
+		if (commands->command[i] == 34)
+			skip_double_coats(commands->command, &i);
+		else if (commands->command[i] == 39)
+			skip_single_coats(commands->command, &i);
+		else if (commands->command[i] == '>' || commands->command[i] == '<')
+		{
+			if (!commands->filerdr)
+			{
+				commands->filerdr = new_files_rdr();
+				tmp = commands->filerdr;
+			}
+			else
+			{
+				commands->filerdr->next = new_files_rdr();
+				commands->filerdr = commands->filerdr->next;
+			}
+			commands->filerdr->type = get_type_rdr(commands->command, i);
+			commands->filerdr->name = get_rdr_file(commands->command, i);
+			skip_filename(commands->command, &i);
+		}
+	}
+	commands->filerdr = tmp;
+	return (0);
+}
+
+int check_exist_rdr(char *cmd)
+{
+	return (1);
+}
+
 void        trait_command(char **envp, t_commands *commands)
 {
 	int i;
 
 	i = -1;
-	int nbr_args;
-	nbr_args = nbr_argts(commands);
-	if (nbr_args > 0)
-		split_command(envp,commands, nbr_args);
-	//printf("%d", nbr_args);
-
+	int nbr_args = 0;
+	if (!check_exist_rdr(commands->command))
+	{
+		nbr_args = nbr_argts(commands);
+		if (nbr_args > 0)
+			split_command(envp,commands, nbr_args);
+	}
+	else
+	{
+		split_command_rdr(envp,commands, nbr_args);
+		files_rdr(commands);
+	}
 }
 
 int	split_pipe(char **envp, t_commands *commands)

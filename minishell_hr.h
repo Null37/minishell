@@ -23,6 +23,12 @@
 #include <stdbool.h>
 #include "libft1/libft.h"
 
+typedef struct		s_filerdr{
+	char        	*name;
+	int	        	type;
+	int				error;
+	struct 			s_filerdr	*next;
+}					t_filerdr;
 
 typedef struct		s_commands{
 	char        	*command;
@@ -33,6 +39,7 @@ typedef struct		s_commands{
 	char        	**arguments;
 	int				multiple;
 	char        	**all;
+	t_filerdr		*filerdr;
 	struct 			s_commands	*next_p;
 	struct 			s_commands	*next;
 }					t_commands;
