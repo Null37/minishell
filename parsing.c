@@ -799,8 +799,18 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			g_cmds = commands->command;
 			//trait_command(envp, commands);
 			split_pipe(evp->my_env, commands);
-			if(check_this_command(commands,evp) == 2 && commands->next_p == NULL)
-				our_command(commands, ptr, evp);
+			if(commands->next_p == NULL)
+			{
+				if(commands->filerdr == NULL)
+				{
+					if(check_this_command(commands, evp) == 2)
+						our_command(commands, ptr, evp);
+				}
+				else if(commands->filerdr != NULL)
+				{
+					mini_redrection(commands, ptr,evp);
+				}
+			}
 			else if(commands->next_p != NULL)
 			{
 				tpp = commands;
@@ -832,8 +842,15 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			
 			if(commands->next_p == NULL)
 			{
-				if(check_this_command(commands,evp) == 2)
-					our_command(commands, ptr, evp);
+				if(commands->filerdr == NULL)
+				{
+					if(check_this_command(commands, evp) == 2)
+						our_command(commands, ptr, evp);
+				}
+				else if(commands->filerdr != NULL)
+				{
+					mini_redrection(commands, ptr,evp);
+				}
 			}
 			else if(commands->next_p != NULL)
 			{

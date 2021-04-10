@@ -167,6 +167,86 @@ void ok_write(char **my_env, int i, int j)
 	write(1, "\n", 1);
 }
 
+
+void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
+{
+	t_filerdr *t;
+	t = tmp->filerdr;
+	int saved_stdout;
+	int saved_input;
+	char *stre;
+	int fd = -200;
+	int fd_in = -100;
+	while (1)
+	{
+		if(t->type == 1)
+		{
+			// fprintf(stderr, " sdfsdf\n");
+			fd = open(t->name,  O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		}
+		else if(t->type == 2)
+		{
+			fd = open(t->name, O_CREAT|O_WRONLY|O_APPEND, 0600);
+		}
+		if(t->type == 0)
+		{
+			fd_in = open(t->name, O_RDONLY);
+			if(fd_in  == -1)
+			{
+				stre = strerror(errno);
+				write(2, "minishell: ", 11);
+				write(2, t->name, ft_strlen(t->name));
+				write(2, ": ", 2);
+				write(2, stre, ft_strlen(stre));
+				write(2, "\n", 1);
+			}
+		}
+		if(!t->next)
+			break;
+		close(fd);
+		t = t->next;
+	}
+	///input
+	if(fd_in  != -100 && !(t->type >= 1))
+	{
+		saved_input = dup(0);
+		dup2(fd_in, 0);
+		if(check_this_command(tmp,evp) == 2)
+			our_command(tmp, ptr, evp);
+		dup2(saved_input, 0);
+		close(saved_input);
+		close(fd_in);
+	}
+	else if(t->type >= 1 && !(fd_in  != -100))
+	{
+		//output
+		saved_stdout = dup(1);
+		dup2(fd, 1);
+		if(check_this_command(tmp,evp) == 2)
+			our_command(tmp, ptr, evp);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+		int gg = close(fd);
+		printf("      |%d|    ", gg);
+	}
+	else
+	{
+		yesdup = 1;
+		fprintf(stderr, "here\n");
+		// saved_input = dup(0);
+		// saved_stdout = dup(1);
+		redir_fd = fd;
+		redir_fd_in = fd_in;
+		if(check_this_command(tmp,evp) == 2)
+			our_command(tmp, ptr, evp);
+		yesdup = 0;
+		// dup2(saved_input, 0);
+		// dup2(saved_stdout, STDOUT_FILENO);
+		// close(saved_stdout);
+		// close(saved_input);
+	}
+}
+
 void add_double_quotes(char **my_env)
 {
 	int lenp;
@@ -656,7 +736,12 @@ void command_in_the_sys(t_commands *tmp, char **envp)
         if (pid == 0) 
 		{
             /* Never returns if the call is successful */
-            if(execve(tmp->path, tmp->all, envp) < 0)
+			if (yesdup)
+			{
+				dup2(redir_fd, 1);
+				dup2(redir_fd_in, 0);
+			}
+			if(execve(tmp->path, tmp->all, envp) < 0)
 			{
 				error = strerror(errno);
 				write(2, "minishell: ", 11);
@@ -672,7 +757,6 @@ void command_in_the_sys(t_commands *tmp, char **envp)
             waitpid(pid, &stat_loc, WUNTRACED);
 			if(stat_loc == 256)
 				stat_loc = 1;
-			printf("%d", stat_loc);
         }
 }
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
@@ -906,6 +990,7 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 
 int main(int argc, char **argv, char **envp)
 {
+	yesdup = 0;
 	t_env *evp;
 	evp = malloc(sizeof(t_env));
 	char *buf;
@@ -941,8 +1026,8 @@ int main(int argc, char **argv, char **envp)
 		if(check_syntax_rederction(line) == -1)
 			continue;
 		g_commands = parssing_shell(ptr, evp ,line);
-		if(g_commands->multiple == 1)
-			continue;
+		// if(g_commands->multiple == 1)
+		// 	continue;
 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
 		// {
 		// 	if (check_this_command(envp) == 2)

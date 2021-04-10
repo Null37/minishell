@@ -114,14 +114,14 @@ int check_fname(int r, char *s, int i)
 			}
 		}
 	}
-	if(!b)
+	if(b == 1)
 	{
 		// printf("bash: syntax error near unexpected token `newline'");
 		write(2, "minishell: syntax error near unexpected token `newline'", 54);
 		write(2, "\n", 1);
 		return (-1);
 	}
-	return 0;
+	return (0);
 }
 
 int check_pipp_sy(char *s)
@@ -145,6 +145,21 @@ int check_pipp_sy(char *s)
 			break;
 	}
 	return 0;
+}
+
+int check_syntax_number(char *av, int i, int r)
+{
+	int savei = i;
+		while(av[++i])
+		{
+			if(ft_isdigit(av[i]) == 1)
+				continue;
+			else if(av[i] == '>' || av[i] == '<')
+				return -1;
+			else if(av[i] == 32 || ft_isascii(av[i])  == 1)
+				return 0;
+		}
+		return 0;
 }
 
 int  check_syntax_rederction(char *av)
@@ -183,9 +198,15 @@ int  check_syntax_rederction(char *av)
 			}
 			return i;
 		}
+		
 		if (av[i] == '>' || av[i] == '<')
 		{
 			r = check_rdr(av, i);
+			if( check_syntax_number(av, i, r) == -1)
+			{
+				write(2, "errr\n", 5);
+				return -1;
+			}
 			if ((i = check_fname(r, av, i))== -1)
 				return -1;
 			else if(i == -6)

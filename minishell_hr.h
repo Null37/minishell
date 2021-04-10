@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/07 18:39:07 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/04/10 16:29:33 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ typedef struct		s_env
 {
 	char **my_env;
 }					t_env;
+
+int redir_fd_in;
+int redir_fd;
+int yesdup;
+
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
 void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);
@@ -74,6 +79,7 @@ char	*my_substr(char *s, int start, int end);
 int		skip_double_coats(char *cmds, int *i);
 int		skip_single_coats(char *cmds, int *i);
 int check_syntax_rederction(char *av);
+void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
 char *g_cmds;
 int pid;
 int fuck;
