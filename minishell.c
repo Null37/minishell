@@ -1,14 +1,27 @@
 #include "minishell_hr.h"
 
-void command_cd(t_commands *tmp)
+void command_cd(t_commands *tmp, char **env)
 {
-	write(1, "\033[0;32m", 8);
-	int eee = chdir(tmp->arguments[0]);
-	if (eee == -1 && tmp->arguments[0] != NULL)
+	int eee;
+	char *home;
+	// write(1, "\033[0;32m", 8);
+	if(tmp->arguments[0] == NULL)
+	{
+		home = search_in_env2("HOME", env);
+		eee = chdir(home);
+	}
+	else 
+	{
+		eee = chdir(tmp->arguments[0]);
+	}
+	if (eee == -1)
 	{
 		write(2, "Minishell: ", 11);
 		write(2, "cd: ", 4);
-		write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
+		if(tmp->arguments[0] != NULL)
+			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
+		else 
+			write(2, home, ft_strlen(home));
 		write(2, ": ", 2);
 		char *ee = strerror(errno);
 		write(2, ee, strlen(ee));
@@ -29,7 +42,12 @@ void command_pwd(char *ptr)
 	else
 	{
 		ech = strerror(errno);
+		fprintf(stderr, "error %d\n", errno);
 		write(2, ech, ft_strlen(ech));
+		write(2, "\n", 1);
+		// char *ptrenv =  search_in_env2("PWD", env);
+		// write(1, ptrenv, strlen(ptrenv));
+		// write(1, "\n", 1);
 	}
 }
 
@@ -775,7 +793,7 @@ int our_command(t_commands *tmp, char *ptr, t_env *evp)
 		else if (tmp->type == NULL && !tmp->next)
 			return 0;
 		if (ft_strncmp(tmp->type, "cd", 3) == 0)
-			command_cd(tmp);
+			command_cd(tmp, evp->my_env);
 		else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
 			command_pwd(ptr);
 		else if (ft_strncmp(tmp->type, "exit", 5) == 0)
@@ -916,7 +934,7 @@ int check_this_command(t_commands *tmp,t_env *evp)
 void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 {
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
-		command_cd(tmp);
+		command_cd(tmp, evp->my_env);
 	else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
 		command_pwd(ptr);
 	else if (ft_strncmp(tmp->type, "exit", 5) == 0)
