@@ -9,6 +9,11 @@ void command_cd(t_commands *tmp, char **env)
 	{
 		home = search_in_env2("HOME", env);
 		eee = chdir(home);
+		if(ft_strncmp(home, "", 1) == 0)
+		{
+			write(2, "minishell: cd: HOME not set\n", 28);
+			return;
+		}
 	}
 	else 
 	{
