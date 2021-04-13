@@ -500,6 +500,18 @@ int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 	int  i = 0;
 	while(tmp->arguments[k][i])
 	{
+		if(tmp->arguments[k][0] == '=')
+		{
+			write(1, "minishell: ", 11);
+			write(1, "export: ", 7);
+			write(1, "`", 1);
+			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
+			write(1, "'", 1);
+			write(1, ": ", 2);
+			write(1, "not a valid identifier", 22);
+			write(1, "\n", 1);
+			return 1;
+		}
 		if(tmp->arguments[k][i] == '=')
 		{
 			if (check_syntax_export_true(tmp, k, lenarg) == 0)
@@ -525,25 +537,34 @@ char **copy_envp(char **envp_l)
 	return(tmpr);
 }
 
+int count_arg_2(t_commands *tmp)
+{
+	int i = -1;
+	int cpt = 0;
+
+	while(tmp->arguments[++i] != NULL)
+			cpt++;
+	return (cpt);
+}
+
 void command_export(t_commands *tmp, t_env *evp)
 {
-	int o = nbr_argts(tmp);
+	int o = count_arg_2(tmp);
 	int i = 0;
 	int lenarg;
 	char *s;
 	int k = 0;
 	int z;
 	evp->my_env = sort_algo(evp->my_env);
-	lenarg = nbr_argts(tmp) - 1;
-	if (o == 1)
+	lenarg = o;
+	if (o == 0)
 		add_double_quotes(evp->my_env);
-	else if (o > 1)
+	else if (o > 0)
 	{
 		char **tprr;
 		int lenp = len_of_args(evp->my_env);
-		int o = nbr_argts(tmp);
-		tprr = malloc(sizeof(char*) * (lenp + o));
-		tprr[lenp + o - 1] = NULL;
+		tprr = malloc(sizeof(char*) * (lenp + o + 1));
+		tprr[lenp + o] = NULL;
 		z = -1;
 		while(tprr[++z] != NULL)
 			tprr[z] = NULL;
@@ -566,7 +587,8 @@ void command_export(t_commands *tmp, t_env *evp)
 	}
 }
 
-void check_syntax(t_commands *tmp,int k, int lenarg)
+
+void check_syntax(t_commands *tmp,int k, int lenarg, char e_u)
 {
 	int i = 0;
 
@@ -579,7 +601,10 @@ void check_syntax(t_commands *tmp,int k, int lenarg)
 		else
 		{
 			write(1, "minishell: ", 11);
-			write(1, "unset: ", 7);
+			if(e_u == 'u')
+				write(1, "unset: ", 7);
+			else if(e_u == 'e')
+				write(1, "export: ", 8);
 			write(1, "`", 1);
 			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
 			write(1, "'", 1);
@@ -680,10 +705,10 @@ void command_unset(t_commands *tmp ,t_env *evp)
 
 	lenp = len_of_args(evp->my_env);
 
-	lenarg = nbr_argts(tmp) - 1;
+	lenarg = count_arg_2(tmp);
 	while(k < lenarg)
 	{
-		check_syntax(tmp, k ,lenarg);
+		check_syntax(tmp, k ,lenarg, 'u');
 		for (int i = 0; i < lenp; i++)
 		{
 			if (strncmp(evp->my_env[i], tmp->arguments[k], strlen(tmp->arguments[k])) == 0)
@@ -720,13 +745,12 @@ void big_putchar()
 
 void command_echo(t_commands *tmp)
 {
-	int o = len_of_args(tmp->arguments);
+	int o = count_arg_2(tmp);
 	int i = 0;
-	if(o == 0)
+	if(o == 0 && tmp->option == 0)
 		write(1, "\n", 1);
 	else if (o > 0)
 	{
-			
 		while(tmp->arguments[i] != NULL)
 		{
 			ft_putchar(tmp->arguments[i]);
@@ -735,7 +759,8 @@ void command_echo(t_commands *tmp)
 			i++;
 		}
 	}
-	write(1, "\n", 1);
+	if(tmp->option == 0)
+		write(1, "\n", 1);
 }
 
 void command_c(int signum)

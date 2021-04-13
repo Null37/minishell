@@ -79,6 +79,7 @@ char	*my_substr(char *s, int start, int end);
 int		skip_double_coats(char *cmds, int *i);
 int		skip_single_coats(char *cmds, int *i);
 int check_syntax_rederction(char *av);
+void check_syntax(t_commands *tmp,int k, int lenarg, char e_u);
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
 char *g_cmds;
 int pid;

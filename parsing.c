@@ -253,6 +253,17 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 	int z;
 
 	k = tmp->i;
+	if (typ[k + 1] == '\0')
+	{
+		
+		if (!str)
+			return (typ);
+		else
+		{
+			test = ft_strdup("$");
+			return (ft_strjoin1(str, test));
+		}
+	}
 	z = -1;
 	while (1)
 	{
@@ -476,10 +487,8 @@ void        split_command(char **envp, t_commands *commands, int nbr_args)
 	i = -1;
 	start = 0;
 	commands->arguments = malloc(sizeof(char*) * (nbr_args));
-	commands->arguments[nbr_args - 1] = NULL;
 	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
 	add_null(commands, nbr_args + 1);
-	commands->all[nbr_args] = NULL;
 	while (commands->command[++i])
 	{
 		if ((commands->command[i] == 34 && i == 0)
@@ -570,7 +579,10 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 	int i;
 	int start;
 	int k;
+	int b = 0;
 	char *rdr_cmd;
+	char *str;
+
 
 	k = 0;
 	i = -1;
@@ -581,9 +593,8 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 	//rdr_cmd = deletecoats(envp, rdr_cmd);
 	nbr_args = nbr_argts2(rdr_cmd);
 	commands->arguments = malloc(sizeof(char*) * (nbr_args));
-	commands->arguments[nbr_args - 1] = NULL;
 	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
-	commands->all[nbr_args] = NULL;
+	add_null(commands, nbr_args + 1);
 	while (rdr_cmd[++i])
 	{
 		if ((rdr_cmd[i] == 34 && i == 0)
@@ -604,11 +615,21 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 			}
 			else
 			{
-				commands->arguments[k] = my_substr(rdr_cmd, start, i + 1);
-				commands->arguments[k] = deletespace(commands->arguments[k]);
-				commands->arguments[k] = deletecoats(envp, commands->arguments[k]);
-				k++;
-				commands->all[k] = commands->arguments[k - 1];
+				str = my_substr(rdr_cmd, start, i + 1);
+				str = deletespace(str);
+				str = deletecoats(envp, str);
+				if (str)
+				{
+					if (b == 1 || my_strcmp(str, "-n") == 1)
+					{
+						commands->arguments[k] = str;
+						k++;
+						commands->all[k] = commands->arguments[k - 1];
+						b = 1;
+					}
+					else if (b == 0)
+						commands->option = 1;
+				}
 			}
 			start = i + 1;
 		}
