@@ -142,12 +142,21 @@ int    chck_sntx(char *str)
 	}
 	return (1);
 }
-
+int		spcle_chr(char c)
+{
+	if (c == 34 || c == 39 || c == '\\')
+		return (1);
+	return (0);
+}
 int		skip_double_coats(char *cmds, int *i)
 {
 	while (cmds[++(*i)])
-		if (cmds[*i] == 34 && cmds[*i - 1] != '\\')
+	{
+		if (cmds[*i] == '\\' && spcle_chr(cmds[(*i) + 1]))
+			(*i)++;
+		else if (cmds[*i] == 34)
 			return (0);
+	}
 	return (1);
 }
 
@@ -201,6 +210,26 @@ char	*get_right_path(char *str, int start, int end)
 	return (path);
 }
 
+int get_last_space(char *str, int i)
+{
+	while (1)
+	{
+		if (str[i] != '\\' || i == 0)
+			break ;
+		i--;
+	}
+	if (str[i] != '\\')
+		i++;
+	while (str[i])
+	{
+		if (str[i] == '\\')
+			i++;
+		else
+			break ;
+		i++;
+	}
+	return (--i);
+}
 
 char	*deletespace(char *str)
 {
@@ -223,7 +252,10 @@ char	*deletespace(char *str)
 	while (--i >= 0)
 		if (str[i] != ' ')
 		{
-			end = i;
+			if (str[i] == '\\')
+				end = get_last_space(str, i);
+			else
+				end = i;
 			break ;
 		}
 	if (start == -1 || end == -1)
@@ -253,11 +285,12 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 	int z;
 
 	k = tmp->i;
-	if (typ[k + 1] == '\0')
+	if (typ[k + 1] == '\0' || typ[k + 1] == ' '
+	|| typ[k + 1] == 34 || typ[k + 1] == '\\')
 	{
 		
 		if (!str)
-			return (typ);
+			return (ft_strdup("$"));
 		else
 		{
 			test = ft_strdup("$");
@@ -430,6 +463,11 @@ int         nbr_argts(t_commands *commands)
 			skip_double_coats(commands->command, &i);
 		else if (commands->command[i] == 39)
 			skip_single_coats(commands->command, &i);
+		else if (commands->command[i] == '\\')
+		{
+			i++;
+			continue ;
+		}
 		if (commands->command[i] == ' ' && commands->command[i + 1] != ' ')
 			cpt++;
 		if (!commands->command[i])
@@ -454,6 +492,11 @@ int         nbr_argts2(char *command)
 			skip_double_coats(command, &i);
 		else if (command[i] == 39)
 			skip_single_coats(command, &i);
+		else if (command[i] == '\\')
+		{
+			i++;
+			continue ;
+		}
 		if (command[i] == ' ' && command[i + 1] != ' ')
 			cpt++;
 		if (!command[i])
@@ -529,15 +572,21 @@ int		skip_filename(char *cmds, int *i)
 			break ;
 	while (cmds[*i])
 	{
+		if (cmds[*i] == 34)
+			skip_double_coats(cmds, i);
+		else if (cmds[*i] == 39)
+			skip_single_coats(cmds, i);
+		else if (cmds[*i] == '\\')
+		{
+			i++;
+			continue ;
+		}
 		if (cmds[*i] == '>' || cmds[*i] == '<' || (cmds[*i] == ' ' && cmds[*i + 1] != ' '))
 		{
 			(*i)--;
 			return (0);
 		}
-		else if (cmds[*i] == 34)
-			skip_double_coats(cmds, i);
-		else if (cmds[*i] == 39)
-			skip_single_coats(cmds, i);
+
 		(*i)++;
 	}
 	(*i)--;
@@ -555,11 +604,19 @@ char		*deleterdr(char *command)
 	i = -1;
 	while (1)
 	{
-		if (command[++i] == '>' && command[i + 1] == '>')
+		if (command[++i] == '\\')
+		{
+			s[0] = command[i];
+			comd = ft_strjoin1(comd, s);
+			i++;
+			s[0] = command[i];
+			comd = ft_strjoin1(comd, s);
+		}
+		else if (command[i] == '>' && command[i + 1] == '>')
 		{
 			continue ;
 		}
-		else if (command[i] == '>' || command[i] == '<')
+		else if ((command[i] == '>' || command[i] == '<'))
 		{
 			skip_filename(command, &i);
 		}
@@ -595,16 +652,20 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 	commands->arguments = malloc(sizeof(char*) * (nbr_args));
 	commands->all = malloc(sizeof(char*) * (nbr_args + 1));
 	add_null(commands, nbr_args + 1);
-	while (rdr_cmd[++i])
+	while (1)
 	{
-		if ((rdr_cmd[i] == 34 && i == 0)
+		if ((rdr_cmd[++i] == 34 && i == 0)
 			|| (rdr_cmd[i] == 34 && rdr_cmd[i - 1] != '\\'))
 			skip_double_coats(rdr_cmd, &i);
 		else if ((rdr_cmd[i] == 39 && i == 0)
 			|| (rdr_cmd[i] == 39 && rdr_cmd[i - 1] != '\\'))
 			skip_single_coats(rdr_cmd, &i);
-		if ((rdr_cmd[i] == ' ' && rdr_cmd[i + 1] != ' ')
-		|| rdr_cmd[i + 1] == '\0')
+		else if (rdr_cmd[i] == '\\')
+		{
+			i++;
+			continue ;
+		}
+		if ((rdr_cmd[i] == ' ' && rdr_cmd[i + 1] != ' ') || rdr_cmd[i] == '\0')
 		{
 			if (!commands->type)
 			{
@@ -717,7 +778,7 @@ int		files_rdr(t_commands *commands)
 
 int check_exist_rdr(char *cmd)
 {
-	return (1);
+	return (0);
 }
 
 void        trait_command(char **envp, t_commands *commands)
@@ -729,8 +790,9 @@ void        trait_command(char **envp, t_commands *commands)
 	if (!check_exist_rdr(commands->command))
 	{
 		nbr_args = nbr_argts(commands);
-		if (nbr_args > 0)
-			split_command(envp,commands, nbr_args);
+		// if (nbr_args > 0)
+		// 	split_command(envp,commands, nbr_args);
+		split_command_rdr(envp,commands, nbr_args);
 	}
 	else
 	{
@@ -763,6 +825,11 @@ int	split_pipe(char **envp, t_commands *commands)
 		{
 			if ((commands->multiple = skip_single_coats(cmd, &i)))
 				return (0);
+		}
+		else if (cmd[i] == '\\')
+		{
+			i++;
+			continue ;
 		}
 		if (cmd[i] == 124)
 		{
@@ -800,6 +867,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 	tmp = commands;
 	while (1)
 	{
+
 		if ((cmds[++i] == 34 && i == 0)
 		|| (cmds[i] == 34 && cmds[i - 1] != '\\'))
 		{
@@ -811,6 +879,11 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 		{
 			if ((commands->multiple = skip_single_coats(cmds, &i)))
 				return (0);
+		}
+		else if (cmds[i] == '\\')
+		{
+			i++;
+			continue ;
 		}
 		if (cmds[i] == 59)
 		{

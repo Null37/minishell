@@ -81,6 +81,7 @@ int		skip_single_coats(char *cmds, int *i);
 int check_syntax_rederction(char *av);
 void check_syntax(t_commands *tmp,int k, int lenarg, char e_u);
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
+int		spcle_chr(char c);
 char *g_cmds;
 int pid;
 int fuck;

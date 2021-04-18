@@ -325,7 +325,7 @@ int check_syntax_export_false(t_commands *tmp ,int k, int lenarg)
 
 	while(tmp->arguments[k][i])
 	{
-		if(ft_isalpha(tmp->arguments[k][0]) == 1 || tmp->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
 			i++;
 		else if ((ft_isdigit2(tmp->arguments[k][i]) && i != 0 )|| tmp->arguments[k][i] == '_')
 			i++;
@@ -754,12 +754,12 @@ void command_echo(t_commands *tmp)
 		while(tmp->arguments[i] != NULL)
 		{
 			ft_putchar(tmp->arguments[i]);
-			if (o > 1)
+			if (tmp->arguments[i + 1] != NULL)
 				write(1, " ", 1);
 			i++;
 		}
 	}
-	if(tmp->option == 0)
+	if(tmp->option == 0 && o > 0)
 		write(1, "\n", 1);
 }
 
