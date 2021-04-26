@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/11 11:38:01 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/04/26 17:00:28 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct		s_commands{
 typedef struct		s_env
 {
 	char **my_env;
+	char *save;
 }					t_env;
 
 int redir_fd_in;
@@ -66,8 +67,8 @@ int len_of_args(char **args);
 char		*get_env_name(char *envp);
 char **copy_envp(char **envp);
 int    chck_sntx(char *str);
-void command_cd(t_commands *tmp, char **env);
-void command_pwd(char *ptr);
+void command_cd(char *ptr,t_commands *tmp, t_env *evp);
+void command_pwd(char *ptr, t_env *evp);
 void command_exit(t_commands *tmp, int pipe);
 void command_env(char **envp);
 void command_export(t_commands *tmp, t_env *evp);
@@ -81,6 +82,9 @@ int		skip_single_coats(char *cmds, int *i);
 int check_syntax_rederction(char *av);
 void check_syntax(t_commands *tmp,int k, int lenarg, char e_u);
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
+char		*ft_strjoin1(char *s1, char *s2);
+char **edit_envp_pwd(char *ptr, char **envp_c);
+int check_if_command_is_exist(char *path_file, int exute);
 int		spcle_chr(char c);
 char *g_cmds;
 int pid;
