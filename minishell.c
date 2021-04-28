@@ -1467,6 +1467,12 @@ char **edit_envp_old_pwd(char **envp_c)
 		}
 	return (envp_c);
 }
+void cntrol_quit(int quit)
+{
+	write(2, "Quit: ", 7);
+	ft_putnbr_fd(quit, 2);
+	write(2, "\n", 1);
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -1491,6 +1497,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal(SIGINT, command_c);
+		signal(SIGQUIT, cntrol_quit);
 		if (fuck == 0)
 		{
 			write(1, "\033[0;33mNull37$\033[0m ", 19);

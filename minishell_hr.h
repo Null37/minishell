@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/26 17:00:28 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:25:21 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_commands{
 	int         	option;
 	char        	**arguments;
 	int				multiple;
+	pid_t resul;
 	char        	**all;
 	t_filerdr		*filerdr;
 	struct 			s_commands	*next_p;
@@ -49,6 +50,7 @@ typedef struct		s_env
 	char **my_env;
 	char *save;
 }					t_env;
+
 
 int redir_fd_in;
 int redir_fd;
