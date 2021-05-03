@@ -12,9 +12,9 @@
 
 NAME = minishell
 
-FLAGS = -fsanitize=address
+FLAGS =  -lcurses -fsanitize=address
 
-SRC = minishell.c parsing.c algo_sort.c rederction_test2.c
+SRC = minishell.c parsing.c algo_sort.c rederction_test2.c termcap_fl.c
 
 CC = gcc
 

@@ -21,7 +21,23 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <stdbool.h>
+# include <termios.h>
+# include <termcap.h>
 #include "libft1/libft.h"
+# define KEY_UP 183
+# define KEY_DOWN 184
+# define KEY_LEFT  186
+# define KEY_RIGHT 185
+# define ENTER 10
+# define KEY_REMOVE 127
+# define KEY_TAB 9
+# define CTRL_D 4
+
+typedef struct		s_history{
+	char        	*cmd;
+	struct 			s_history	*preview;
+	struct 			s_history	*next;
+}					t_history;
 
 typedef struct		s_filerdr{
 	char        	*name;
@@ -88,6 +104,10 @@ char		*ft_strjoin1(char *s1, char *s2);
 char **edit_envp_pwd(char *ptr, char **envp_c);
 int check_if_command_is_exist(char *path_file, int exute);
 int		spcle_chr(char c);
+char    *ft_strjoinchar(char *s, char c);
+int             get_char();
+char *termcap_khedma(t_history *history);
+t_history	*new_commnd(char *cmd);
 char *g_cmds;
 int pid;
 int fuck;

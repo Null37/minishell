@@ -44,6 +44,20 @@ char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
 	return (envp_c);
 }
 
+t_history	*new_commnd(char *cmd)
+{
+	t_history *h;
+
+	h = malloc(sizeof(t_history));
+	if (!cmd)
+		h->cmd = NULL;
+	else
+		h->cmd = ft_strdup(cmd);
+	h->next = NULL;
+	h->preview = NULL;
+	return (h);
+}
+
 void command_cd(char *ptr, t_commands *tmp, t_env *evp)
 {
 	int eee;
@@ -1474,8 +1488,10 @@ void cntrol_quit(int quit)
 	write(2, "\n", 1);
 }
 
+
 int main(int argc, char **argv, char **envp)
 {
+	t_history *history;
 	yesdup = 0;
 	t_env *evp;
 	evp = malloc(sizeof(t_env));
@@ -1483,17 +1499,22 @@ int main(int argc, char **argv, char **envp)
 	char *ptr;
 	int errcd;
 	char *test;
+	char 	*ret;
 	buf = NULL;
+	int help = 0;
+	int edit = 0;
 	char path[200];
-	char *line = (char *)malloc(BUFSIZ);
+	char *line;
 	int readinput;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
 	evp->my_env = edit_envp_v(evp->my_env);
 	evp->my_env = edit_envp_old_pwd(evp->my_env);
 	evp->save = search_in_env2("HOME", evp->my_env);
+	tgetent(NULL, getenv("TERM"));
 	//add SHLVL + 1
 	fuck = 0;
+    history = new_commnd(NULL);
 	while (1)
 	{
 		signal(SIGINT, command_c);
@@ -1506,19 +1527,30 @@ int main(int argc, char **argv, char **envp)
 		ptr = getcwd(buf, 1024);
 		if(ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
-		ft_bzero(line, 1024);
-		readinput = read(0, line, 1024);
+		//ft_bzero(line, 1024);
+		// readinput = read(0, line, 1024);
+		line = termcap_khedma(history);
+		// if (!history)
+		// 	history = new_commnd(line);
+		// else
+		// {
+		// 	h_tmp = history;
+		// 	history->next = new_commnd(line);
+		// 	history = history->next;
+		// 	history->preview = h_tmp;
+		// }
 		fuck = 0;
-		if(readinput == 0)
-			command_exit_ctr_d();
-		if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
-		{
-			if (ft_strchr(line, '\n'))
-				*ft_strchr(line, '\n') = '\0';
-		}
+		// if(readinput == 0)
+		// 	command_exit_ctr_d();
+		// if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
+		// {
+		// 	if (ft_strchr(line, '\n'))
+		// 		*ft_strchr(line, '\n') = '\0';
+		// }
 		if(check_syntax_rederction(line) == -1)
 			continue;
 		g_commands = parssing_shell(ptr, evp ,line);
+		free(line);
 		// if(g_commands->multiple == 1)
 		// 	continue;
 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)

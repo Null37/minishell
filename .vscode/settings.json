@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "__config": "c",
-        "minishell_hr.h": "c"
+        "minishell_hr.h": "c",
+        "stdio.h": "c"
     }
 }
