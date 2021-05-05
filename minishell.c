@@ -1504,7 +1504,7 @@ int main(int argc, char **argv, char **envp)
 	int help = 0;
 	int edit = 0;
 	char path[200];
-	char *line;
+	char *line ;
 	int readinput;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
@@ -1527,7 +1527,7 @@ int main(int argc, char **argv, char **envp)
 		ptr = getcwd(buf, 1024);
 		if(ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
-		//ft_bzero(line, 1024);
+		// ft_bzero(line, 1024);
 		// readinput = read(0, line, 1024);
 		line = termcap_khedma(history);
 		// if (!history)

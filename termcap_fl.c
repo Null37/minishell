@@ -28,9 +28,10 @@ int             get_char()
 {
 		char    c;
 		int		total;
+		struct termios old;
 		struct	termios term; //, init; //init made to reset to default
-
-		tcgetattr(0, &term); //get terminal attributes and store them in in the struct
+		tcgetattr(0, &old); //get terminal attributes and store them in in the struct
+		term = old;
 		// tcgetattr(0, &init); //set terminal attributes in the struct
 		term.c_lflag &= ~(ICANON); //Set to Non Canonical, Reads instantly without waiting for "ENTER" key, Maximum length is 4096
 		term.c_lflag &= ~(ECHO);  // Stops the keys read from printing in terminal
@@ -42,6 +43,7 @@ int             get_char()
 		total += c;
 		while (read(0, &c, 1) > 0)
 				total += c;
+		tcsetattr(0, TCSANOW, &old);
 		// tcsetattr(0, TCSANOW, &init); //WA ZABI ACH HAD L9LAWI!?!?!
 		return (total);
 }
@@ -205,38 +207,38 @@ char *termcap_khedma(t_history *history)
 			write(1,"\n",1);
 			if(ret[0] == 0)
 			{
-				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 			}
 			// s = tgetstr("ch", NULL);
 			// write(1, s, strlen(s)); 
 			// s = tgetstr("dl", NULL); //Get the string entry id 'ce' means clear from the cursor to the end of the current line.
 			// write(1, s, strlen(s)); // execute the string entry id
 				// fprintf(stderr, "Else made it here");
-			if (ret[0] != 0)
-			{
-				// head->data = ret;
-				// head->next = (t_stack *) malloc(sizeof(t_stack));
-				// head->next->next = NULL;
-				// head->next->prev = head;
-				// head = head->next;
-				// tmp = head;
-				// lstadd_dlist(&head, lstnewc(ret)); //hna
-				// fprintf(stderr, "%s", tmp);
-				// tmp = head;//hna
-				// printf("%s\n",tmp->data);
-					if (history->cmd == NULL)
-					{
-						history->cmd = ft_strdup(ret);
-					}
-					else
-					{
-						h_tmp = history;
-						history->next = new_commnd(ret);
-						history = history->next;
-						history->preview = h_tmp;
-					}
-					return (ret);
-			}
+			// if (ret[0] != 0)
+			// {
+			// 	// head->data = ret;
+			// 	// head->next = (t_stack *) malloc(sizeof(t_stack));
+			// 	// head->next->next = NULL;
+			// 	// head->next->prev = head;
+			// 	// head = head->next;
+			// 	// tmp = head;
+			// 	// lstadd_dlist(&head, lstnewc(ret)); //hna
+			// 	// fprintf(stderr, "%s", tmp);
+			// 	// tmp = head;//hna
+			// 	// printf("%s\n",tmp->data);
+			// 		if (history->cmd == NULL)
+			// 		{
+			// 			history->cmd = ft_strdup(ret);
+			// 		}
+			// 		else
+			// 		{
+			// 			h_tmp = history;
+			// 			history->next = new_commnd(ret);
+			// 			history = history->next;
+			// 			history->preview = h_tmp;
+			// 		}
+			return (ret);
+			// }
 
 		// 	// if (help == 0)
 		// 		ret = "";
