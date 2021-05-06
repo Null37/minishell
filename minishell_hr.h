@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/28 14:25:21 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:51:45 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct		s_env
 int redir_fd_in;
 int redir_fd;
 int yesdup;
-
+int test[2];
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
 void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);

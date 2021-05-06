@@ -333,7 +333,7 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 			our_command(tmp, ptr, evp);
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdout);
-		int gg = close(fd);
+		close(fd);
 	}
 	else
 	{
@@ -341,8 +341,8 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 		// fprintf(stderr, "here\n");
 		// saved_input = dup(0);
 		// saved_stdout = dup(1);
-		redir_fd = fd;
-		redir_fd_in = fd_in;
+		redir_fd = open(tmp->filerdr->name, O_RDWR, 0777);
+		redir_fd_in = open(tmp->filerdr->next->name, O_RDWR, 0777);
 		if(check_this_command(tmp,evp) == 2)
 			our_command(tmp, ptr, evp);
 		yesdup = 0;
@@ -863,12 +863,10 @@ void command_in_the_sys(t_commands *tmp, char **envp)
 		if (pid == 0) 
 		{
 			/* Never returns if the call is successful */
-			if (yesdup)
+			if (yesdup == 1)
 			{
 				dup2(redir_fd, 1);
 				dup2(redir_fd_in, 0);
-				close(redir_fd);
-				close(redir_fd_in);
 			}
 			if(execve(tmp->path, tmp->all, envp) < 0)
 			{
@@ -1180,15 +1178,11 @@ int output_ret(t_commands *tmp)
 		if (head->type == 1)
 		{
 			close(fd);
-			if (check_if_command_is_exist(head->name, 0))
-				return (-100);
 			fd = open(head->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		else if (head->type == 2)
 		{
 			close(fd);
-			if (check_if_command_is_exist(head->name, 0))
-				return (-100);
 			fd = open(head->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
 		}
 		if (!head->next)
@@ -1209,8 +1203,6 @@ int input_ret(t_commands *tmp)
 		if (head->type == 0)
 		{
 			close(fd);
-			if (check_if_command_is_exist(head->name, 0))
-				return (-100);
 			fd = open(head->name, O_RDONLY);
 			if(fd < 0)
 			{
@@ -1229,6 +1221,7 @@ int input_ret(t_commands *tmp)
 	}
 	return(fd);
 }
+
 int check_two_red(t_commands *tmp)
 {
 
@@ -1369,6 +1362,113 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 
 }
 
+/*void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
+{
+	int i;
+	int fd[2];
+	int read_fd;
+	int write_fd;
+	int status;
+	i = 0;
+	int fd_file = -200;
+	int fd_in = -100;
+	read_fd = dup(0);
+	int fd_input = -1;
+	int fd_out = -2;
+	int h = -50;
+	char *stre;
+	int h2 = -9;
+	int yoo = 1;
+	while (tmp)
+	{
+		// fprintf(stderr, "current cmd: %s\n", cmd_list->argv[0]);
+		// fd[0] = -1;
+		// fd[1] = -1;
+		if (tmp->next_p)
+		{
+			pipe(fd);
+			write_fd = dup(fd[1]);
+			close(fd[1]);
+		}
+		else
+		{
+			write_fd = dup(1);
+		}
+		if (fork() == 0)
+		{
+			if(tmp->filerdr == NULL)
+			{
+				dup2(read_fd, 0);
+				dup2(write_fd, 1);
+		   		close(read_fd);
+				close(write_fd);
+				// if (fd[0] + 1)
+					close(fd[0]);
+				// if (fd[1] + 1)
+					close(fd[1]);
+			}
+			else if(tmp->filerdr != NULL)
+			{
+				if(check_two_red(tmp) == 0)
+				{
+					t_filerdr *lastnamef = last_name_func(tmp);
+					if(!lastnamef)
+						exit(1);
+					if(lastnamef->type == 0)
+					{
+						h2 = open(tmp->filerdr->name, O_RDWR);
+						dup2(h2, 0);
+						// dup2(fd[0], 1);
+						close(h2);
+					}
+					if(lastnamef->type == 1)
+					{
+						h = open(lastnamef->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
+						dup2(h, 1);
+						close(h);
+						h = -1;
+					}
+					else if(lastnamef->type == 2)
+					{
+						h = open(lastnamef->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
+						dup2(h, 1);
+						close(h);
+						h = -1;
+					}
+				}
+				else if(check_two_red(tmp) == 1)
+				{
+					fd_out = output_ret(tmp);
+					if(fd_out == -100)
+						exit(1);
+					fd_input = input_ret(tmp);
+					if(fd_input == -100)
+						exit(1);
+					dup2(fd_input, 0);
+					close(fd_input);
+					dup2(fd_out, 1);
+					close(fd_out);
+				}
+			}
+			se_execute_command(tmp, ptr, evp);
+			exit(1);
+		}
+		else
+		{
+			//parent
+			close(read_fd);
+			close(write_fd);
+			if (tmp->next_p)
+			{
+				read_fd = dup(fd[0]);
+				close(fd[0]);
+			}
+		}
+		tmp = tmp->next_p;
+	}
+	while (wait(&status) > 0);
+
+}*/
 char **edit_envp_shlvl(char **envp_c)
 {
 	char *sh= search_in_env2("SHLVL", envp_c);
