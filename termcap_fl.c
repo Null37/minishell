@@ -33,8 +33,8 @@ int             get_char()
 		tcgetattr(0, &old); //get terminal attributes and store them in in the struct
 		term = old;
 		// tcgetattr(0, &init); //set terminal attributes in the struct
-		term.c_lflag &= ~(ICANON); //Set to Non Canonical, Reads instantly without waiting for "ENTER" key, Maximum length is 4096
-		term.c_lflag &= ~(ECHO);  // Stops the keys read from printing in terminal
+		term.c_lflag &= ~(ICANON|ECHO); //Set to Non Canonical, Reads instantly without waiting for "ENTER" key, Maximum length is 4096
+		//term.c_lflag &= ~(ECHO);  // Stops the keys read from printing in terminal
 		term.c_cc[VMIN] = 0;  // VMIN   Minimum number of characters for noncanonical read (MIN).
 		term.c_cc[VTIME] = 0;  //VTIME Timeout in deciseconds for noncanonical read (TIME).
 		tcsetattr(0, TCSANOW, &term); //Set Atrributes of termios (Update Changes)
@@ -44,7 +44,6 @@ int             get_char()
 		while (read(0, &c, 1) > 0)
 				total += c;
 		tcsetattr(0, TCSANOW, &old);
-		// tcsetattr(0, TCSANOW, &init); //WA ZABI ACH HAD L9LAWI!?!?!
 		return (total);
 }
 
@@ -214,8 +213,8 @@ char *termcap_khedma(t_history *history)
 			// s = tgetstr("dl", NULL); //Get the string entry id 'ce' means clear from the cursor to the end of the current line.
 			// write(1, s, strlen(s)); // execute the string entry id
 				// fprintf(stderr, "Else made it here");
-			// if (ret[0] != 0)
-			// {
+			if (ret[0] != 0)
+			{
 			// 	// head->data = ret;
 			// 	// head->next = (t_stack *) malloc(sizeof(t_stack));
 			// 	// head->next->next = NULL;
@@ -226,19 +225,19 @@ char *termcap_khedma(t_history *history)
 			// 	// fprintf(stderr, "%s", tmp);
 			// 	// tmp = head;//hna
 			// 	// printf("%s\n",tmp->data);
-			// 		if (history->cmd == NULL)
-			// 		{
-			// 			history->cmd = ft_strdup(ret);
-			// 		}
-			// 		else
-			// 		{
-			// 			h_tmp = history;
-			// 			history->next = new_commnd(ret);
-			// 			history = history->next;
-			// 			history->preview = h_tmp;
-			// 		}
+					if (history->cmd == NULL)
+					{
+						history->cmd = ft_strdup(ret);
+					}
+					else
+					{
+						h_tmp = history;
+						history->next = new_commnd(ret);
+						history = history->next;
+						history->preview = h_tmp;
+					}
 			return (ret);
-			// }
+			}
 
 		// 	// if (help == 0)
 		// 		ret = "";

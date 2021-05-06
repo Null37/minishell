@@ -108,6 +108,7 @@ char    *ft_strjoinchar(char *s, char c);
 int             get_char();
 char *termcap_khedma(t_history *history);
 t_history	*new_commnd(char *cmd);
+void command_c(int signum);
 char *g_cmds;
 int pid;
 int fuck;

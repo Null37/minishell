@@ -312,7 +312,7 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 		t = t->next;
 	}
 	///input
-	if(fd_in  != -100 && t->type == 0)
+	if(fd_in  != -100 && t->type == 0 && fd == -200)
 	{
 		saved_input = dup(0);
 		close(0);
@@ -323,7 +323,7 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 		close(saved_input);
 		close(fd_in);
 	}
-	else if(t->type >= 1 && !(fd_in != -100))
+	else if(t->type >= 1 && fd_in == -100)
 	{
 		//output
 		saved_stdout = dup(1);
@@ -844,8 +844,8 @@ void command_echo(t_commands *tmp)
 
 void command_c(int signum)
 {
-	if(fuck != 0)
-		write(1, "\b\b  ", 4);
+	// if(fuck != 0)
+	// write(1, "\b\b  ", 4);
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 	fuck = 1;
@@ -867,6 +867,8 @@ void command_in_the_sys(t_commands *tmp, char **envp)
 			{
 				dup2(redir_fd, 1);
 				dup2(redir_fd_in, 0);
+				close(redir_fd);
+				close(redir_fd_in);
 			}
 			if(execve(tmp->path, tmp->all, envp) < 0)
 			{
@@ -1517,7 +1519,8 @@ int main(int argc, char **argv, char **envp)
     history = new_commnd(NULL);
 	while (1)
 	{
-		signal(SIGINT, command_c);
+		int asd = 0;
+		 signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
 		if (fuck == 0)
 		{
@@ -1530,6 +1533,8 @@ int main(int argc, char **argv, char **envp)
 		// ft_bzero(line, 1024);
 		// readinput = read(0, line, 1024);
 		line = termcap_khedma(history);
+			
+		
 		// if (!history)
 		// 	history = new_commnd(line);
 		// else

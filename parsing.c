@@ -778,7 +778,7 @@ int		files_rdr(t_commands *commands)
 
 int check_exist_rdr(char *cmd)
 {
-	return (0);
+	return (1);
 }
 
 void        trait_command(char **envp, t_commands *commands)
