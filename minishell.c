@@ -274,75 +274,69 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 	int saved_stdout;
 	int saved_input;
 	char *stre;
+	redir_fd = -100;
+	redir_fd_in = -100;
 	int fd = -200;
 	int fd_in = -100;
-	while (1)
+	if(check_two_red(tmp) == 0)
 	{
-		if(t->type == 1)
+		t_filerdr *lastnamef = last_name_func(tmp);
+		if(!lastnamef)
+			exit(1);
+		if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
+			exit(1);
+		if(lastnamef->type == 0)
 		{
-			if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
-				return;
-			fd = open(t->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd_in = open(lastnamef->name, O_RDONLY);
+			saved_input = dup(0);
+			close(0);
+			dup2(fd_in, 0);
+			if(check_this_command(tmp,evp) == 2)
+				our_command(tmp, ptr, evp);
+			dup2(saved_input, 0);
+			close(saved_input);
+			close(fd_in);
 		}
-		else if(t->type == 2)
+		else if(lastnamef->type == 1)
 		{
-			if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
-				return;
-			fd = open(t->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
+			//output
+			fd = open(lastnamef->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			saved_stdout = dup(1);
+			close(1);
+			dup2(fd, 1);
+			if(check_this_command(tmp,evp) == 2)
+				our_command(tmp, ptr, evp);
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
+			close(fd);
 		}
-		if(t->type == 0)
+		else if(lastnamef->type == 2)
 		{
-			if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
-				return;
-			fd_in = open(t->name, O_RDONLY);
-			if(fd_in  == -1)
-			{
-				stre = strerror(errno);
-				write(2, "minishell: ", 11);
-				write(2, t->name, ft_strlen(t->name));
-				write(2, ": ", 2);
-				write(2, stre, ft_strlen(stre));
-				write(2, "\n", 1);
-				return ;
-			}
+			//output
+			fd = open(lastnamef->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
+			saved_stdout = dup(1);
+			close(1);
+			dup2(fd, 1);
+			if(check_this_command(tmp,evp) == 2)
+				our_command(tmp, ptr, evp);
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
+			close(fd);
 		}
-		if(!t->next)
-			break;
-		close(fd);
-		t = t->next;
 	}
-	///input
-	if(fd_in  != -100 && t->type == 0 && fd == -200)
-	{
-		saved_input = dup(0);
-		close(0);
-		dup2(fd_in, 0);
-		if(check_this_command(tmp,evp) == 2)
-			our_command(tmp, ptr, evp);
-		dup2(saved_input, 0);
-		close(saved_input);
-		close(fd_in);
-	}
-	else if(t->type >= 1 && fd_in == -100)
-	{
-		//output
-		saved_stdout = dup(1);
-		close(1);
-		dup2(fd, 1);
-		if(check_this_command(tmp,evp) == 2)
-			our_command(tmp, ptr, evp);
-		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdout);
-		close(fd);
-	}
-	else
+
+	else if(check_two_red(tmp) == 1)
 	{
 		yesdup = 1;
 		// fprintf(stderr, "here\n");
 		// saved_input = dup(0);
 		// saved_stdout = dup(1);
-		redir_fd = open(tmp->filerdr->name, O_RDWR, 0777);
-		redir_fd_in = open(tmp->filerdr->next->name, O_RDWR, 0777);
+		redir_fd = output_ret(tmp);
+		if(redir_fd == -100)
+			return;
+		redir_fd_in = input_ret(tmp);
+		if(redir_fd_in == -100)
+			return ;
 		if(check_this_command(tmp,evp) == 2)
 			our_command(tmp, ptr, evp);
 		yesdup = 0;
@@ -848,7 +842,12 @@ void command_c(int signum)
 	// write(1, "\b\b  ", 4);
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
-	fuck = 1;
+	if(g_all->ret)
+	{
+		free(g_all->ret);
+		g_all->ret = ft_strdup("");
+	}
+	// fuck = 1;
 }
 
 void command_in_the_sys(t_commands *tmp, char **envp)
@@ -1606,7 +1605,9 @@ int main(int argc, char **argv, char **envp)
 	int help = 0;
 	int edit = 0;
 	char path[200];
-	char *line ;
+	//char *line ;
+	g_all = malloc(sizeof(t_commandg));
+	g_all->line = NULL;
 	int readinput;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
@@ -1619,20 +1620,22 @@ int main(int argc, char **argv, char **envp)
     history = new_commnd(NULL);
 	while (1)
 	{
-		int asd = 0;
-		 signal(SIGINT, command_c);
+		// int asd = 0;
+		signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
-		if (fuck == 0)
-		{
+		// if (fuck == 0)
+		// {
 			write(1, "\033[0;33mNull37$\033[0m ", 19);
-			fuck = 1;
-		}
+		// 	fuck = 1;
+		// }
 		ptr = getcwd(buf, 1024);
 		if(ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
 		// ft_bzero(line, 1024);
 		// readinput = read(0, line, 1024);
-		line = termcap_khedma(history);
+		free(g_all->line);
+		g_all->line = NULL;
+		g_all->line = termcap_khedma(history);
 			
 		
 		// if (!history)
@@ -1644,7 +1647,7 @@ int main(int argc, char **argv, char **envp)
 		// 	history = history->next;
 		// 	history->preview = h_tmp;
 		// }
-		fuck = 0;
+		// fuck = 0;
 		// if(readinput == 0)
 		// 	command_exit_ctr_d();
 		// if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
@@ -1652,10 +1655,10 @@ int main(int argc, char **argv, char **envp)
 		// 	if (ft_strchr(line, '\n'))
 		// 		*ft_strchr(line, '\n') = '\0';
 		// }
-		if(check_syntax_rederction(line) == -1)
+		if(check_syntax_rederction(g_all->line) == -1)
 			continue;
-		g_commands = parssing_shell(ptr, evp ,line);
-		free(line);
+		g_commands = parssing_shell(ptr, evp ,g_all->line);
+
 		// if(g_commands->multiple == 1)
 		// 	continue;
 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)

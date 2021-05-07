@@ -52,7 +52,6 @@ char *termcap_khedma(t_history *history)
 
 	int		d;
 	char	*s;
-	char 	*ret;
 	t_history *h_tmp;
 
 	static int i;
@@ -67,14 +66,14 @@ char *termcap_khedma(t_history *history)
 
 	h_tmp = history;
 
-	ret = malloc(1 * sizeof(char));
-	ret[0] = '\0';
+	g_all->ret = malloc(1 * sizeof(char));
+	g_all->ret[0] = '\0';
 	while(1)
 	{
 		d = get_char();
 		if (d == 4)
 		{
-			if (ret[0] == 0)
+			if (g_all->ret[0] == 0)
 			{
 				write(1,"exit",4);
 				exit(0);
@@ -82,7 +81,7 @@ char *termcap_khedma(t_history *history)
 		}
 		else if (d >= 32 && d < 127)
 		{
-			ret = ft_strjoinchar(ret, d);
+			g_all->ret = ft_strjoinchar(g_all->ret, d);
 			write(1, &d ,1);
 		}
 		else if (d == KEY_REMOVE)//delete
@@ -90,11 +89,11 @@ char *termcap_khedma(t_history *history)
 			int i;
 
 			i = 0;
-			if (strlen(ret) > 0)
+			if (strlen(g_all->ret) > 0)
 			{
-				while (i < (strlen(ret) - 1))
+				while (i < (strlen(g_all->ret) - 1))
 					i++;
-				ret[i] = '\0';
+				g_all->ret[i] = '\0';
 				tputs(tgetstr("le",NULL), 1, ft_putc);
 				// tputs(tgetstr("dm",NULL), 1, ft_putc);
 				tputs(tgetstr("dc",NULL), 1, ft_putc);
@@ -112,26 +111,26 @@ char *termcap_khedma(t_history *history)
 			// 	write(1, tmp->data, strlen(tmp->data));
 			// 	if (tmp->prev != NULL)
 			// 		tmp = tmp->prev;
-			// 	ret = tmp->data;
+			// 	g_all->ret = tmp->data;
 			// }
 			if (h_tmp && h_tmp->next)
 			{
 				h_tmp = h_tmp->next;
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, h_tmp->cmd, strlen(h_tmp->cmd));
-				free(ret);
-				ret = ft_strdup(h_tmp->cmd);
+				free(g_all->ret);
+				g_all->ret = ft_strdup(h_tmp->cmd);
 			}
 			else
 			{
-				free(ret);
-				ret = ft_strdup("");
+				free(g_all->ret);
+				g_all->ret = ft_strdup("");
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, "", 1);
 			}
 
 		// 	// else
-		// 	// 	ret[0] = 0;
+		// 	// 	g_all->ret[0] = 0;
 		// 	// s = tgoto(tgetstr("ch", NULL), 0 ,0);
 		// 	// write(1, s, strlen(s)); 
 		// 	// s = tgetstr("dl", NULL); //Get the string entry id 'ce' means clear from the cursor to the end of the current line.
@@ -146,8 +145,8 @@ char *termcap_khedma(t_history *history)
 			{
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, h_tmp->cmd, strlen(h_tmp->cmd));
-				free(ret);
-				ret = ft_strdup(h_tmp->cmd);
+				free(g_all->ret);
+				g_all->ret = ft_strdup(h_tmp->cmd);
 				h_tmp = h_tmp->preview;
 			}
 			else
@@ -156,8 +155,8 @@ char *termcap_khedma(t_history *history)
 				if (h_tmp->cmd)
 				{
 					write(1, h_tmp->cmd, strlen(h_tmp->cmd));
-					free(ret);
-					ret = ft_strdup(h_tmp->cmd);
+					free(g_all->ret);
+					g_all->ret = ft_strdup(h_tmp->cmd);
 				}
 			}
 
@@ -169,26 +168,26 @@ char *termcap_khedma(t_history *history)
 			// 	write(1, tmp->data, strlen(tmp->data));
 			// 	if(tmp->next != NULL)
 			// 		tmp = tmp->next;
-			// 	ret = tmp->data;
+			// 	g_all->ret = tmp->data;
 			// }
 			// if (tmp)
 			// 	{
 			// 		if (!tmp->prev && !help)
 			// 		{
-			// 			ret = (char*)tmp->data;
+			// 			g_all->ret = (char*)tmp->data;
 			// 			help = 1;
 			// 		}
 			// 		else
 			// 		{
 			// 			if(tmp->next)
 			// 				tmp = tmp->next;
-			// 			ret = (char*)tmp->data;		
+			// 			g_all->ret = (char*)tmp->data;		
 			// 		}
 			// 		write(1, tmp->data, strlen(tmp->data));
 			// 	}
 			// else 
 			// {
-			// 	ret[0] = 0;
+			// 	g_all->ret[0] = 0;
 			// }
 			// t_stack *tmp;
 			// tmp = head;
@@ -204,7 +203,7 @@ char *termcap_khedma(t_history *history)
 			// tputs(tgetstr("dl",NULL), 1, ft_putc);
 			
 			write(1,"\n",1);
-			if(ret[0] == 0)
+			if(g_all->ret[0] == 0)
 			{
 				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 			}
@@ -213,30 +212,30 @@ char *termcap_khedma(t_history *history)
 			// s = tgetstr("dl", NULL); //Get the string entry id 'ce' means clear from the cursor to the end of the current line.
 			// write(1, s, strlen(s)); // execute the string entry id
 				// fprintf(stderr, "Else made it here");
-			if (ret[0] != 0)
+			if (g_all->ret[0] != 0)
 			{
-			// 	// head->data = ret;
+			// 	// head->data = g_all->ret;
 			// 	// head->next = (t_stack *) malloc(sizeof(t_stack));
 			// 	// head->next->next = NULL;
 			// 	// head->next->prev = head;
 			// 	// head = head->next;
 			// 	// tmp = head;
-			// 	// lstadd_dlist(&head, lstnewc(ret)); //hna
+			// 	// lstadd_dlist(&head, lstnewc(g_all->ret)); //hna
 			// 	// fprintf(stderr, "%s", tmp);
 			// 	// tmp = head;//hna
 			// 	// printf("%s\n",tmp->data);
 					if (history->cmd == NULL)
 					{
-						history->cmd = ft_strdup(ret);
+						history->cmd = ft_strdup(g_all->ret);
 					}
 					else
 					{
 						h_tmp = history;
-						history->next = new_commnd(ret);
+						history->next = new_commnd(g_all->ret);
 						history = history->next;
 						history->preview = h_tmp;
 					}
-			return (ret);
+			return (g_all->ret);
 			}
 
 		// 	// if (help == 0)

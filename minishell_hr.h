@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/06 16:51:45 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/07 17:02:57 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ typedef struct		s_env
 	char *save;
 }					t_env;
 
+typedef struct		s_commandg
+{
+			char* line;
+			char *ret;
+}					t_commandg;
+
+t_commandg *g_all;
 
 int redir_fd_in;
 int redir_fd;
@@ -108,7 +115,11 @@ char    *ft_strjoinchar(char *s, char c);
 int             get_char();
 char *termcap_khedma(t_history *history);
 t_history	*new_commnd(char *cmd);
+t_filerdr *last_name_func(t_commands *tmp);
 void command_c(int signum);
+int output_ret(t_commands *tmp);
+int input_ret(t_commands *tmp);
+int check_two_red(t_commands *tmp);
 char *g_cmds;
 int pid;
 int fuck;
