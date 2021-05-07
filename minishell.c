@@ -282,9 +282,9 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 	{
 		t_filerdr *lastnamef = last_name_func(tmp);
 		if(!lastnamef)
-			exit(1);
+			return ;
 		if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
-			exit(1);
+			return ;
 		if(lastnamef->type == 0)
 		{
 			fd_in = open(lastnamef->name, O_RDONLY);
