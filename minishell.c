@@ -838,16 +838,17 @@ void command_echo(t_commands *tmp)
 
 void command_c(int signum)
 {
-	// if(fuck != 0)
+	// if(g_all->ctrl_c != 0)
 	// write(1, "\b\b  ", 4);
+	g_all->staus_code = 1;
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
 	if(g_all->ret)
 	{
 		free(g_all->ret);
-		g_all->ret = ft_strdup("");
+		g_all->ret = NULL;
 	}
-	// fuck = 1;
+	g_all->ctrl_c = 1;
 }
 
 void command_in_the_sys(t_commands *tmp, char **envp)
@@ -880,9 +881,11 @@ void command_in_the_sys(t_commands *tmp, char **envp)
 		} 
 		else 
 		{
-			waitpid(pid, &stat_loc, WUNTRACED);
-			if(stat_loc == 256)
-				stat_loc = 1;
+			waitpid(pid, &g_all->staus_code, 0);
+			if (WIFSIGNALED(g_all->staus_code))
+        		g_all->staus_code = WTERMSIG(g_all->staus_code) + 128;
+    		else
+        		g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
 		}
 }
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
@@ -958,6 +961,7 @@ int check_permissions(char *path_file, struct stat stats, int exute)
 	}
 	return 0;
 }
+
 int check_file_or_dit(char *path_file)
 {
 	DIR *dir;
@@ -1357,8 +1361,11 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 		}
 		tmp = tmp->next_p;
 	}
-	while (wait(&status) > 0);
-
+	while (wait(&g_all->staus_code) > 0);
+	if (WIFSIGNALED(g_all->staus_code))
+        g_all->staus_code = WTERMSIG(g_all->staus_code) + 128;
+    else
+        g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
 }
 
 /*void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
@@ -1616,28 +1623,25 @@ int main(int argc, char **argv, char **envp)
 	evp->save = search_in_env2("HOME", evp->my_env);
 	tgetent(NULL, getenv("TERM"));
 	//add SHLVL + 1
-	fuck = 0;
+	g_all->ctrl_c = 0;
     history = new_commnd(NULL);
 	while (1)
 	{
 		// int asd = 0;
 		signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
-		// if (fuck == 0)
-		// {
+		if (g_all->ctrl_c == 0)
+		{
 			write(1, "\033[0;33mNull37$\033[0m ", 19);
-		// 	fuck = 1;
-		// }
+			g_all->ctrl_c = 1;
+		}
 		ptr = getcwd(buf, 1024);
 		if(ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
 		// ft_bzero(line, 1024);
 		// readinput = read(0, line, 1024);
-		free(g_all->line);
-		g_all->line = NULL;
-		g_all->line = termcap_khedma(history);
-			
-		
+
+		termcap_khedma(history);
 		// if (!history)
 		// 	history = new_commnd(line);
 		// else
@@ -1647,7 +1651,7 @@ int main(int argc, char **argv, char **envp)
 		// 	history = history->next;
 		// 	history->preview = h_tmp;
 		// }
-		// fuck = 0;
+		g_all->ctrl_c = 0;
 		// if(readinput == 0)
 		// 	command_exit_ctr_d();
 		// if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
@@ -1655,10 +1659,14 @@ int main(int argc, char **argv, char **envp)
 		// 	if (ft_strchr(line, '\n'))
 		// 		*ft_strchr(line, '\n') = '\0';
 		// }
-		if(check_syntax_rederction(g_all->line) == -1)
+		if(check_syntax_rederction(g_all->ret) == -1)
 			continue;
-		g_commands = parssing_shell(ptr, evp ,g_all->line);
-
+		g_commands = parssing_shell(ptr, evp ,g_all->ret);
+		if (g_all->ret)
+		{
+			free(g_all->ret);
+			g_all->ret = NULL;
+		}
 		// if(g_commands->multiple == 1)
 		// 	continue;
 		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)

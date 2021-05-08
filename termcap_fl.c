@@ -5,6 +5,14 @@ char    *ft_strjoinchar(char *s, char c)
 	int        i;
 	char    *str;
 	i = 0;
+	if(s == NULL)
+	{
+		if (!(str = (char *)malloc(2)))
+			return (0);
+		str[0] = c;
+		str[1] = '\0';
+		return (str);
+	}
 	while (s[i])
 		i++;
 	if (!(str = (char *)malloc(i + 2)))
@@ -205,7 +213,7 @@ char *termcap_khedma(t_history *history)
 			write(1,"\n",1);
 			if(g_all->ret[0] == 0)
 			{
-				//write(1, "\033[0;33mNull37$\033[0m ", 19);
+				write(1, "\033[0;33mNull37$\033[0m ", 19);
 			}
 			// s = tgetstr("ch", NULL);
 			// write(1, s, strlen(s)); 

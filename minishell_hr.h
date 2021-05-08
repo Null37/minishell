@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/07 17:02:57 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/08 16:50:02 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct		s_env
 typedef struct		s_commandg
 {
 			char* line;
+			int staus_code;
+			int ctrl_c;
 			char *ret;
 }					t_commandg;
 

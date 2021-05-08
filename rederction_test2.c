@@ -186,6 +186,7 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 		}
@@ -195,6 +196,7 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 		}
@@ -205,6 +207,7 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 			if (av[i] != '\0')
