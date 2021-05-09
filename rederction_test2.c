@@ -138,6 +138,7 @@ int check_pipp_sy(char *s)
 			write(2, &s[i], 1);
 			write(2, "'", 1);
 			write(2, "\n", 1);
+			g_all->staus_code = 258;
 			//printf("bash: syntax error near unexpected token `%c'\n", s[i]);
 			return -1;
 		}
@@ -218,7 +219,8 @@ int  check_syntax_rederction(char *av)
 			r = check_rdr(av, i);
 			if(check_syntax_number(av, i, r) == -1)
 			{
-				write(2, "errr\n", 5);
+				write(2, "minishell: not in subject\n", 26);
+				g_all->staus_code = 1;
 				return -1;
 			}
 			if ((i = check_fname(r, av, i))== -1)
@@ -228,6 +230,7 @@ int  check_syntax_rederction(char *av)
 				// printf("not in subject");
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 		}
@@ -239,6 +242,7 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 		}
@@ -250,10 +254,10 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
+				g_all->staus_code = 1;
 				return -1;
 			}
 		}
-
 	}
 	return (0);
 }

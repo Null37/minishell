@@ -859,6 +859,8 @@ void command_in_the_sys(t_commands *tmp, char **envp)
 	char *error;
 	pid = 0;
 	pid = fork();
+	g_all->ctrl_quit = 1;
+	g_all->type = tmp->type;
 	//g_commands->pid = pid;
 		if (pid == 0) 
 		{
@@ -1287,6 +1289,7 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 		{
 			write_fd = dup( 1);
 		}
+		g_all->ctrl_quit = 1;
 		if (fork() == 0)
 		{
 			if(tmp != NULL && tmp->filerdr == NULL)
@@ -1591,9 +1594,12 @@ char **edit_envp_old_pwd(char **envp_c)
 }
 void cntrol_quit(int quit)
 {
-	write(2, "Quit: ", 7);
-	ft_putnbr_fd(quit, 2);
-	write(2, "\n", 1);
+	if(g_all->ctrl_quit == 1 && ft_strncmp(g_all->type, "read", 6) != 0)
+	{
+		write(2, "Quit: ", 7);
+		ft_putnbr_fd(quit, 2);
+		write(2, "\n", 1);
+	}
 }
 
 
@@ -1624,6 +1630,8 @@ int main(int argc, char **argv, char **envp)
 	tgetent(NULL, getenv("TERM"));
 	//add SHLVL + 1
 	g_all->ctrl_c = 0;
+	g_all->ctrl_quit = 0;
+	g_all->staus_code = 0;
     history = new_commnd(NULL);
 	while (1)
 	{
@@ -1662,6 +1670,7 @@ int main(int argc, char **argv, char **envp)
 		if(check_syntax_rederction(g_all->ret) == -1)
 			continue;
 		g_commands = parssing_shell(ptr, evp ,g_all->ret);
+		g_all->ctrl_quit = 0;
 		if (g_all->ret)
 		{
 			free(g_all->ret);

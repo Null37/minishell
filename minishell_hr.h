@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/08 16:50:02 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/09 16:15:06 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct		s_commandg
 			int staus_code;
 			int ctrl_c;
 			char *ret;
+			int ctrl_quit;
+			char *type;
 }					t_commandg;
 
 t_commandg *g_all;
