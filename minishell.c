@@ -44,20 +44,6 @@ char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
 	return (envp_c);
 }
 
-t_history	*new_commnd(char *cmd)
-{
-	t_history *h;
-
-	h = malloc(sizeof(t_history));
-	if (!cmd)
-		h->cmd = NULL;
-	else
-		h->cmd = ft_strdup(cmd);
-	h->next = NULL;
-	h->preview = NULL;
-	return (h);
-}
-
 void command_cd(char *ptr, t_commands *tmp, t_env *evp)
 {
 	int eee;
@@ -111,24 +97,6 @@ void command_cd(char *ptr, t_commands *tmp, t_env *evp)
 		char *ee = strerror(errno);
 		write(2, ee, strlen(ee));
 		write(2, "\n", 1);
-	}
-}
-
-void command_pwd(char *ptr, t_env *evp)
-{
-
-	char *ech;
-
-	if (ptr != NULL)
-	{
-		write(1, ptr, strlen(ptr));
-		write(1, "\n", 1);
-	}
-	else 
-	{
-		ptr = search_in_env2("PWD", evp->my_env);
-		write(1, ptr, strlen(ptr));
-		write(1, "\n", 1);
 	}
 }
 
@@ -209,19 +177,7 @@ int is_equl(int i, char **envp)
 	}
 	return 0;
 }
-void command_env(char **envp)
-{
-	int i = 0;
-	while (envp[i] != NULL)
-	{
-		if(is_equl(i, envp) == 1)
-		{
-			write(1, envp[i], ft_strlen(envp[i]));
-			write(1, "\n", 1);
-		}
-		i++;
-	}
-}
+
 
 int len_of_args(char **args)
 {
@@ -816,25 +772,6 @@ void big_putchar()
 	}
 }
 
-void command_echo(t_commands *tmp)
-{
-	int o = count_arg_2(tmp);
-	int i = 0;
-	if(o == 0 && tmp->option == 0)
-		write(1, "\n", 1);
-	else if (o > 0)
-	{
-		while(tmp->arguments[i] != NULL)
-		{
-			ft_putchar(tmp->arguments[i]);
-			if (o > 1)
-				write(1, " ", 1);
-			i++;
-		}
-	}
-	if(tmp->option == 0)
-		write(1, "\n", 1);
-}
 
 void command_c(int signum)
 {
@@ -850,46 +787,56 @@ void command_c(int signum)
 	}
 	g_all->ctrl_c = 1;
 }
-
-void command_in_the_sys(t_commands *tmp, char **envp)
+void	error_execve(t_commands *tmp)
 {
-	// int pid;
-	//char* argv[] = {"ls","-la",NULL};
-	int stat_loc;
-	char *error;
-	pid = 0;
-	pid = fork();
-	g_all->ctrl_quit = 1;
-	g_all->type = tmp->type;
-	//g_commands->pid = pid;
-		if (pid == 0) 
-		{
-			/* Never returns if the call is successful */
-			if (yesdup == 1)
-			{
-				dup2(redir_fd, 1);
-				dup2(redir_fd_in, 0);
-			}
-			if(execve(tmp->path, tmp->all, envp) < 0)
-			{
-				error = strerror(errno);
-				write(2, "minishell: ", 11);
-				write(2, tmp->type, ft_strlen(tmp->type));
-				write(2, ": ", 2);
-				write(2, error, ft_strlen(error));
-				write(2, "\n", 1);
-				exit(-1);
-			}
-		} 
-		else 
-		{
-			waitpid(pid, &g_all->staus_code, 0);
-			if (WIFSIGNALED(g_all->staus_code))
-        		g_all->staus_code = WTERMSIG(g_all->staus_code) + 128;
-    		else
-        		g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
-		}
+	char	*error;
+
+	error = strerror(errno);
+	write(2, "minishell: ", 11);
+	write(2, tmp->type, ft_strlen(tmp->type));
+	write(2, ": ", 2);
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
 }
+// void command_in_the_sys(t_commands *tmp, char **envp)
+// {
+// 	// int pid;
+// 	//char* argv[] = {"ls","-la",NULL};
+// 	int stat_loc;
+// 	char *error;
+// 	pid = 0;
+// 	pid = fork();
+// 	g_all->ctrl_quit = 1;
+// 	g_all->type = tmp->type;
+// 	//g_commands->pid = pid;
+// 		if (pid == 0) 
+// 		{
+// 			/* Never returns if the call is successful */
+// 			if (yesdup == 1)
+// 			{
+// 				dup2(redir_fd, 1);
+// 				dup2(redir_fd_in, 0);
+// 			}
+// 			if(execve(tmp->path, tmp->all, envp) < 0)
+// 			{
+// 				error = strerror(errno);
+// 				write(2, "minishell: ", 11);
+// 				write(2, tmp->type, ft_strlen(tmp->type));
+// 				write(2, ": ", 2);
+// 				write(2, error, ft_strlen(error));
+// 				write(2, "\n", 1);
+// 				exit(-1);
+// 			}
+// 		} 
+// 		else 
+// 		{
+// 			waitpid(pid, &g_all->staus_code, 0);
+// 			if (WIFSIGNALED(g_all->staus_code))
+//         		g_all->staus_code = WTERMSIG(g_all->staus_code) + 128;
+//     		else
+//         		g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
+// 		}
+// }
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
 	// t_commands *tmp;

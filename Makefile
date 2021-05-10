@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/04/07 18:44:25 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/09 17:01:56 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 FLAGS =  -lcurses -fsanitize=address
 
-SRC = minishell.c parsing.c algo_sort.c rederction_test2.c termcap_fl.c
+SRC = minishell.c parsing.c algo_sort.c rederction_test2.c termcap_fl.c execute/funct_file.c
 
 CC = gcc
 

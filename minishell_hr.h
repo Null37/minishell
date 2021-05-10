@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/09 16:15:06 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/09 17:20:24 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ void command_c(int signum);
 int output_ret(t_commands *tmp);
 int input_ret(t_commands *tmp);
 int check_two_red(t_commands *tmp);
+int is_equl(int i, char **envp);
+int count_arg_2(t_commands *tmp);
+void ft_putchar(char *str);
+void command_in_the_sys(t_commands *tmp, char **envp);
+void	error_execve(t_commands *tmp);
 char *g_cmds;
 int pid;
 int fuck;
