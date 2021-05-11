@@ -194,32 +194,33 @@ int len_of_args(char **args)
 
 void ok_write(char **my_env, int i, int j)
 {
-	int b = 0;
-	j = 0;
-	write(1, "declare -x ", 11);
-	while (my_env[i][j])
-	{
-		if(my_env[i][j] == '=')
-		{
-			write(1, "=", 1);
-			b = 1;
-			write(1, "\"", 1);
-			j++;
-			break;
-		}
-		else
-			write(1, &my_env[i][j], 1);
-		j++;
-		
-	}
-	while (my_env[i][j])
-	{
-		write(1, &my_env[i][j], 1);
-		j++;
-	}
-	if (b == 1)
-		write(1, "\"", 1);
-	write(1, "\n", 1);
+    int b = 0;
+    j = 0;
+    write(1, "declare -x ", 11);
+    while (my_env[i][j])
+    {
+        if(my_env[i][j] == '=')
+        {
+            write(1, "=", 1);
+            b = 1;
+            write(1, "\"", 1);
+            j++;
+            break;
+        }
+        else
+            write(1, &my_env[i][j], 1);
+        j++;
+    }
+    while (my_env[i][j])
+    {
+        if (my_env[i][j] == '\\' || my_env[i][j] == '$')
+            write(1, "\\", 1);
+        write(1, &my_env[i][j], 1);
+        j++;
+    }
+    if (b == 1)
+        write(1, "\"", 1);
+    write(1, "\n", 1);
 }
 
 

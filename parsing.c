@@ -631,6 +631,19 @@ char		*deleterdr(char *command)
 	return (comd);
 }
 
+int check_echo_n(char *s)
+{
+	int i = 0,b = 0;
+	if (s[i] != '-')
+		return (1);
+	while (s[++i])
+	{
+		if (s[i] != 'n')
+			return (1);
+	}
+	return (0);
+}
+
 void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 {
 	int i;
@@ -681,7 +694,7 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 				str = deletecoats(envp, str);
 				if (str)
 				{
-					if (b == 1 || my_strcmp(str, "-n") == 1)
+					if (b == 1 || my_strcmp(commands->type, "echo") == 1 || (my_strcmp(commands->type, "echo") == 0 && check_echo_n(str) == 1))
 					{
 						commands->arguments[k] = str;
 						k++;

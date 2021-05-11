@@ -73,7 +73,7 @@ char *termcap_khedma(t_history *history)
 
 
 	h_tmp = history;
-
+	g_all->line = NULL;
 	g_all->ret = malloc(1 * sizeof(char));
 	g_all->ret[0] = '\0';
 	while(1)
@@ -90,6 +90,8 @@ char *termcap_khedma(t_history *history)
 		else if (d >= 32 && d < 127)
 		{
 			g_all->ret = ft_strjoinchar(g_all->ret, d);
+			free(g_all->line);
+			g_all->line = ft_strdup(g_all->ret);
 			write(1, &d ,1);
 		}
 		else if (d == KEY_REMOVE)//delete
@@ -97,9 +99,9 @@ char *termcap_khedma(t_history *history)
 			int i;
 
 			i = 0;
-			if (strlen(g_all->ret) > 0)
+			if (ft_strlen(g_all->ret) > 0)
 			{
-				while (i < (strlen(g_all->ret) - 1))
+				while (i < (ft_strlen(g_all->ret) - 1))
 					i++;
 				g_all->ret[i] = '\0';
 				tputs(tgetstr("le",NULL), 1, ft_putc);
@@ -121,20 +123,28 @@ char *termcap_khedma(t_history *history)
 			// 		tmp = tmp->prev;
 			// 	g_all->ret = tmp->data;
 			// }
+
 			if (h_tmp && h_tmp->next)
 			{
 				h_tmp = h_tmp->next;
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
-				write(1, h_tmp->cmd, strlen(h_tmp->cmd));
+				write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));
 				free(g_all->ret);
 				g_all->ret = ft_strdup(h_tmp->cmd);
 			}
 			else
 			{
 				free(g_all->ret);
-				g_all->ret = ft_strdup("");
+				if (g_all->line)
+				{
+					g_all->ret = ft_strdup(g_all->line);
+				}
+				else
+				{
+					g_all->ret = ft_strdup("");
+				}
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
-				write(1, "", 1);
+				write(1, g_all->ret, ft_strlen(g_all->ret));
 			}
 
 		// 	// else
@@ -146,23 +156,27 @@ char *termcap_khedma(t_history *history)
 		}
 		else if (d == KEY_UP)
 		{
+			if (history->cmd == NULL && g_all->line && !h_tmp->preview)
+			{
+				continue ;
+			}
 			tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_putc);
 			tputs(tgetstr("dl",NULL), 1, ft_putc);
 
 			if (h_tmp && h_tmp->preview)
 			{
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
-				write(1, h_tmp->cmd, strlen(h_tmp->cmd));
+				write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));
 				free(g_all->ret);
 				g_all->ret = ft_strdup(h_tmp->cmd);
 				h_tmp = h_tmp->preview;
 			}
-			else
+			else if (!h_tmp->preview)
 			{
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
 				if (h_tmp->cmd)
 				{
-					write(1, h_tmp->cmd, strlen(h_tmp->cmd));
+					write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));
 					free(g_all->ret);
 					g_all->ret = ft_strdup(h_tmp->cmd);
 				}
@@ -209,7 +223,8 @@ char *termcap_khedma(t_history *history)
 		{
 			// tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_putc);
 			// tputs(tgetstr("dl",NULL), 1, ft_putc);
-			
+			free(g_all->line);
+			g_all->line = NULL;
 			write(1,"\n",1);
 			if(g_all->ret[0] == 0)
 			{
@@ -232,17 +247,17 @@ char *termcap_khedma(t_history *history)
 			// 	// fprintf(stderr, "%s", tmp);
 			// 	// tmp = head;//hna
 			// 	// printf("%s\n",tmp->data);
-					if (history->cmd == NULL)
-					{
-						history->cmd = ft_strdup(g_all->ret);
-					}
-					else
-					{
-						h_tmp = history;
-						history->next = new_commnd(g_all->ret);
-						history = history->next;
-						history->preview = h_tmp;
-					}
+			if (history->cmd == NULL)
+			{
+				history->cmd = ft_strdup(g_all->ret);
+			}
+			else
+			{
+				h_tmp = history;
+				history->next = new_commnd(g_all->ret);
+				history = history->next;
+				history->preview = h_tmp;
+			}
 			return (g_all->ret);
 			}
 
