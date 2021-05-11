@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/09 17:20:24 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/11 14:14:45 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int count_arg_2(t_commands *tmp);
 void ft_putchar(char *str);
 void command_in_the_sys(t_commands *tmp, char **envp);
 void	error_execve(t_commands *tmp);
+char **edit_evp_new_oldpwd(char *ptr, char **envp_c);
+char	**edit_envp_shlvl(char **envp_c);
 char *g_cmds;
 int pid;
 int fuck;

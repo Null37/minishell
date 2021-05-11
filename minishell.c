@@ -44,61 +44,61 @@ char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
 	return (envp_c);
 }
 
-void command_cd(char *ptr, t_commands *tmp, t_env *evp)
-{
-	int eee;
-	char *home;
-	char *oldpwd;
-	// write(1, "\033[0;32m", 8);
-	if(ptr != NULL)
-		evp->my_env = edit_evp_new_oldpwd(ptr, evp->my_env);
-	if(ptr == NULL && ft_strncmp(tmp->arguments[0], ".", 2) == 0)
-	{
-		ptr = search_in_env2("PWD", evp->my_env);
-		oldpwd = ft_strdup(ptr);
-		ptr = ft_strjoin1(ptr, "/.");
-		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
-		evp->my_env = edit_envp_pwd(ptr, evp->my_env);
-		write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
-	}
-	else if(tmp->arguments[0] == NULL)
-	{
-		home = search_in_env2("HOME", evp->my_env);
-		eee = chdir(home);
-		if(ft_strncmp(home, "", 1) == 0)
-		{
-			write(2, "minishell: cd: HOME not set\n", 28);
-			return;
-		}
-	}
-	else if(ft_strncmp(tmp->arguments[0], "~", 2) == 0)
-	{
-		home = search_in_env2("HOME", evp->my_env);
-		if(ft_strncmp(home, "", 1) == 0)
-		{
-			chdir(evp->save);
-		}
-		else
-			eee = chdir(home);
-	}
-	else 
-	{
-		eee = chdir(tmp->arguments[0]);
-	}
-	if (eee == -1)
-	{
-		write(2, "Minishell: ", 11);
-		write(2, "cd: ", 4);
-		if(tmp->arguments[0] != NULL)
-			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
-		else 
-			write(2, home, ft_strlen(home));
-		write(2, ": ", 2);
-		char *ee = strerror(errno);
-		write(2, ee, strlen(ee));
-		write(2, "\n", 1);
-	}
-}
+// void command_cd(char *ptr, t_commands *tmp, t_env *evp)
+// {
+// 	int eee;
+// 	char *home;
+// 	char *oldpwd;
+// 	// write(1, "\033[0;32m", 8);
+// 	if(ptr != NULL)
+// 		evp->my_env = edit_evp_new_oldpwd(ptr, evp->my_env);
+// 	if(ptr == NULL && ft_strncmp(tmp->arguments[0], ".", 2) == 0)
+// 	{
+// 		ptr = search_in_env2("PWD", evp->my_env);
+// 		oldpwd = ft_strdup(ptr);
+// 		ptr = ft_strjoin1(ptr, "/.");
+// 		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
+// 		evp->my_env = edit_envp_pwd(ptr, evp->my_env);
+// 		write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
+// 	}
+// 	else if(tmp->arguments[0] == NULL)
+// 	{
+// 		home = search_in_env2("HOME", evp->my_env);
+// 		eee = chdir(home);
+// 		if(ft_strncmp(home, "", 1) == 0)
+// 		{
+// 			write(2, "minishell: cd: HOME not set\n", 28);
+// 			return;
+// 		}
+// 	}
+// 	else if(ft_strncmp(tmp->arguments[0], "~", 2) == 0)
+// 	{
+// 		home = search_in_env2("HOME", evp->my_env);
+// 		if(ft_strncmp(home, "", 1) == 0)
+// 		{
+// 			chdir(evp->save);
+// 		}
+// 		else
+// 			eee = chdir(home);
+// 	}
+// 	else 
+// 	{
+// 		eee = chdir(tmp->arguments[0]);
+// 	}
+// 	if (eee == -1)
+// 	{
+// 		write(2, "Minishell: ", 11);
+// 		write(2, "cd: ", 4);
+// 		if(tmp->arguments[0] != NULL)
+// 			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
+// 		else 
+// 			write(2, home, ft_strlen(home));
+// 		write(2, ": ", 2);
+// 		char *ee = strerror(errno);
+// 		write(2, ee, strlen(ee));
+// 		write(2, "\n", 1);
+// 	}
+// }
 
 void ft_putchar(char *str)
 {
@@ -556,19 +556,6 @@ int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 	return 0;
 }
 
-char **copy_envp(char **envp_l)
-{
-	char **tmpr;
-	int lenp = len_of_args(envp_l);
-	tmpr = malloc(sizeof(char*) * (lenp + 1));
-	tmpr[lenp] = NULL;
-	int z = -1;
-	while (envp_l[++z])
-	{
-		tmpr[z] = ft_strdup(envp_l[z]);
-	}
-	return(tmpr);
-}
 
 int count_arg_2(t_commands *tmp)
 {
@@ -649,6 +636,7 @@ void check_syntax(t_commands *tmp,int k, int lenarg, char e_u)
 	}
 
 }
+
 int my_strcmp(char *s1, char *s2)
 {
   int i;
@@ -664,27 +652,6 @@ int my_strcmp(char *s1, char *s2)
 	  break ;
   }
   return (0);
-}
-
-char *get_env_name(char *envp)
-{
-	int b = 0;
-	int c = 0;
-
-	while(envp[b])
-	{
-		if(envp[b] == '=')
-			break;
-		b++;
-	}
-	char *varibale = malloc(sizeof(char) * b + 1);
-	while(c != b)
-	{
-		varibale[c] = envp[c];
-		c++;
-	}
-	varibale[c] = '\0';
-	return (varibale);
 }
 
 char *search_in_env2(char *variable, char **envp)
@@ -787,6 +754,7 @@ void command_c(int signum)
 	}
 	g_all->ctrl_c = 1;
 }
+
 void	error_execve(t_commands *tmp)
 {
 	char	*error;
@@ -837,41 +805,33 @@ void	error_execve(t_commands *tmp)
 //         		g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
 // 		}
 // }
+
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
-	// t_commands *tmp;
-	// tmp = g_commands;
-	// while (1)
-	// {
-		//check_this_command(tmp,envp);
-		if(tmp->type == NULL && tmp->next)
-		{
-			write(2, "minishell: syntax error near unexpected token `;'", 49);
-			write(2, "\n", 1);
-			return -1;
-		}
-		else if (tmp->type == NULL && !tmp->next)
-			return 0;
-		if (ft_strncmp(tmp->type, "cd", 3) == 0)
-			command_cd(ptr,tmp, evp);
-		else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
-			command_pwd(ptr, evp);
-		else if (ft_strncmp(tmp->type, "exit", 5) == 0)
-			command_exit(tmp, 0);
-		else if (ft_strncmp(tmp->type, "env", 4) == 0)
-			command_env(evp->my_env);
-		else if (ft_strncmp(tmp->type, "export", 7) == 0)
-			command_export(tmp, evp);
-		else if(ft_strncmp(tmp->type, "unset", 6) == 0)
-			command_unset(tmp, evp);
-		else if(ft_strncmp(tmp->type, "echo", 6) == 0)
-			command_echo(tmp);
-		else
-			command_in_the_sys(tmp,evp->my_env);
-	// 	if (!tmp->next)
-	// 		break ;
-	// 	tmp = tmp->next;
-	// }
+	if(tmp->type == NULL && tmp->next)
+	{
+		write(2, "minishell: syntax error near unexpected token `;'", 49);
+		write(2, "\n", 1);
+		return -1;
+	}
+	else if (tmp->type == NULL && !tmp->next)
+		return 0;
+	if (ft_strncmp(tmp->type, "cd", 3) == 0)
+		command_cd(ptr,tmp, evp);
+	else if (ft_strncmp(tmp->type, "pwd", 4) == 0)
+		command_pwd(ptr, evp);
+	else if (ft_strncmp(tmp->type, "exit", 5) == 0)
+		command_exit(tmp, 0);
+	else if (ft_strncmp(tmp->type, "env", 4) == 0)
+		command_env(evp->my_env);
+	else if (ft_strncmp(tmp->type, "export", 7) == 0)
+		command_export(tmp, evp);
+	else if(ft_strncmp(tmp->type, "unset", 6) == 0)
+		command_unset(tmp, evp);
+	else if(ft_strncmp(tmp->type, "echo", 6) == 0)
+		command_echo(tmp);
+	else
+		command_in_the_sys(tmp,evp->my_env);
 	return 0;
 }
 
@@ -1064,8 +1024,7 @@ t_filerdr *last_name_func(t_commands *tmp)
 	head = tmp->filerdr;
 	char *err;
 	while (1)
-	{		
-
+	{
 		if (head->type == 0)
 		{
 			fd = open(head->name, O_RDONLY);
@@ -1425,44 +1384,6 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 	while (wait(&status) > 0);
 
 }*/
-char **edit_envp_shlvl(char **envp_c)
-{
-	char *sh= search_in_env2("SHLVL", envp_c);
-	int num = ft_atoi(sh);
-	char *newsh = ft_itoa(num + 1);
-	int lenp = len_of_args(envp_c);
-	int j;
-		int t;
-		int tee = 0;;
-	char *nameenv;
-		t = ft_strlen(newsh);
-		for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp_c[i]);
-			if (my_strcmp(nameenv, "SHLVL") == 0)
-			{
-				j = 0;
-				while (envp_c[i][j])
-				{
-					if(envp_c[i][j] == '=')
-					{
-						j += 1;
-						while(tee != t)
-						{
-							envp_c[i][j] = newsh[tee];
-							j++;
-							tee++;
-						}
-						envp_c[i][j] ='\0';
-						return (envp_c);
-					}
-					j++;
-				}
-			}
-		}
-		return (envp_c);
-}
-
 char **edit_envp_v(char **envp_c)
 {
 	char *v= "./minishell";
