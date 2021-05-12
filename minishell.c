@@ -814,19 +814,8 @@ void command_exit_ctr_d(void)
 	exit(EXIT_SUCCESS);
 }
 
-// int syntax(char ch, int i)
-// {
-// 	if((ft_isalpha(ch) == 1 && i == 0) || (ch == '_' && i == 0))
-// 		return 1;
-// 	else if(ft_isalpha(ch) == 1 || ft_isdigit(ch) == 1)
-// 		return 1;
-// 	return 0;
-// }
-
 int check_permissions(char *path_file, struct stat stats, int exute)
 {
-	// File permissions
-	// fprintf(stderr,"File access: ");
 	if ((stats.st_mode & R_OK) && (stats.st_mode & W_OK) && exute == 0)
 	   return 1;
 	else if((stats.st_mode & X_OK) && exute == 1)
@@ -885,89 +874,7 @@ void print_error_check_commd(t_commands *tmp)
 	write(2, "\n", 1);
 }
 
-int check_this_command(t_commands *tmp,t_env *evp)
-{
-	char *path;
-	if(tmp->type == NULL)
-		return -1;
-	char **command_path;
-	int o;
-	int fs;
-	int i;
-	int fd;
-	char *erna;
-	if (my_strcmp("exit", tmp->type) == 0 || my_strcmp("export", tmp->type) == 0
-	|| my_strcmp("unset", tmp->type) == 0 || my_strcmp("cd", tmp->type) == 0 
-	|| my_strcmp("echo", tmp->type) == 0 || my_strcmp("pwd", tmp->type) == 0)
-		return 2;
-	path = search_in_env2("PATH", evp->my_env);
-	if(ft_strncmp(path, "", 1) == 0)
-	{
-		if(check_if_command_is_exist(tmp->type, 1) != 3) 
-		{
-			tmp->path = tmp->type;
-			return 2;
-		}
-		// else
-		// {
-		// 	erna = strerror(errno);
-		// 	write(2, "minishell: ", 11);
-		// 	write(2, tmp->type, ft_strlen(tmp->type));
-		// 	write(2,": ", 2);
-		// 	write(2, erna, ft_strlen(erna));
-		// 	write(2, "\n", 1);
-		// 	return 0;
-		// }
-	}
-	if(ft_strncmp(tmp->type, "./", 2) == 0 || ft_strncmp(tmp->type, "../", 3) == 0)
-	{
-		if(check_if_command_is_exist(tmp->type, 1) == 3)
-			return 0;
-		tmp->path = tmp->type;
-		return 2;
-	}
-	command_path =  ft_split(path, ':');
-	o = len_of_args(command_path);
-	i = 0;
-	//check_if_command_is_exist(tmp->type, 1);
-	while(i != o)
-	{
-		if(ft_strncmp(tmp->type, "/", 1) != 0)
-		{
-			command_path[i] = ft_strjoin(command_path[i], "/");
-			command_path[i] = ft_strjoin(command_path[i], tmp->type);
-			fs = check_if_command_is_exist(command_path[i], 1);
-		}
-		else if(ft_strncmp(tmp->type, "/", 1) ==0)
-		{
-			fs = check_if_command_is_exist(tmp->type, 1);
-			if(fs == 0)
-			{
-				tmp->path = tmp->type;
-				return 2;
-			}
-			else if (fs == -1 &&  i == o - 1)
-			{
-				print_error_check_commd(tmp);
-				return 0;
-			}
-		}
-		if (fs == 0)
-		{
-			tmp->path = command_path[i];
-			return 2;
-		}
-		else if (fs == -1 &&  i == o - 1)
-		{
-			write(1, "minishell: ", 11);
-			write(1, tmp->type, ft_strlen(tmp->type));
-			write(1,": ", 2);
-			write(1, "command not found\n", 18);
-		}
-		i++;
-	}
-	return 0;
-}
+
 
 void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 {

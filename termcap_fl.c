@@ -263,7 +263,6 @@ char *termcap_khedma(t_history *history)
 
 		// 	// if (help == 0)
 		// 		ret = "";
-
 		// 	// tmp = head->next;
 		// 	// tmp->prev = head;
 		// 	// tmp->next = NULL;
