@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 16:23:09 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:38:17 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ int check_this_command(t_commands *tmp,t_env *evp)
 		}
 		else if (fs == -1 &&  i == o - 1)
 		{
-			write(1, "minishell: ", 11);
-			write(1, tmp->type, ft_strlen(tmp->type));
-			write(1,": ", 2);
-			write(1, "command not found\n", 18);
+			write(2, "minishell: ", 11);
+			write(2, tmp->type, ft_strlen(tmp->type));
+			write(2,": ", 2);
+			write(2, "command not found\n", 18);
+			g_all->staus_code = 127;
 		}
 		i++;
 	}

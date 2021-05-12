@@ -54,6 +54,7 @@ void command_env(char **envp)
         printf("%s\n", envp[i]);
         i++;
     }
+	g_all->status_code = 0;
 }
 
 int len_of_args(char **args)

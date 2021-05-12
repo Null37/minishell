@@ -579,6 +579,7 @@ void command_export(t_commands *tmp, t_env *evp)
 			k++;
 		}
 	}
+	g_all->staus_code = 0;
 }
 
 

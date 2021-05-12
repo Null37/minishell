@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/09 17:22:43 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:40:09 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	command_pwd(char *ptr, t_env *evp)
 		write(1, ptr, strlen(ptr));
 		write(1, "\n", 1);
 	}
+	g_all->staus_code = 0;
 }
 
 void	command_env(char **envp)
@@ -80,6 +81,7 @@ void	command_echo(t_commands *tmp)
 	}
 	if (tmp->option == 0)
 		write(1, "\n", 1);
+	g_all->staus_code = 0;
 }
 
 void	command_in_the_sys(t_commands *tmp, char **envp)

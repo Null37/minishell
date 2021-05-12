@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 14:26:27 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:39:59 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	command_cd(char *ptr, t_commands *tmp, t_env *evp)
 		write(2, ee, strlen(ee));
 		write(2, "\n", 1);
 	}
+	g_all->staus_code = 0;
 }
