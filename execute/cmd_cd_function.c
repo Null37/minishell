@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/11 13:24:57 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/12 14:26:27 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	command_cd(char *ptr, t_commands *tmp, t_env *evp)
 		return ;
 	if (eee == -1)
 	{
+		g_all->staus_code = 0;
 		write(2, "Minishell: ", 11);
 		write(2, "cd: ", 4);
 		if (tmp->arguments[0] != NULL)

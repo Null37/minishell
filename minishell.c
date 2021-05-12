@@ -155,13 +155,13 @@ void command_exit(t_commands *tmp, int pipe)
 				ex = ft_atoi(tmp->arguments[0]);
 			free(tmp->arguments[0]);
 			tmp->arguments[0] = NULL;
-			//kill(tmp->pid, SIGKILL);
 			exit(ex);
 		}
 		else if (lenarg > 1)
 		{
 			write(2, "minishell: ", 11);
 			write(2, "too many arguments", 18);
+			g_all->staus_code = 1;
 			write(2, "\n", 1);	
 		}
 }
@@ -312,28 +312,6 @@ void add_double_quotes(char **my_env)
 	int j = 0;
 	int  hh = 0;
 	int  i = 0;
-	// while(exportp[i] != NULL)
-	// {
-	// 	j = 0;
-	// 	write(1, "declare -x ", 11);
-	// 	while(exportp[i][j])
-	// 	{
-	// 		if(exportp[i][j] == '=')
-	// 		{
-	// 			write(1, "=", 1);
-	// 			write(1, "\"", 1);
-	// 		}
-	// 		else
-	// 		{
-	// 			write(1, &exportp[i][j], 1);
-	// 		}
-	// 		j++;
-	// 	}
-	// 	write(1, "\"", 1);
-	// 	write(1, "\n", 1);
-	// 	i++;
-	// }
-
 
 	while (my_env[i] != NULL)
 	{
@@ -349,30 +327,28 @@ void add_double_quotes(char **my_env)
 		}
 		i++;
 	}
-	
-	
 }
 
 int check_syntax_export_false(t_commands *tmp ,int k, int lenarg)
 {
 	int i = 0;
-
 	while(tmp->arguments[k][i])
 	{
-		if(ft_isalpha(tmp->arguments[k][0]) == 1 || tmp->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
 			i++;
-		else if ((ft_isdigit2(tmp->arguments[k][i]) && i != 0 )|| tmp->arguments[k][i] == '_')
+		else if ((ft_isdigit2(tmp->arguments[k][i]) == 1 && i != 0 ) || tmp->arguments[k][i] == '_')
 			i++;
 		else
 		{
-			write(1, "minishell: ", 11);
-			write(1, "export: ", 7);
-			write(1, "`", 1);
-			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(1, "'", 1);
-			write(1, ": ", 2);
-			write(1, "not a valid identifier", 22);
-			write(1, "\n", 1);
+			write(2, "minishell: ", 11);
+			write(2, "export: ", 7);
+			write(2, "`", 1);
+			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+			write(2, "'", 1);
+			write(2, ": ", 2);
+			write(2, "not a valid identifier", 22);
+			write(2, "\n", 1);
+			g_all->staus_code = 1;
 			return 1;
 		}
 	}
@@ -390,24 +366,20 @@ int check_syntax_export_true(t_commands *tmp,int k, int lenarg)
 			i++;
 		else
 		{
-			write(1, "minishell: ", 11);
-			write(1, "export: ", 7);
-			write(1, "`", 1);
-			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(1, "'", 1);
-			write(1, ": ", 2);
-			write(1, "not a valid identifier", 22);
-			write(1, "\n", 1);
+			write(2, "minishell: ", 11);
+			write(2, "export: ", 7);
+			write(2, "`", 1);
+			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+			write(2, "'", 1);
+			write(2, ": ", 2);
+			write(2, "not a valid identifier", 22);
+			write(2, "\n", 1);
+			g_all->staus_code = 1;
 			return 1;
 		}
 	}
 	return 0;
 }
-
-// void  true_or_false_syntax(int k,char **envp, int true)
-// {
-
-// }
 
 void add_in_env(t_commands *tmp, int k, char **envp)
 {
@@ -452,11 +424,9 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 			nameenv = get_env_name(envp[i]);
 			if (my_strcmp(nameenv, varibale) == 0)
 			{
-	
 				varibale = ft_strjoin(varibale, "=");
 				envp[i] = ft_strjoin(varibale, te);
 				return;
-	
 			}
 		}
 	}
@@ -531,19 +501,22 @@ void add_in_exp(t_commands *tmp, int k, char **my_env)
 
 int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 {
-	int  i = 0;
+	int i;
+
+	i = 0;
 	while(tmp->arguments[k][i])
 	{
 		if(tmp->arguments[k][0] == '=')
 		{
-			write(1, "minishell: ", 11);
-			write(1, "export: ", 7);
-			write(1, "`", 1);
-			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(1, "'", 1);
-			write(1, ": ", 2);
-			write(1, "not a valid identifier", 22);
-			write(1, "\n", 1);
+			write(2, "minishell: ", 11);
+			write(2, "export: ", 7);
+			write(2, "`", 1);
+			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+			write(2, "'", 1);
+			write(2, ": ", 2);
+			write(2, "not a valid identifier", 22);
+			write(2, "\n", 1);
+			g_all->staus_code = 1;
 			return 1;
 		}
 		if(tmp->arguments[k][i] == '=')
@@ -615,23 +588,24 @@ void check_syntax(t_commands *tmp,int k, int lenarg, char e_u)
 
 	while(tmp->arguments[k][i])
 	{
-		if(ft_isalpha(tmp->arguments[k][0]) == 1 || tmp->arguments[k][0] == '_')
+		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
 			i++;
 		else if ((ft_isdigit2(tmp->arguments[k][i]) && i != 0 )|| tmp->arguments[k][i] == '_')
 			i++;
 		else
 		{
-			write(1, "minishell: ", 11);
+			write(2, "minishell: ", 11);
 			if(e_u == 'u')
 				write(1, "unset: ", 7);
 			else if(e_u == 'e')
 				write(1, "export: ", 8);
-			write(1, "`", 1);
-			write(1, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(1, "'", 1);
-			write(1, ": ", 2);
-			write(1, "not a valid identifier", 22);
-			write(1, "\n", 1);
+			write(2, "`", 1);
+			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+			write(2, "'", 1);
+			write(2, ": ", 2);
+			write(2, "not a valid identifier", 22);
+			write(2, "\n", 1);
+			g_all->staus_code = 1;
 			break;
 		}
 	}
@@ -668,7 +642,6 @@ char *search_in_env2(char *variable, char **envp)
 	fsf = ft_strdup(" ");
 	buff = ft_strdup("");
 	lenp = len_of_args(envp);
-	// lenarg = nbr_argts(g_commands) - 1;
 
 		for (int i = 0; i < lenp; i++)
 		{
@@ -727,7 +700,6 @@ void command_unset(t_commands *tmp ,t_env *evp)
 		k++;
 	}
 }
-
 
 void big_putchar()
 {
@@ -809,13 +781,13 @@ void	error_execve(t_commands *tmp)
 
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
-	if(tmp->type == NULL && tmp->next)
-	{
-		write(2, "minishell: syntax error near unexpected token `;'", 49);
-		write(2, "\n", 1);
-		return -1;
-	}
-	else if (tmp->type == NULL && !tmp->next)
+	// if(tmp->type == NULL && tmp->next)
+	// {
+	// 	write(2, "minishell: syntax error near unexpected token `;'", 49);
+	// 	write(2, "\n", 1);
+	// 	return -1;
+	// }
+	if (tmp->type == NULL && !tmp->next)
 		return 0;
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
 		command_cd(ptr,tmp, evp);

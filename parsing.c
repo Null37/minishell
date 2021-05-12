@@ -965,7 +965,6 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 				while (1)
 				{
 					check_this_command(commands, evp);
-						// pipe_commmand_c(commands, ptr, evp);
 					if (!commands->next_p)
 						break ;
 					commands = commands->next_p;
