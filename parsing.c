@@ -298,6 +298,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 		}
 	}
 	z = -1;
+
 	while (1)
 	{
 		if (!syntax(typ[++(tmp->i)], ++z) && z == 0)
@@ -419,6 +420,12 @@ char *deletecoats(char **envp, char *str)
 		if (str[tmp->i] == 39)
 		{
 			rstr = getsglcoat(rstr, str, tmp);
+			continue ;
+		}
+		if (str[tmp->i] == '$' && str[tmp->i + 1] == '?')
+		{
+			rstr = ft_strjoin1(rstr, ft_itoa(g_all->staus_code));
+			tmp->i++;
 			continue ;
 		}
 		if (str[tmp->i] == '$')
