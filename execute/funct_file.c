@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 17:40:09 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/13 10:12:10 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void	command_echo(t_commands *tmp)
 			if (o > 1)
 				write(1, " ", 1);
 			i++;
+		
 		}
-	}
-	if (tmp->option == 0)
-		write(1, "\n", 1);
+		if(tmp->option == 0)
+			write(1, "\n", 1);
+	}	
 	g_all->staus_code = 0;
 }
 

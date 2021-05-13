@@ -28,12 +28,12 @@ edit pwd && and invermount variable
 *echo "he;;\\""
 *echo \;\\\\\\\;\;\;\;\\\;\\\;\;\;\;\;;\;\;\
 *echo \;\;\;\;\;\;\;\\\\;\\\;\;\;\;\;\\\\\\\\\\\\;\;\;\;\;\;\;\\\ \\\\;\;\;\;\; \\\\\
-echo -nnnnn -nn  -nnnnn
-ls ; cat
+*echo -nnnnn -nn  -nnnnn
+*ls ; cat
 ----------------
 unset path 
 command echo hel | grep | grep h
 127
 ----------------
-echo sdfdsfds;
+*echo sdfdsfds;
 -------------------

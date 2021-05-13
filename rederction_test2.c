@@ -78,9 +78,14 @@ int valid_type(char c0, char c1,char c2)
 int check_fname(int r, char *s, int i)
 {
 	int b;
+
 	b = 1;
 	if (r == 2)
 		i++;
+	if (s[i] == ';' && (s[i+1] == ' ' || s[i+1] == '\0'))
+	{
+		return (i);
+	}
 	while (s[++i])
 	{
 		if (s[i] == ' ')
@@ -116,9 +121,9 @@ int check_fname(int r, char *s, int i)
 	}
 	if(b == 1)
 	{
-		// printf("bash: syntax error near unexpected token `newline'");
-		write(2, "minishell: syntax error near unexpected token `newline'", 54);
+		write(2, "minishell: syntax error near unexpected token `newline'", 55);
 		write(2, "\n", 1);
+		g_all->staus_code = 258;
 		return (-1);
 	}
 	return (0);
