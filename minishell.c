@@ -1268,40 +1268,7 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 	while (wait(&status) > 0);
 
 }*/
-char **edit_envp_v(char **envp_c)
-{
-	char *v= "./minishell";
-	int lenp = len_of_args(envp_c);
-	char *nameenv;
-		int t = ft_strlen(v);
-		int tee = 0;
-		int  j;
-		for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp_c[i]);
-			if (my_strcmp(nameenv, "_") == 0)
-			{
-				j = 0;
-				while (envp_c[i][j])
-				{
-					if(envp_c[i][j] == '=')
-					{
-						j += 1;
-						while(tee != t)
-						{
-							envp_c[i][j] = v[tee];
-							j++;
-							tee++;
-						}
-						envp_c[i][j] ='\0';
-						return (envp_c);
-					}
-					j++;
-				}
-			}
-		}
-		return (envp_c);
-}
+
 
 void cntrol_quit(int quit)
 {

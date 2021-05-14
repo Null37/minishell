@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:50:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 13:08:12 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 14:00:52 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**edit_envp_old_pwd(char **envp_c)
 
 char	**edit_envp_pwd(char *ptr, char **envp_c)
 {		
-	t_norm norm;
+	t_norm	norm;
 
 	norm.lenp = len_of_args(envp_c);
 	norm.i = -1;
@@ -49,8 +49,50 @@ char	**edit_envp_pwd(char *ptr, char **envp_c)
 			norm.s = ft_strjoin1(norm.nameenv, "=");
 			norm.s = ft_strjoin1(norm.s, ptr);
 			envp_c[norm.i] = norm.s;
-			break;
+			break ;
 		}
 	}
-		return (envp_c);
+	return (envp_c);
+}
+
+char	**half_v_edit(char **envp_c, t_norm norm)
+{
+	while (norm.i++ < norm.lenp)
+	{
+		norm.nameenv = get_env_name(envp_c[norm.i]);
+		if (my_strcmp(norm.nameenv, "_") == 0)
+		{
+			norm.j = 0;
+			while (envp_c[norm.i][norm.j])
+			{
+				if (envp_c[norm.i][norm.j] == '=')
+				{
+					norm.j += 1;
+					while (norm.tee != norm.t)
+					{
+						envp_c[norm.i][norm.j] = norm.v[norm.tee];
+						norm.j++;
+						norm.tee++;
+					}
+					envp_c[norm.i][norm.j] = '\0';
+					return (envp_c);
+				}
+				norm.j++;
+			}
+		}
+	}
+	return (envp_c);
+}
+
+char	**edit_envp_v(char **envp_c)
+{
+	t_norm	norm;
+
+	norm.v = "./minishell";
+	norm.lenp = len_of_args(envp_c);
+	norm.t = ft_strlen(norm.v);
+	norm.tee = 0;
+	norm.i = -1;
+	envp_c = half_v_edit(envp_c, norm);
+	return (envp_c);
 }
