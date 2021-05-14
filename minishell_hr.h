@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 16:24:24 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:11:10 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct		s_commandg
 			char *ret;
 			int ctrl_quit;
 			char *type;
+			char *old_pwd;
 }					t_commandg;
 
 t_commandg *g_all;

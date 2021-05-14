@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 17:39:59 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:23:00 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,15 @@ void	half_cd(char *ptr, t_env *evp, char *oldpwd)
 {
 	ptr = search_in_env2("PWD", evp->my_env);
 	oldpwd = ft_strdup(ptr);
-	ptr = ft_strjoin1(ptr, "/.");
-	evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
-	evp->my_env = edit_envp_pwd(ptr, evp->my_env);
+	
+	if(ft_strncmp(ptr, "", 1) != 0)
+	{
+		ptr = ft_strjoin1(ptr, "/.");
+		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
+		evp->my_env = edit_envp_pwd(ptr, evp->my_env);
+	}
+	else
+		g_all->old_pwd = ft_strjoin1(g_all->old_pwd, "/.");
 	write(2, "cd: error retrieving current directory: getcwd: ", 48);
 	write(2, "cannot access parent directories: ", 34);
 	write(2, "No such file or directory\n", 26);

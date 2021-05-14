@@ -31,9 +31,9 @@ edit pwd && and invermount variable
 *echo -nnnnn -nn  -nnnnn
 *ls ; cat
 ----------------
-unset path 
-command echo hel | grep | grep h
-127
+*unset path 
+*command echo hel | grep | grep h
+*127
 ----------------
 *echo sdfdsfds;
 -------------------

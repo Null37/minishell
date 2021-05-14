@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/13 10:12:10 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:39:22 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ t_history	*new_commnd(char *cmd)
 void	command_pwd(char *ptr, t_env *evp)
 {
 	char	*ech;
-
+	
 	if (ptr != NULL)
 	{
 		write(1, ptr, strlen(ptr));
-		write(1, "\n", 1);
+		write(1, "\n", 1);	
 	}
 	else
 	{
 		ptr = search_in_env2("PWD", evp->my_env);
-		write(1, ptr, strlen(ptr));
+		if(ft_strncmp(ptr, "", 1) == 0)
+			write(1, g_all->old_pwd, ft_strlen(g_all->old_pwd));
+		else
+			write(1, ptr, strlen(ptr));
 		write(1, "\n", 1);
 	}
 	g_all->staus_code = 0;
@@ -102,7 +105,7 @@ void	command_in_the_sys(t_commands *tmp, char **envp)
 		}
 		if (execve(tmp->path, tmp->all, envp) < 0)
 			error_execve(tmp);
-		exit(1);
+		exit(127);
 	}
 	else
 	{

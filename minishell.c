@@ -739,6 +739,7 @@ void	error_execve(t_commands *tmp)
 	write(2, ": ", 2);
 	write(2, error, ft_strlen(error));
 	write(2, "\n", 1);
+	g_all->staus_code = 127;
 }
 // void command_in_the_sys(t_commands *tmp, char **envp)
 // {
@@ -782,12 +783,11 @@ void	error_execve(t_commands *tmp)
 
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
-	// if(tmp->type == NULL && tmp->next)
-	// {
-	// 	write(2, "minishell: syntax error near unexpected token `;'", 49);
-	// 	write(2, "\n", 1);
-	// 	return -1;
-	// }
+	char *test;
+
+	test = search_in_env2("PWD", evp->my_env);
+	if (ft_strncmp(test, "", 1) != 0)
+		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
 	if (tmp->type == NULL && !tmp->next)
 		return 0;
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
@@ -894,7 +894,10 @@ void se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 	else if(ft_strncmp(tmp->type, "echo", 6) == 0)
 		command_echo(tmp);
 	else
-		execve(tmp->path, tmp->all, evp->my_env);
+	{
+		if (execve(tmp->path, tmp->all, evp->my_env) < 0)
+			error_execve(tmp);
+	}
 }
 
 t_filerdr *last_name_func(t_commands *tmp)
@@ -1136,7 +1139,7 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 				}
 			}
 			se_execute_command(tmp, ptr, evp);
-			exit(1);
+			exit(127);
 		}
 		else
 		{
@@ -1384,7 +1387,6 @@ int main(int argc, char **argv, char **envp)
     history = new_commnd(NULL);
 	while (1)
 	{
-		// int asd = 0;
 		signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
 		if (g_all->ctrl_c == 0)
