@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:15:03 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 14:33:39 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,53 @@ char	*search_in_env2(char *variable, char **envp)
 	return (norm.buff);
 }
 
+char	**half_edit_old(char *ptr, char **envp_c, t_norm norm)
+{
+	norm.h = 0;
+	while (norm.j > 0)
+	{
+		envp_c[norm.i][norm.h] = norm.nameenv[norm.o];
+		norm.o++;
+		norm.h++;
+		norm.j--;
+	}
+	norm.j = ft_strlen(norm.nameenv);
+	envp_c[norm.i][norm.j] = '=';
+	while (norm.len > 0)
+	{
+		norm.j++;
+		envp_c[norm.i][norm.j] = ptr[norm.t];
+		norm.t++;
+		norm.len--;
+	}
+	return (envp_c);
+}
+
+char	**edit_evp_new_oldpwd(char *ptr, char **envp_c)
+{
+	t_norm	norm;
+
+	norm.lenp = len_of_args(envp_c);
+	norm.o = 0;
+	norm.i = -1;
+	while (norm.i++ < norm.lenp)
+	{
+		norm.nameenv = get_env_name(envp_c[norm.i]);
+		if (my_strcmp(norm.nameenv, "OLDPWD") == 0)
+		{
+			free(envp_c[norm.i]);
+			norm.len = ft_strlen(ptr);
+			norm.j = ft_strlen(norm.nameenv);
+			envp_c[norm.i] = (char *)malloc(norm.len + norm.j + 1 + 2);
+			norm.t = 0;
+			while (1)
+			{
+				envp_c = half_edit_old(ptr, envp_c, norm);
+				break ;
+			}
+			envp_c[norm.i][norm.j + 1] = '\0';
+			break ;
+		}
+	}
+	return (envp_c);
+}

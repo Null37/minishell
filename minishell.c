@@ -6,60 +6,11 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:14:43 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:52:32 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
-
-char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
-{
-	char *nameenv;
-	int lenp = len_of_args(envp_c);
-	int j;
-	int o = 0;
-	for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp_c[i]);
-			if (my_strcmp(nameenv, "OLDPWD") == 0)
-			{
-					free(envp_c[i]);
-					int len = ft_strlen(ptr);
-					j = ft_strlen(nameenv);
-					envp_c[i] =  (char*)malloc(len  + j + 1 + 2);
-					int t = 0;
-					while(1)
-					{
-						int h = 0;
-						while(j > 0)
-						{
-							envp_c[i][h] = nameenv[o];
-							o++;
-							h++;
-							j--;
-						}
-						j = ft_strlen(nameenv);
-						envp_c[i][j] = '=';
-						while(len > 0)
-						{
-							j++;
-							envp_c[i][j] = ptr[t];
-							t++;
-							len--;
-						}
-						break;
-					}
-					envp_c[i][j +1] = '\0';
-				break;
-			}
-		}
-	return (envp_c);
-}
-
-void ft_putchar(char *str)
-{
-	write(1, str, strlen(str));
-}
 
 int	ft_isdigit2(char number)
 {
@@ -147,39 +98,6 @@ int len_of_args(char **args)
 	return (i);
 }
 
-
-void ok_write(char **my_env, int i, int j)
-{
-    int b = 0;
-    j = 0;
-    write(1, "declare -x ", 11);
-    while (my_env[i][j])
-    {
-        if(my_env[i][j] == '=')
-        {
-            write(1, "=", 1);
-            b = 1;
-            write(1, "\"", 1);
-            j++;
-            break;
-        }
-        else
-            write(1, &my_env[i][j], 1);
-        j++;
-    }
-    while (my_env[i][j])
-    {
-        if (my_env[i][j] == '\\' || my_env[i][j] == '$')
-            write(1, "\\", 1);
-        write(1, &my_env[i][j], 1);
-        j++;
-    }
-    if (b == 1)
-        write(1, "\"", 1);
-    write(1, "\n", 1);
-}
-
-
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 {
 	t_filerdr *t;
@@ -257,134 +175,6 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 		// dup2(saved_stdout, STDOUT_FILENO);
 		// close(saved_stdout);
 		// close(saved_input);
-	}
-}
-
-void add_double_quotes(char **my_env)
-{
-	int lenp;
-	int lenarg;
-	int k = 0;
-	int j = 0;
-	int  hh = 0;
-	int  i = 0;
-
-	while (my_env[i] != NULL)
-	{
-		j = 0;
-		while(my_env[i][j])
-		{
-			if(my_env[i][j] != '=')
-			{
-				ok_write(my_env, i, j);
-				break;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int check_syntax_export_false(t_commands *tmp ,int k, int lenarg)
-{
-	int i = 0;
-	while(tmp->arguments[k][i])
-	{
-		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
-			i++;
-		else if ((ft_isdigit2(tmp->arguments[k][i]) == 1 && i != 0 ) || tmp->arguments[k][i] == '_')
-			i++;
-		else
-		{
-			write(2, "minishell: ", 11);
-			write(2, "export: ", 7);
-			write(2, "`", 1);
-			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(2, "'", 1);
-			write(2, ": ", 2);
-			write(2, "not a valid identifier", 22);
-			write(2, "\n", 1);
-			g_all->staus_code = 1;
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int check_syntax_export_true(t_commands *tmp,int k, int lenarg)
-{
-	int i = 0;
-	while(tmp->arguments[k][i] != '=')
-	{
-		if(ft_isalpha(tmp->arguments[k][i]) == 1 || tmp->arguments[k][i] == '_')
-			i++;
-		else if ((ft_isdigit2(tmp->arguments[k][i]) == 1 && i != 0 )|| tmp->arguments[k][i] == '_')
-			i++;
-		else
-		{
-			write(2, "minishell: ", 11);
-			write(2, "export: ", 7);
-			write(2, "`", 1);
-			write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
-			write(2, "'", 1);
-			write(2, ": ", 2);
-			write(2, "not a valid identifier", 22);
-			write(2, "\n", 1);
-			g_all->staus_code = 1;
-			return 1;
-		}
-	}
-	return 0;
-}
-
-void add_in_env(t_commands *tmp, int k, char **envp)
-{
-	int i;
-	int j;
-	int b =0;
-	int c = 0;
-	int lenp;
-	char *nameenv;
-
-	lenp =0;
-	j = 0;
-	i = 0;
-	while(tmp->arguments[k][b] != '=')
-			b++;
-	char *varibale = malloc(sizeof(char) * b + 1);
-	while(c != b)
-	{
-		varibale[c] = tmp->arguments[k][c];
-		c++;
-	}
-	varibale[c] = '\0';
-	char *ef = search_in_env2(varibale, envp);
-	while(envp[i] != NULL)
-		i++;
-	if(ft_strncmp(ef, "\0", 1) == 0)
-	{
-		envp[i] = tmp->arguments[k];
-		envp[i + 1] = NULL;
-	}
-	else
-	{
-		b += 1;
-		char *te = (tmp->arguments[k] + b);
-		int t;
-		int tee = 0;;
-
-		t = ft_strlen(te);
-		lenp = len_of_args(envp);
-		for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp[i]);
-			if (my_strcmp(nameenv, varibale) == 0)
-			{
-				varibale = ft_strjoin(varibale, "=");
-				envp[i] = ft_strjoin(varibale, te);
-				return;
-			}
-		}
 	}
 }
 
@@ -484,17 +274,6 @@ int  syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 		i++;
 	}
 	return 0;
-}
-
-
-int count_arg_2(t_commands *tmp)
-{
-	int i = -1;
-	int cpt = 0;
-
-	while(tmp->arguments[++i] != NULL)
-			cpt++;
-	return (cpt);
 }
 
 void command_export(t_commands *tmp, t_env *evp)

@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/14 14:08:32 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/14 15:11:11 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ execute/cmd_cd_function.c \
 execute/edit_envp.c \
 execute/file_check_path.c \
 execute/env_1.c \
-execute/env_2.c
+execute/env_2.c \
+execute/env_3.c execute/env_4.c
 
 CC = gcc
 

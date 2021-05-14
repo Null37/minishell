@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:05:42 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:39:16 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,15 @@ typedef struct s_nor
 	char *v;
 	int t;
 	int tee;
+	char *te;
 	char *buff;
 	char *fsf;
+	int o;
+	int h;
+	int b;
+	int c;
+	char *varibale;
+	char *ef;
 }		t_norm;
 
 t_commandg *g_all;
@@ -150,6 +157,12 @@ char	**edit_envp_shlvl(char **envp_c);
 void print_error_check_commd(t_commands *tmp);
 char	**edit_envp_old_pwd(char **envp_c);
 char	**edit_envp_v(char **envp_c);
+void	ok_write(char **my_env, int i, int j);
+void	add_double_quotes(char **my_env);
+int	check_syntax_export_true(t_commands *tmp, int k, int lenarg);
+int	check_syntax_export_false(t_commands *tmp, int k, int lenarg);
+int	ft_isdigit2(char number);
+void add_in_env(t_commands *tmp, int k, char **envp);
 char *g_cmds;
 int pid;
 int fuck;

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/12 17:38:17 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:52:56 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ int check_this_command(t_commands *tmp,t_env *evp)
 	|| my_strcmp("unset", tmp->type) == 0 || my_strcmp("cd", tmp->type) == 0 
 	|| my_strcmp("echo", tmp->type) == 0 || my_strcmp("pwd", tmp->type) == 0)
 		return 2;
+	if(tmp->type[0] == '\0')
+    {
+        write(2, "minishell: ", 11);
+        write(2, tmp->type, ft_strlen(tmp->type));
+        write(2,": ", 2);
+        write(2, "command not found\n", 18);
+        g_all->staus_code = 127;
+        return -1;
+    }
 	path = search_in_env2("PATH", evp->my_env);
 	if(ft_strncmp(path, "", 1) == 0)
 	{
