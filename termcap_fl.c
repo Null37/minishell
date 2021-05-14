@@ -74,14 +74,14 @@ char *termcap_khedma(t_history *history)
 
 	h_tmp = history;
 	g_all->line = NULL;
-	g_all->ret = malloc(1 * sizeof(char));
-	g_all->ret[0] = '\0';
+	g_all->ret = NULL;
+	//g_all->ret[0] = '\0';
 	while(1)
 	{
 		d = get_char();
 		if (d == 4)
 		{
-			if (g_all->ret[0] == 0)
+			if (g_all->ret ==  NULL)
 			{
 				write(1,"exit",4);
 				exit(0);
@@ -226,7 +226,7 @@ char *termcap_khedma(t_history *history)
 			free(g_all->line);
 			g_all->line = NULL;
 			write(1,"\n",1);
-			if(g_all->ret[0] == 0)
+			if(g_all->ret == NULL)
 			{
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
 			}
@@ -235,7 +235,7 @@ char *termcap_khedma(t_history *history)
 			// s = tgetstr("dl", NULL); //Get the string entry id 'ce' means clear from the cursor to the end of the current line.
 			// write(1, s, strlen(s)); // execute the string entry id
 				// fprintf(stderr, "Else made it here");
-			if (g_all->ret[0] != 0)
+			if (g_all->ret != NULL)
 			{
 			// 	// head->data = g_all->ret;
 			// 	// head->next = (t_stack *) malloc(sizeof(t_stack));

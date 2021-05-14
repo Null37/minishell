@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 12:11:10 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 13:02:27 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ typedef struct		s_commandg
 			char *old_pwd;
 }					t_commandg;
 
+typedef struct s_nor
+{
+	int		lenp;
+	char	*nameenv;
+	int		j;
+	int		i;
+	int		len;
+	char	*s;	
+}		t_norm;
+
 t_commandg *g_all;
 
 int redir_fd_in;
@@ -133,6 +143,7 @@ void	error_execve(t_commands *tmp);
 char **edit_evp_new_oldpwd(char *ptr, char **envp_c);
 char	**edit_envp_shlvl(char **envp_c);
 void print_error_check_commd(t_commands *tmp);
+char	**edit_envp_old_pwd(char **envp_c);
 char *g_cmds;
 int pid;
 int fuck;

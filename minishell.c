@@ -1303,47 +1303,6 @@ char **edit_envp_v(char **envp_c)
 		return (envp_c);
 }
 
-char **edit_envp_pwd(char *ptr, char **envp_c)
-{		
-		int lenp = len_of_args(envp_c);
-		char *nameenv;
-		int tee = 0;
-		int  j;
-		int  o =0;
-		for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp_c[i]);
-			if (my_strcmp(nameenv, "PWD") == 0)
-			{
-				free(envp_c[i]);
-				int len = ft_strlen(ptr);
-				j = ft_strlen(nameenv);
-
-				char *s = ft_strjoin1(nameenv, "=");
-				s = ft_strjoin1(s, ptr);
-				envp_c[i] = s;
-				break;
-			}
-		}
-		return (envp_c);
-}
-
-char **edit_envp_old_pwd(char **envp_c)
-{
-	char *nameenv;
-	int lenp = len_of_args(envp_c);
-	for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp_c[i]);
-			if (my_strcmp(nameenv, "OLDPWD") == 0)
-			{
-				free(envp_c[i]);
-				envp_c[i] = ft_strdup("OLDPWD");
-				break;
-			}
-		}
-	return (envp_c);
-}
 void cntrol_quit(int quit)
 {
 	if(g_all->ctrl_quit == 1 && ft_strncmp(g_all->type, "read", 6) != 0)
@@ -1353,7 +1312,6 @@ void cntrol_quit(int quit)
 		write(2, "\n", 1);
 	}
 }
-
 
 int main(int argc, char **argv, char **envp)
 {
@@ -1370,7 +1328,6 @@ int main(int argc, char **argv, char **envp)
 	int help = 0;
 	int edit = 0;
 	char path[200];
-	//char *line ;
 	g_all = malloc(sizeof(t_commandg));
 	g_all->line = NULL;
 	int readinput;
@@ -1380,7 +1337,6 @@ int main(int argc, char **argv, char **envp)
 	evp->my_env = edit_envp_old_pwd(evp->my_env);
 	evp->save = search_in_env2("HOME", evp->my_env);
 	tgetent(NULL, getenv("TERM"));
-	//add SHLVL + 1
 	g_all->ctrl_c = 0;
 	g_all->ctrl_quit = 0;
 	g_all->staus_code = 0;
@@ -1397,27 +1353,8 @@ int main(int argc, char **argv, char **envp)
 		ptr = getcwd(buf, 1024);
 		if(ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
-		// ft_bzero(line, 1024);
-		// readinput = read(0, line, 1024);
-
 		termcap_khedma(history);
-		// if (!history)
-		// 	history = new_commnd(line);
-		// else
-		// {
-		// 	h_tmp = history;
-		// 	history->next = new_commnd(line);
-		// 	history = history->next;
-		// 	history->preview = h_tmp;
-		// }
 		g_all->ctrl_c = 0;
-		// if(readinput == 0)
-		// 	command_exit_ctr_d();
-		// if (ft_strncmp(line, "\n", 1) != 0 || ft_strncmp(line, "\n", 1) == 0)
-		// {
-		// 	if (ft_strchr(line, '\n'))
-		// 		*ft_strchr(line, '\n') = '\0';
-		// }
 		if(check_syntax_rederction(g_all->ret) == -1)
 			continue;
 		g_commands = parssing_shell(ptr, evp ,g_all->ret);
@@ -1427,40 +1364,5 @@ int main(int argc, char **argv, char **envp)
 			free(g_all->ret);
 			g_all->ret = NULL;
 		}
-		// if(g_commands->multiple == 1)
-		// 	continue;
-		// if (our_command(ptr, envp) == 2 && ft_strncmp(line, "\n", 1) != 0)
-		// {
-		// 	if (check_this_command(envp) == 2)
-		// 		write(1, "not work yet\n", 13);
-		// 	//fork();
-		// 	//test = search_in_env(envp);
-		// 	//write(1, test, strlen(test));ƒ
-		// 	// int child = fork();
-		// 	// if (child == -1) // If fork() fails it does not create a child and returns -1
-		// 	// write(1, "Problems\n", 9);
-		// 	// if (child == 0) // In the child process
-		// 	// {
-		// 	// 	if (execve("lsit", g_commands->arguments, envp)) // execve only returns if it encountered an error
-		// 	// 	{
-		// 	// 		write(1, "Child Problems\n", 15);
-		// 	// 		return(-1);
-		// 	// 	}
-		// 	// }
-			 
-		// 	//write(1, "\n", 1);
-		// 	// 	}
-		// }
 	}
 }
-//export "Hello World=test"
-//export A;
-// export ttat@tet=test
-//(ft_isalpha(g_commands->arguments[k][0]) != 1 || g_commands->arguments[k][0] != '_' || (ft_isdigit2(g_commands->arguments[k][i]) && i != 0)  || g_commands->arguments[k][i] != '_')
-
-
-
-///edit "hello\"
-///edit "hi$"
-/// edit ./minishell use stat
-//exit_code % 256
