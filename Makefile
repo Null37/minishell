@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/14 12:53:15 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/14 14:08:32 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC = minishell.c parsing.c algo_sort.c rederction_test2.c termcap_fl.c execute/
 execute/cmd_cd_function.c \
 execute/edit_envp.c \
 execute/file_check_path.c \
-execute/env_1.c 
+execute/env_1.c \
+execute/env_2.c
 
 CC = gcc
 

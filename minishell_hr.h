@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:25 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 14:05:42 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_nor
 	char *v;
 	int t;
 	int tee;
+	char *buff;
+	char *fsf;
 }		t_norm;
 
 t_commandg *g_all;

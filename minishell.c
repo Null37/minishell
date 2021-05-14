@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
+/*   Updated: 2021/05/14 14:14:43 by ssamadi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_hr.h"
 
 char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
@@ -43,62 +55,6 @@ char **edit_evp_new_oldpwd(char *ptr, char **envp_c)
 		}
 	return (envp_c);
 }
-
-// void command_cd(char *ptr, t_commands *tmp, t_env *evp)
-// {
-// 	int eee;
-// 	char *home;
-// 	char *oldpwd;
-// 	// write(1, "\033[0;32m", 8);
-// 	if(ptr != NULL)
-// 		evp->my_env = edit_evp_new_oldpwd(ptr, evp->my_env);
-// 	if(ptr == NULL && ft_strncmp(tmp->arguments[0], ".", 2) == 0)
-// 	{
-// 		ptr = search_in_env2("PWD", evp->my_env);
-// 		oldpwd = ft_strdup(ptr);
-// 		ptr = ft_strjoin1(ptr, "/.");
-// 		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
-// 		evp->my_env = edit_envp_pwd(ptr, evp->my_env);
-// 		write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
-// 	}
-// 	else if(tmp->arguments[0] == NULL)
-// 	{
-// 		home = search_in_env2("HOME", evp->my_env);
-// 		eee = chdir(home);
-// 		if(ft_strncmp(home, "", 1) == 0)
-// 		{
-// 			write(2, "minishell: cd: HOME not set\n", 28);
-// 			return;
-// 		}
-// 	}
-// 	else if(ft_strncmp(tmp->arguments[0], "~", 2) == 0)
-// 	{
-// 		home = search_in_env2("HOME", evp->my_env);
-// 		if(ft_strncmp(home, "", 1) == 0)
-// 		{
-// 			chdir(evp->save);
-// 		}
-// 		else
-// 			eee = chdir(home);
-// 	}
-// 	else 
-// 	{
-// 		eee = chdir(tmp->arguments[0]);
-// 	}
-// 	if (eee == -1)
-// 	{
-// 		write(2, "Minishell: ", 11);
-// 		write(2, "cd: ", 4);
-// 		if(tmp->arguments[0] != NULL)
-// 			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
-// 		else 
-// 			write(2, home, ft_strlen(home));
-// 		write(2, ": ", 2);
-// 		char *ee = strerror(errno);
-// 		write(2, ee, strlen(ee));
-// 		write(2, "\n", 1);
-// 	}
-// }
 
 void ft_putchar(char *str)
 {
@@ -630,48 +586,6 @@ int my_strcmp(char *s1, char *s2)
   return (0);
 }
 
-char *search_in_env2(char *variable, char **envp)
-{
-	int lenp;
-	int lenarg;
-	char *nameenv;
-	char *buff;
-	char *fsf;
-	int k = 0;
-	int j = 0;
-	int  hh = 0;
-	fsf = ft_strdup(" ");
-	buff = ft_strdup("");
-	lenp = len_of_args(envp);
-
-		for (int i = 0; i < lenp; i++)
-		{
-			nameenv = get_env_name(envp[i]);
-			if (my_strcmp(nameenv, variable) == 0)
-			{
-				j = 0;
-				while (envp[i][j])
-				{
-					if(envp[i][j] == '=')
-					{
-						j += 1;
-						while(envp[i][j])
-						{
-							fsf[0] = envp[i][j];
-							buff = ft_strjoin(buff, fsf);
-							j++;
-						}
-						return buff;
-					}
-					j++;
-				}
-				buff = "k";
-				return buff;
-			}
-		}
-	return buff;
-}
-
 void command_unset(t_commands *tmp ,t_env *evp)
 {
 	int lenp;
@@ -713,11 +627,8 @@ void big_putchar()
 	}
 }
 
-
 void command_c(int signum)
 {
-	// if(g_all->ctrl_c != 0)
-	// write(1, "\b\b  ", 4);
 	g_all->staus_code = 1;
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);
@@ -741,45 +652,6 @@ void	error_execve(t_commands *tmp)
 	write(2, "\n", 1);
 	g_all->staus_code = 127;
 }
-// void command_in_the_sys(t_commands *tmp, char **envp)
-// {
-// 	// int pid;
-// 	//char* argv[] = {"ls","-la",NULL};
-// 	int stat_loc;
-// 	char *error;
-// 	pid = 0;
-// 	pid = fork();
-// 	g_all->ctrl_quit = 1;
-// 	g_all->type = tmp->type;
-// 	//g_commands->pid = pid;
-// 		if (pid == 0) 
-// 		{
-// 			/* Never returns if the call is successful */
-// 			if (yesdup == 1)
-// 			{
-// 				dup2(redir_fd, 1);
-// 				dup2(redir_fd_in, 0);
-// 			}
-// 			if(execve(tmp->path, tmp->all, envp) < 0)
-// 			{
-// 				error = strerror(errno);
-// 				write(2, "minishell: ", 11);
-// 				write(2, tmp->type, ft_strlen(tmp->type));
-// 				write(2, ": ", 2);
-// 				write(2, error, ft_strlen(error));
-// 				write(2, "\n", 1);
-// 				exit(-1);
-// 			}
-// 		} 
-// 		else 
-// 		{
-// 			waitpid(pid, &g_all->staus_code, 0);
-// 			if (WIFSIGNALED(g_all->staus_code))
-//         		g_all->staus_code = WTERMSIG(g_all->staus_code) + 128;
-//     		else
-//         		g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
-// 		}
-// }
 
 int our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
@@ -1160,114 +1032,6 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
     else
         g_all->staus_code = WEXITSTATUS(g_all->staus_code) % 128;
 }
-
-/*void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
-{
-	int i;
-	int fd[2];
-	int read_fd;
-	int write_fd;
-	int status;
-	i = 0;
-	int fd_file = -200;
-	int fd_in = -100;
-	read_fd = dup(0);
-	int fd_input = -1;
-	int fd_out = -2;
-	int h = -50;
-	char *stre;
-	int h2 = -9;
-	int yoo = 1;
-	while (tmp)
-	{
-		// fprintf(stderr, "current cmd: %s\n", cmd_list->argv[0]);
-		// fd[0] = -1;
-		// fd[1] = -1;
-		if (tmp->next_p)
-		{
-			pipe(fd);
-			write_fd = dup(fd[1]);
-			close(fd[1]);
-		}
-		else
-		{
-			write_fd = dup(1);
-		}
-		if (fork() == 0)
-		{
-			if(tmp->filerdr == NULL)
-			{
-				dup2(read_fd, 0);
-				dup2(write_fd, 1);
-		   		close(read_fd);
-				close(write_fd);
-				// if (fd[0] + 1)
-					close(fd[0]);
-				// if (fd[1] + 1)
-					close(fd[1]);
-			}
-			else if(tmp->filerdr != NULL)
-			{
-				if(check_two_red(tmp) == 0)
-				{
-					t_filerdr *lastnamef = last_name_func(tmp);
-					if(!lastnamef)
-						exit(1);
-					if(lastnamef->type == 0)
-					{
-						h2 = open(tmp->filerdr->name, O_RDWR);
-						dup2(h2, 0);
-						// dup2(fd[0], 1);
-						close(h2);
-					}
-					if(lastnamef->type == 1)
-					{
-						h = open(lastnamef->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
-						dup2(h, 1);
-						close(h);
-						h = -1;
-					}
-					else if(lastnamef->type == 2)
-					{
-						h = open(lastnamef->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
-						dup2(h, 1);
-						close(h);
-						h = -1;
-					}
-				}
-				else if(check_two_red(tmp) == 1)
-				{
-					fd_out = output_ret(tmp);
-					if(fd_out == -100)
-						exit(1);
-					fd_input = input_ret(tmp);
-					if(fd_input == -100)
-						exit(1);
-					dup2(fd_input, 0);
-					close(fd_input);
-					dup2(fd_out, 1);
-					close(fd_out);
-				}
-			}
-			se_execute_command(tmp, ptr, evp);
-			exit(1);
-		}
-		else
-		{
-			//parent
-			close(read_fd);
-			close(write_fd);
-			if (tmp->next_p)
-			{
-				read_fd = dup(fd[0]);
-				close(fd[0]);
-			}
-		}
-		tmp = tmp->next_p;
-	}
-	while (wait(&status) > 0);
-
-}*/
 
 
 void cntrol_quit(int quit)
