@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:07:58 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/29 16:07:28 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:37:25 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char **sort_algo(char **sortest)
 		i = 0;
 		while (sortest[i] != NULL)
 		{
-			if(strcmp(sortest[i],sortest[j]) > 0)
+			if(ft_strncmp(sortest[i], sortest[j], ft_strlen(sortest[j])) > 0)
 			{
 				tmp = sortest[i];
 				sortest[i] = NULL;

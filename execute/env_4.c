@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 15:41:05 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:51:56 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,10 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 			{
 				norm.varibale = ft_strjoin(norm.varibale, "=");
 				envp[norm.i] = ft_strjoin(norm.varibale, te);
+				free(norm.nameenv);
 				return ;
 			}
+			free(norm.nameenv);
 		}
 	}
 }

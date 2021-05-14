@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:50:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:52 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:58:51 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ char	**edit_envp_old_pwd(char **envp_c)
 		{
 			free(envp_c[i]);
 			envp_c[i] = ft_strdup("OLDPWD");
+			free(nameenv);
 			break ;
 		}
+		free(nameenv);
 	}
 	return (envp_c);
 }
@@ -51,6 +53,7 @@ char	**edit_envp_pwd(char *ptr, char **envp_c)
 			envp_c[norm.i] = norm.s;
 			break ;
 		}
+		free(norm.nameenv);
 	}
 	return (envp_c);
 }
@@ -75,11 +78,13 @@ char	**half_v_edit(char **envp_c, t_norm norm)
 						norm.tee++;
 					}
 					envp_c[norm.i][norm.j] = '\0';
+					free(norm.nameenv);
 					return (envp_c);
 				}
 				norm.j++;
 			}
 		}
+		free(norm.nameenv);
 	}
 	return (envp_c);
 }

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 14:33:39 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:03:53 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 char	*half_search(char *variable, char **envp, t_norm norm)
 {
+	char *tmp;
 	while (norm.i++ < norm.lenp)
 	{
-		if (my_strcmp(get_env_name(envp[norm.i]), variable) == 0)
+		tmp = get_env_name(envp[norm.i]);
+		if (my_strcmp(tmp, variable) == 0)
 		{
 			norm.j = 0;
 			while (envp[norm.i][norm.j])
@@ -27,16 +29,19 @@ char	*half_search(char *variable, char **envp, t_norm norm)
 					while (envp[norm.i][norm.j])
 					{
 						norm.fsf[0] = envp[norm.i][norm.j];
-						norm.buff = ft_strjoin(norm.buff, norm.fsf);
+						norm.buff = ft_strjoin1(norm.buff, norm.fsf);
 						norm.j++;
 					}
+					free(tmp);
 					return (norm.buff);
 				}
 				norm.j++;
 			}
 			norm.buff = "k";
+			free(tmp);
 			return (norm.buff);
 		}
+		free(tmp);
 	}
 	return (norm.buff);
 }
@@ -51,6 +56,7 @@ char	*search_in_env2(char *variable, char **envp)
 	norm.lenp = len_of_args(envp);
 	norm.i = -1;
 	norm.buff = half_search(variable, envp, norm);
+	free(norm.fsf);
 	return (norm.buff);
 }
 
@@ -96,11 +102,14 @@ char	**edit_evp_new_oldpwd(char *ptr, char **envp_c)
 			while (1)
 			{
 				envp_c = half_edit_old(ptr, envp_c, norm);
+				free(norm.nameenv);
 				break ;
 			}
 			envp_c[norm.i][norm.j + 1] = '\0';
+			//free(norm.nameenv);
 			break ;
 		}
+		free(norm.nameenv);
 	}
 	return (envp_c);
 }

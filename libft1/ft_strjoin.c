@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 18:04:34 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/02/23 11:02:53 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:20:37 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 		i++;
 	}
+	free(s1);
 	p[i] = '\0';
 	return (p);
 }

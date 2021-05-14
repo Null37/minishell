@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 15:51:42 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:18:36 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ char		*ft_strjoin1(char *s1, char *s2)
 	i = -1;
 	j = 0;
 	if (!s1)
+	{
 		return ((str = ft_strdup(s2)));
+	}
 	size = ft_strlen(s1) + ft_strlen(s2);
 	if (!(str = (char*)malloc(sizeof(char) * size + 1)))
 		return (NULL);
@@ -95,7 +97,7 @@ char *search_in_env(char *variable, char **envp)
     buff = ft_strdup("");
     lenp = len_of_args(envp);
     lenarg = nbr_argts2(g_cmds) - 1;
-	variable = ft_strjoin(variable, "=");
+	variable = ft_strjoin1(variable, "=");
     for (int i = 0; i < lenp; i++)
     {
         if (ft_strncmp(envp[i], variable, ft_strlen(variable)) == 0)
@@ -109,7 +111,7 @@ char *search_in_env(char *variable, char **envp)
                     while(envp[i][j])
                     {
                         fsf[0] = envp[i][j];
-                        buff = ft_strjoin(buff, fsf);
+                        buff = ft_strjoin1(buff, fsf);
                         j++;
                     }
                     return buff;
@@ -203,6 +205,30 @@ char	*my_substr(char *s, int start, int end)
 	return (str);
 }
 
+char	*my_substr2(char *s, int start, int end)
+{
+	char	*str;
+	int	j;
+	int i;
+
+
+	if (!s)
+		return (NULL);
+	if (!(str = (char*)malloc(end - start + 1)))
+		return (NULL);
+	j = 0;
+	i = start;
+	while (s[i] != '\0' && i < end)
+	{
+		str[j] = s[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	free(s);
+	return (str);
+}
+
 char	*get_right_path(char *str, int start, int end)
 {
 	int		i;
@@ -219,6 +245,7 @@ char	*get_right_path(char *str, int start, int end)
 		j++;
 	}
 	path[j] = '\0';
+	free(str);
 	return (path);
 }
 
@@ -295,6 +322,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 	int k;
 	char *test;
 	int z;
+	char *s;
 
 	k = tmp->i;
 	if (typ[k + 1] == '\0' || typ[k + 1] == ' '
@@ -306,7 +334,9 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 		else
 		{
 			test = ft_strdup("$");
-			return (ft_strjoin1(str, test));
+			s = ft_strjoin1(str, test);
+			free(test);
+			return (s);
 		}
 	}
 	z = -1;
@@ -315,7 +345,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 	{
 		if (!syntax(typ[++(tmp->i)], ++z) && z == 0)
 		{
-			test = my_substr(typ, k + 1, tmp->i + 1);
+			test = my_substr2(typ, k + 1, tmp->i + 1);
 			//test =  syn_dollar(test);
 			test = search_in_env(test, envp);
 			break ;
@@ -323,7 +353,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 		else if (!syntax(typ[tmp->i], z))
 		{
 			
-			test = my_substr(typ, k + 1, tmp->i);
+			test = my_substr2(typ, k + 1, tmp->i);
 			//test =  syn_dollar(test);
 			test = search_in_env(test, envp);
 			--(tmp->i);
@@ -435,8 +465,9 @@ char *deletecoats(char **envp, char *str)
 			continue ;
 		}
 		if (str[tmp->i] == '$' && str[tmp->i + 1] == '?')
-		{
-			rstr = ft_strjoin1(rstr, ft_itoa(g_all->staus_code));
+		{	ss = ft_itoa(g_all->staus_code);
+			rstr = ft_strjoin1(rstr, ss);
+			free(ss);
 			tmp->i++;
 			continue ;
 		}
@@ -449,6 +480,7 @@ char *deletecoats(char **envp, char *str)
 		rstr = ft_strjoin1(rstr, tmp->s1);
 		tmp->j++;
 	}
+	free(str);
 	return (rstr);
 }
 
@@ -647,6 +679,8 @@ char		*deleterdr(char *command)
 		if (!command[i])
 			break ;
 	}
+	free(s);
+	free(command);
 	return (comd);
 }
 
@@ -671,6 +705,7 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 	int b = 0;
 	char *rdr_cmd;
 	char *str;
+	char *t;
 
 
 	k = 0;
@@ -840,6 +875,7 @@ int	split_pipe(char **envp, t_commands *commands)
 	int     start;
 	t_commands  *tmp;
 	char *cmd;
+	char *t;
 
 	i = -1;
 	start = 0;
@@ -847,6 +883,7 @@ int	split_pipe(char **envp, t_commands *commands)
 	if(commands->command == NULL)
 		return 0;
 	cmd = ft_strdup(commands->command);
+	
 	while (1)
 	{
 		if ((cmd[++i] == 34 && i == 0))
@@ -866,7 +903,9 @@ int	split_pipe(char **envp, t_commands *commands)
 		}
 		if (cmd[i] == 124)
 		{
+			t = commands->command;
 			commands->command = my_substr(cmd, start, i);
+			free(t);
 			commands->command = deletespace(commands->command);
 			trait_command(envp, commands);
 			commands->next_p = new_commands();
@@ -877,7 +916,9 @@ int	split_pipe(char **envp, t_commands *commands)
 		{
 			if (start == i)
 				break ;
+			t = commands->command;
 			commands->command = my_substr(cmd, start, i);
+			free(t);
 			commands->command = deletespace(commands->command);
 			trait_command(envp, commands);
 			break ;
@@ -995,7 +1036,6 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			break ;
 		}
 	}
-
 	commands = tmp;
 	return (1);
 }

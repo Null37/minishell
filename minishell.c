@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 15:52:32 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:04:59 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,6 +439,7 @@ int our_command(t_commands *tmp, char *ptr, t_env *evp)
 	test = search_in_env2("PWD", evp->my_env);
 	if (ft_strncmp(test, "", 1) != 0)
 		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
+	free(test);
 	if (tmp->type == NULL && !tmp->next)
 		return 0;
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
