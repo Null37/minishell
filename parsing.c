@@ -691,7 +691,8 @@ void        split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 			{
 				commands->type = my_substr(rdr_cmd, start, i + 1);
 				commands->type = deletespace(commands->type);
-				commands->type = deletecoats(envp, commands->type);
+				if (!(commands->type = deletecoats(envp, commands->type)))
+					commands->type = ft_strdup("\0");
 				commands->all[0] = commands->type;
 			}
 			else
