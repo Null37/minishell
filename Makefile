@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/15 16:01:55 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/15 16:22:24 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 FLAGS =  -lcurses -fsanitize=address
 
-SRC = minishell.c parsing.c algo_sort.c rederction_test2.c \
+SRC = minishell.c parsing.c algo_sort.c rederction_f.c \
 termcap_fl.c execute/funct_file.c \
 execute/cmd_cd_function.c \
 execute/edit_envp.c \
@@ -25,8 +25,9 @@ execute/env_3.c execute/env_4.c\
 execute/all_command.c execute/signal.c\
 execute/mini_func.c execute/mini_func_2.c \
 execute/env_5.c execute/check_syntax_1.c\
-execute/redirection_f_1.c execute/redirection_f_2.c \
-execute/unset.c
+execute/redirection_f_1.c\
+execute/redirection_f_2.c\
+execute/unset.c\
 
 CC = gcc
 
