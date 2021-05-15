@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:36:43 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/15 15:55:11 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,37 +159,7 @@ void add_in_exp(t_commands *tmp, int k, char **my_env)
 	}
 }
 
-void command_unset(t_commands *tmp ,t_env *evp)
-{
-	int lenp;
-	int lenarg;
-	int k = 0;
-
-	lenp = len_of_args(evp->my_env);
-
-	lenarg = count_arg_2(tmp);
-	while(k < lenarg)
-	{
-		check_syntax(tmp, k ,lenarg, 'u');
-		for (int i = 0; i < lenp; i++)
-		{
-			if (strncmp(evp->my_env[i], tmp->arguments[k], strlen(tmp->arguments[k])) == 0)
-			{
-				int j = i;
-				while (j < lenp - 1)
-				{
-					evp->my_env[j] = evp->my_env[j + 1];
-					j++;
-				}
-				evp->my_env[j]	= NULL;
-				lenp = len_of_args(evp->my_env);
-			}
-		}
-		k++;
-	}
-}
-
-t_filerdr *last_name_func(t_commands *tmp)
+t_filerdr	*last_name_func(t_commands *tmp)
 {
 	t_filerdr *head;
 	t_filerdr *last;

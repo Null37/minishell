@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:31:02 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/15 16:01:35 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void add_in_exp(t_commands *tmp, int k, char **my_env);
 int check_file_or_dit(char *path_file);
 int check_permissions(char *path_file, struct stat stats, int exute);
 int	check_file_or_dit(char *path_file);
+void	command_unset(t_commands *tmp , t_env *evp);
 char *g_cmds;
 int pid;
 int fuck;
