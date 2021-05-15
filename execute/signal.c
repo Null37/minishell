@@ -1,20 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redrection_test.c                                  :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 16:20:00 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/04/05 16:26:54 by ssamadi          ###   ########.fr       */
+/*   Created: 2021/05/15 12:58:09 by ssamadi           #+#    #+#             */
+/*   Updated: 2021/05/15 13:01:41 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_hr.h"
+#include "../minishell_hr.h"
 
-
-int main(int argc, char *argv[])
+void	command_c(int signum)
 {
-    int fd = open("test2", O_CREAT | O_RDWR, 0777);
-    dup2(fd, 1);
+	g_all->staus_code = 1;
+	write(1, "\n", 1);
+	write(1, "\033[0;33mNull37$\033[0m ", 19);
+	if (g_all->ret)
+	{
+		free(g_all->ret);
+		g_all->ret = NULL;
+	}
+	g_all->ctrl_c = 1;
+}
+
+void	cntrol_quit(int quit)
+{
+	if (g_all->ctrl_quit == 1 && ft_strncmp(g_all->type, "read", 6) != 0)
+	{
+		write(2, "Quit: ", 7);
+		ft_putnbr_fd(quit, 2);
+		write(2, "\n", 1);
+	}
 }

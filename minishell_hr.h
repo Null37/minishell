@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 15:39:16 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/15 15:31:02 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ typedef struct s_nor
 	int c;
 	char *varibale;
 	char *ef;
+	int			fd;
+	int			fd_check;
 }		t_norm;
 
 t_commandg *g_all;
@@ -163,6 +165,14 @@ int	check_syntax_export_true(t_commands *tmp, int k, int lenarg);
 int	check_syntax_export_false(t_commands *tmp, int k, int lenarg);
 int	ft_isdigit2(char number);
 void add_in_env(t_commands *tmp, int k, char **envp);
+int our_command(t_commands *tmp, char *ptr, t_env *evp);
+void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
+void	cntrol_quit(int quit);
+int	syntax_true(t_commands *tmp, char **envp, int k, int lenarg);
+void add_in_exp(t_commands *tmp, int k, char **my_env);
+int check_file_or_dit(char *path_file);
+int check_permissions(char *path_file, struct stat stats, int exute);
+int	check_file_or_dit(char *path_file);
 char *g_cmds;
 int pid;
 int fuck;
