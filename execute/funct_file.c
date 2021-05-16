@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 17:51:18 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 18:02:57 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ void	command_in_the_sys(t_commands *tmp, char **envp)
 	g_all->type = tmp->type;
 	if (pid == 0)
 	{
-		if (yesdup == 1)
+		if (g_all->yesdup == 1)
 		{
-			dup2(redir_fd, 1);
-			dup2(redir_fd_in, 0);
+			dup2(g_all->redir_fd, 1);
+			dup2(g_all->redir_fd_in, 0);
 		}
 		if (execve(tmp->path, tmp->all, envp) < 0)
 			error_execve(tmp);

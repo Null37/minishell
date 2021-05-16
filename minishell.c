@@ -6,94 +6,11 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 16:47:29 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 18:05:13 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
-
-void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
-{
-	t_filerdr *t;
-	t = tmp->filerdr;
-	int saved_stdout;
-	int saved_input;
-	char *stre;
-	redir_fd = -100;
-	redir_fd_in = -100;
-	int fd = -200;
-	int fd_in = -100;
-	if(check_two_red(tmp) == 0)
-	{
-		t_filerdr *lastnamef = last_name_func(tmp);
-		if(!lastnamef)
-			return ;
-		if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
-		{
-			g_all->staus_code = 1;
-			return ;
-		}
-		if(lastnamef->type == 0)
-		{
-			fd_in = open(lastnamef->name, O_RDONLY);
-			saved_input = dup(0);
-			close(0);
-			dup2(fd_in, 0);
-			if(check_this_command(tmp,evp) == 2)
-				our_command(tmp, ptr, evp);
-			dup2(saved_input, 0);
-			close(saved_input);
-			close(fd_in);
-		}
-		else if(lastnamef->type == 1)
-		{
-			//output
-			fd = open(lastnamef->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			saved_stdout = dup(1);
-			close(1);
-			dup2(fd, 1);
-			if(check_this_command(tmp,evp) == 2)
-				our_command(tmp, ptr, evp);
-			dup2(saved_stdout, STDOUT_FILENO);
-			close(saved_stdout);
-			close(fd);
-		}
-		else if(lastnamef->type == 2)
-		{
-			//output
-			fd = open(lastnamef->name, O_CREAT|O_WRONLY|O_APPEND, 0644);
-			saved_stdout = dup(1);
-			close(1);
-			dup2(fd, 1);
-			if(check_this_command(tmp,evp) == 2)
-				our_command(tmp, ptr, evp);
-			dup2(saved_stdout, STDOUT_FILENO);
-			close(saved_stdout);
-			close(fd);
-		}
-	}
-
-	else if(check_two_red(tmp) == 1)
-	{
-		yesdup = 1;
-		// fprintf(stderr, "here\n");
-		// saved_input = dup(0);
-		// saved_stdout = dup(1);
-		redir_fd = output_ret(tmp);
-		if(redir_fd == -100)
-			return;
-		redir_fd_in = input_ret(tmp);
-		if(redir_fd_in == -100)
-			return ;
-		if(check_this_command(tmp,evp) == 2)
-			our_command(tmp, ptr, evp);
-		yesdup = 0;
-		// dup2(saved_input, 0);
-		// dup2(saved_stdout, STDOUT_FILENO);
-		// close(saved_stdout);
-		// close(saved_input);
-	}
-}
 
 void add_in_exp(t_commands *tmp, int k, char **my_env)
 {
@@ -324,7 +241,6 @@ void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 int main(int argc, char **argv, char **envp)
 {
 	t_history *history;
-	yesdup = 0;
 	t_env *evp;
 	evp = malloc(sizeof(t_env));
 	char *buf;
@@ -337,6 +253,7 @@ int main(int argc, char **argv, char **envp)
 	int edit = 0;
 	g_all = malloc(sizeof(t_commandg));
 	g_all->line = NULL;
+	g_all->yesdup = 0;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
 	evp->my_env = edit_envp_v(evp->my_env);

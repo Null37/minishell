@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 17:49:03 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 18:12:16 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ typedef struct		s_commandg
 			int ctrl_quit;
 			char *type;
 			char *old_pwd;
+			int redir_fd_in;
+			int redir_fd;
+			int yesdup;
 }					t_commandg;
 
 typedef struct s_nor
@@ -111,13 +114,15 @@ typedef struct s_nor
 	int ck;
 	char **com_path;
 	char *path;
+	int saved_stdout;
+	int saved_input;
+	int fd_in;
+	int fd_o;
+	char *ptr2;
 }		t_norm;
 
 t_commandg *g_all;
 
-int redir_fd_in;
-int redir_fd;
-int yesdup;
 int test[2];
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
