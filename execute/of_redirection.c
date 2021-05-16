@@ -6,13 +6,14 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 18:25:45 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 18:26:44 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
-void	half_in_ou(t_commands *tmp, t_norm norm, t_env *evp, t_filerdr *lastnamef)
+void	half_in_ou(t_commands *tmp,
+	t_norm norm, t_env *evp, t_filerdr *lastnamef)
 {
 	if (lastnamef->type == 0)
 	{
@@ -40,7 +41,8 @@ void	half_in_ou(t_commands *tmp, t_norm norm, t_env *evp, t_filerdr *lastnamef)
 	}
 }
 
-void	half_ou_two(t_commands *tmp, t_norm norm, t_env *evp, t_filerdr *lastnamef)
+void	half_ou_two(t_commands *tmp,
+	t_norm norm, t_env *evp, t_filerdr *lastnamef)
 {
 	if (lastnamef->type == 2)
 	{
