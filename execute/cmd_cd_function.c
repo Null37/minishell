@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 17:58:54 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 13:01:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	half_cd(char *ptr, t_env *evp, char *oldpwd)
 {
 	ptr = search_in_env2("PWD", evp->my_env);
 	oldpwd = ft_strdup(ptr);
-	
-	if(ft_strncmp(ptr, "", 1) != 0)
+	if (ft_strncmp(ptr, "", 1) != 0)
 	{
 		ptr = ft_strjoin1(ptr, "/.");
 		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
@@ -39,6 +38,7 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 		if (ft_strncmp(home, "", 1) == 0)
 		{
 			write(2, "minishell: cd: HOME not set\n", 28);
+			g_all->staus_code = 1;
 			return (-9);
 		}
 	}
@@ -55,12 +55,28 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 	return (eee);
 }
 
+void	erro_cd(char *home, t_commands *tmp)
+{
+	char	*ee;
+
+	write(2, "Minishell: ", 11);
+	write(2, "cd: ", 4);
+	if (tmp->arguments[0] != NULL)
+		write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
+	else
+		write(2, home, ft_strlen(home));
+	write(2, ": ", 2);
+	ee = strerror(errno);
+	write(2, ee, strlen(ee));
+	write(2, "\n", 1);
+	g_all->staus_code = 1;
+}
+
 void	command_cd(char *ptr, t_commands *tmp, t_env *evp)
 {
 	int		eee;
 	char	*home;
 	char	*oldpwd;
-	char	*ee;
 
 	if (ptr != NULL)
 		evp->my_env = edit_evp_new_oldpwd(ptr, evp->my_env);
@@ -70,18 +86,7 @@ void	command_cd(char *ptr, t_commands *tmp, t_env *evp)
 	if (eee == -9)
 		return ;
 	if (eee == -1)
-	{
+		erro_cd(home, tmp);
+	else
 		g_all->staus_code = 0;
-		write(2, "Minishell: ", 11);
-		write(2, "cd: ", 4);
-		if (tmp->arguments[0] != NULL)
-			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
-		else
-			write(2, home, ft_strlen(home));
-		write(2, ": ", 2);
-		ee = strerror(errno);
-		write(2, ee, strlen(ee));
-		write(2, "\n", 1);
-	}
-	g_all->staus_code = 0;
 }

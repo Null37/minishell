@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 16:38:41 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 16:47:29 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp)
 		if(!lastnamef)
 			return ;
 		if(check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
+		{
+			g_all->staus_code = 1;
 			return ;
+		}
 		if(lastnamef->type == 0)
 		{
 			fd_in = open(lastnamef->name, O_RDONLY);
@@ -344,6 +347,7 @@ int main(int argc, char **argv, char **envp)
 	g_all->ctrl_quit = 0;
 	g_all->staus_code = 0;
     history = new_commnd(NULL);
+
 	while (1)
 	{
 		signal(SIGINT, command_c);

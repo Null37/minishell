@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:54:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 10:38:31 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 17:51:52 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,24 @@ void	command_unset(t_commands *tmp, t_env *evp)
 			}
 		}
 	}
+}
+
+t_norm	*new_norm(char **envp_c)
+{
+	t_norm	*norm;
+
+	norm = malloc(sizeof(t_norm));
+	norm->lenp = len_of_args(envp_c);
+	norm->o = 0;
+	norm->i = -1;
+	return (norm);
+}
+
+char	**set_norm(t_norm *norm, char *ptr, char **envp_c)
+{
+	norm->len = ft_strlen(ptr);
+	norm->j = ft_strlen(norm->nameenv);
+	envp_c[norm->i] = (char *)malloc(norm->len + norm->j + 1 + 2);
+	norm->t = 0;
+	return (envp_c);
 }

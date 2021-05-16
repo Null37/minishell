@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:31:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 10:40:10 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 11:50:48 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,50 +53,53 @@ char	**copy_envp(char **envp_l)
 	return (tmpr);
 }
 
+char	**half_edit_envp(char **envp_c, t_norm norm)
+{
+	int	j;
+
+	j = 0;
+	while (envp_c[norm.i][j])
+	{
+		if (envp_c[norm.i][j] == '=')
+		{
+			j += 1;
+			while (norm.tee != norm.t)
+			{
+				envp_c[norm.i][j] = norm.newsh[norm.tee];
+				j++;
+				norm.tee++;
+			}
+			envp_c[norm.i][j] = '\0';
+			free(norm.tmp);
+			free(norm.newsh);
+			return (envp_c);
+		}
+		j++;
+	}
+	return (envp_c);
+}
+
 char	**edit_envp_shlvl(char **envp_c)
 {
-	char	*sh;
-	char *tmp;
-	char	*newsh;
 	int		lenp;
-	int		j;
-	int		t;
-	int		i;
-	int		tee;
+	t_norm	norm;
 
-	sh = search_in_env2("SHLVL", envp_c);
-	newsh = ft_itoa(ft_atoi(sh) + 1);
+	norm.sh = search_in_env2("SHLVL", envp_c);
+	norm.newsh = ft_itoa(ft_atoi(norm.sh) + 1);
 	lenp = len_of_args(envp_c);
-	tee = 0;
-	t = ft_strlen(newsh);
-	i = -1;
-	while(++i < lenp)
+	norm.tee = 0;
+	norm.t = ft_strlen(norm.newsh);
+	norm.i = -1;
+	while (++norm.i < lenp)
 	{
-		tmp = get_env_name(envp_c[i]);
-		if (my_strcmp(tmp, "SHLVL") == 0)
+		norm.tmp = get_env_name(envp_c[norm.i]);
+		if (my_strcmp(norm.tmp, "SHLVL") == 0)
 		{
-			j = 0;
-			while (envp_c[i][j])
-			{
-				if(envp_c[i][j] == '=')
-				{
-					j += 1;
-					while(tee != t)
-					{
-						envp_c[i][j] = newsh[tee];
-						j++;
-						tee++;
-					}
-					envp_c[i][j] ='\0';
-					free(tmp);
-					free(newsh);
-					return (envp_c);
-				}
-				j++;
-			}	
+			envp_c = half_edit_envp(envp_c, norm);
+			return (envp_c);
 		}
-		free(tmp);
+		free(norm.tmp);
 	}
-	free(newsh);
+	free(norm.newsh);
 	return (envp_c);
 }

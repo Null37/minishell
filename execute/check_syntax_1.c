@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:04:55 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 17:28:03 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	print_error_check_commd(t_commands *tmp)
 	write(2, ": ", 2);
 	write(2, eir, strlen(eir));
 	write(2, "\n", 1);
+	g_all->staus_code = 127;
 }
 
 int	check_if_command_is_exist(char *path_file, int exute)

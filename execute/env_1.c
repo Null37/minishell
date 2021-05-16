@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:50:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 10:39:52 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 11:59:02 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,20 @@ char	**edit_envp_pwd(char *ptr, char **envp_c)
 	return (envp_c);
 }
 
+char	**half(char **envp_c, t_norm norm)
+{
+	norm.j += 1;
+	while (norm.tee != norm.t)
+	{
+		envp_c[norm.i][norm.j] = norm.v[norm.tee];
+		norm.j++;
+		norm.tee++;
+	}
+	envp_c[norm.i][norm.j] = '\0';
+	free(norm.nameenv);
+	return (envp_c);
+}
+
 char	**half_v_edit(char **envp_c, t_norm norm)
 {
 	while (++norm.i < norm.lenp)
@@ -70,15 +84,7 @@ char	**half_v_edit(char **envp_c, t_norm norm)
 			{
 				if (envp_c[norm.i][norm.j] == '=')
 				{
-					norm.j += 1;
-					while (norm.tee != norm.t)
-					{
-						envp_c[norm.i][norm.j] = norm.v[norm.tee];
-						norm.j++;
-						norm.tee++;
-					}
-					envp_c[norm.i][norm.j] = '\0';
-					free(norm.nameenv);
+					envp_c = half(envp_c, norm);
 					return (envp_c);
 				}
 				norm.j++;

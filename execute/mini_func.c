@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:02:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 13:16:44 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 13:12:51 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,3 @@ int	syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 	}
 	return (0);
 }
-

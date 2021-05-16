@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:16:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:33:40 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 16:46:54 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	check_file_or_dit(char *path_file)
 		write(2, path_file, ft_strlen(path_file));
 		write(2, ": ", 2);
 		write(2, "is a directory\n", 15);
+		g_all->staus_code = 126;
 		return (3);
 	}
 	return (0);
@@ -61,6 +62,7 @@ int	check_permissions(char *path_file, struct stat stats, int exute)
 		write(2, path_file, ft_strlen(path_file));
 		write(2, ": ", 2);
 		write(2, "Permission denied\n", 18);
+		g_all->staus_code = 126;
 		return (1);
 	}
 	return (0);

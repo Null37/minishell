@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 16:01:35 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 17:49:03 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,17 @@ typedef struct s_nor
 	char *ef;
 	int			fd;
 	int			fd_check;
+	char	*sh;
+	char	*tmp;
+	char	*newsh;
+	int lenarg;
+	int k;
+	int z;
+	char **tprr;
+	int fs;
+	int ck;
+	char **com_path;
+	char *path;
 }		t_norm;
 
 t_commandg *g_all;
@@ -174,6 +185,11 @@ int check_file_or_dit(char *path_file);
 int check_permissions(char *path_file, struct stat stats, int exute);
 int	check_file_or_dit(char *path_file);
 void	command_unset(t_commands *tmp , t_env *evp);
+t_norm *new_norm(char **envp_c);
+char  **set_norm(t_norm *norm, char *ptr, char **envp_c);
+int	half_check_c_2(t_commands *tmp, t_norm norm);
+void	free_cmds(char **cmd);
+int	half_check_commad(t_commands *tmp, char *path);
 char *g_cmds;
 int pid;
 int fuck;

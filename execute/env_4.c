@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 10:37:12 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 13:00:15 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,9 @@ int	check_syntax_export_true(t_commands *tmp, int k, int lenarg)
 	return (0);
 }
 
-void add_in_env(t_commands *tmp, int k, char **envp)
+int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 {
-	t_norm norm;
-	
-	norm.lenp = 0;
-	norm.i = 0;
-	norm.b = 0;
-	norm.c = 0;
-	while(tmp->arguments[k][norm.b] != '=')
-			norm.b++;
-	norm.varibale = malloc(sizeof(char) * norm.b + 1);
-	while(norm.c != norm.b)
-	{
-		norm.varibale[norm.c] = tmp->arguments[k][norm.c];
-		norm.c++;
-	}
-	norm.varibale[norm.c] = '\0';
-	norm.ef = search_in_env2(norm.varibale, envp);
-	while(envp[norm.i] != NULL)
-		norm.i++;
-	if(ft_strncmp(norm.ef, "\0", 1) == 0)
+	if (ft_strncmp(norm.ef, "\0", 1) == 0)
 	{
 		envp[norm.i] = tmp->arguments[k];
 		envp[norm.i + 1] = NULL;
@@ -98,11 +80,7 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 	else
 	{
 		norm.b += 1;
-		char *te = (tmp->arguments[k] + norm.b);
-		int t;
-		int tee = 0;;
-
-		t = ft_strlen(te);
+		norm.te = (tmp->arguments[k] + norm.b);
 		norm.lenp = len_of_args(envp);
 		norm.i = -1;
 		while (++norm.i < norm.lenp)
@@ -111,11 +89,36 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 			if (my_strcmp(norm.nameenv, norm.varibale) == 0)
 			{
 				norm.varibale = ft_strjoin(norm.varibale, "=");
-				envp[norm.i] = ft_strjoin(norm.varibale, te);
+				envp[norm.i] = ft_strjoin(norm.varibale, norm.te);
 				free(norm.nameenv);
-				return ;
+				return (-100);
 			}
 			free(norm.nameenv);
 		}
 	}
+	return (0);
+}
+
+void	add_in_env(t_commands *tmp, int k, char **envp)
+{
+	t_norm	norm;
+
+	norm.lenp = 0;
+	norm.i = 0;
+	norm.b = 0;
+	norm.c = 0;
+	while (tmp->arguments[k][norm.b] != '=')
+		norm.b++;
+	norm.varibale = malloc(sizeof(char) * norm.b + 1);
+	while (norm.c != norm.b)
+	{
+		norm.varibale[norm.c] = tmp->arguments[k][norm.c];
+		norm.c++;
+	}
+	norm.varibale[norm.c] = '\0';
+	norm.ef = search_in_env2(norm.varibale, envp);
+	while (envp[norm.i] != NULL)
+		norm.i++;
+	if (half_add_env(tmp, norm, envp, k) == -100)
+		return ;
 }
