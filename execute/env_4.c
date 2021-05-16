@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 16:51:56 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 10:37:12 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void add_in_env(t_commands *tmp, int k, char **envp)
 		t = ft_strlen(te);
 		norm.lenp = len_of_args(envp);
 		norm.i = -1;
-		while (norm.i++ < norm.lenp)
+		while (++norm.i < norm.lenp)
 		{
 			norm.nameenv = get_env_name(envp[norm.i]);
 			if (my_strcmp(norm.nameenv, norm.varibale) == 0)

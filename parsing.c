@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 18:18:36 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 11:07:48 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ char *search_in_env(char *variable, char **envp)
     fsf = ft_strdup(" ");
     buff = ft_strdup("");
     lenp = len_of_args(envp);
-    lenarg = nbr_argts2(g_cmds) - 1;
 	variable = ft_strjoin1(variable, "=");
     for (int i = 0; i < lenp; i++)
     {
@@ -345,7 +344,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 	{
 		if (!syntax(typ[++(tmp->i)], ++z) && z == 0)
 		{
-			test = my_substr2(typ, k + 1, tmp->i + 1);
+			test = my_substr(typ, k + 1, tmp->i + 1);
 			//test =  syn_dollar(test);
 			test = search_in_env(test, envp);
 			break ;
@@ -353,7 +352,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 		else if (!syntax(typ[tmp->i], z))
 		{
 			
-			test = my_substr2(typ, k + 1, tmp->i);
+			test = my_substr(typ, k + 1, tmp->i);
 			//test =  syn_dollar(test);
 			test = search_in_env(test, envp);
 			--(tmp->i);
@@ -680,7 +679,6 @@ char		*deleterdr(char *command)
 			break ;
 	}
 	free(s);
-	free(command);
 	return (comd);
 }
 

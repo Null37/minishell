@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 18:03:53 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 10:36:37 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*half_search(char *variable, char **envp, t_norm norm)
 {
 	char *tmp;
-	while (norm.i++ < norm.lenp)
+	while (++norm.i < norm.lenp)
 	{
 		tmp = get_env_name(envp[norm.i]);
 		if (my_strcmp(tmp, variable) == 0)
@@ -89,7 +89,7 @@ char	**edit_evp_new_oldpwd(char *ptr, char **envp_c)
 	norm.lenp = len_of_args(envp_c);
 	norm.o = 0;
 	norm.i = -1;
-	while (norm.i++ < norm.lenp)
+	while (++norm.i < norm.lenp)
 	{
 		norm.nameenv = get_env_name(envp_c[norm.i]);
 		if (my_strcmp(norm.nameenv, "OLDPWD") == 0)

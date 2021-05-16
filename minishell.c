@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:55:11 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/15 16:38:41 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,15 +163,17 @@ t_filerdr	*last_name_func(t_commands *tmp)
 {
 	t_filerdr *head;
 	t_filerdr *last;
-	int fd = -70;
-	head = tmp->filerdr;
+	int fd;
 	char *err;
+
+	fd = -70;
+	head = tmp->filerdr;
 	while (1)
 	{
 		if (head->type == 0)
 		{
 			fd = open(head->name, O_RDONLY);
-			if(fd < 0)
+			if (fd < 0)
 			{
 				err = strerror(errno);
 				write(2, "minishell: ", 11);
@@ -179,14 +181,14 @@ t_filerdr	*last_name_func(t_commands *tmp)
 				write(2, ": ", 2);
 				ft_putstr_fd(err, 2);
 				write(2, "\n", 1);
-				return NULL;
+				return (NULL);
 			}
 			last = head;
 			close(fd);
 		}
 		else if (head->type == 1)
 		{
-			fd = open(head->name,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(head->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			last = head;
 			close(fd);
 		}
@@ -196,12 +198,11 @@ t_filerdr	*last_name_func(t_commands *tmp)
 			last = head;
 			close(fd);
 		}
-		
 		if (!head->next)
 			break ;
 		head = head->next;
 	}
-	return(last);
+	return (last);
 }
 
 void  pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
@@ -331,10 +332,8 @@ int main(int argc, char **argv, char **envp)
 	buf = NULL;
 	int help = 0;
 	int edit = 0;
-	char path[200];
 	g_all = malloc(sizeof(t_commandg));
 	g_all->line = NULL;
-	int readinput;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
 	evp->my_env = edit_envp_v(evp->my_env);

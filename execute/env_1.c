@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:50:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 16:58:51 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 10:39:52 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**edit_envp_old_pwd(char **envp_c)
 
 	i = -1;
 	lenp = len_of_args(envp_c);
-	while (i++ < lenp)
+	while (++i < lenp)
 	{
 		nameenv = get_env_name(envp_c[i]);
 		if (my_strcmp(nameenv, "OLDPWD") == 0)
@@ -41,7 +41,7 @@ char	**edit_envp_pwd(char *ptr, char **envp_c)
 
 	norm.lenp = len_of_args(envp_c);
 	norm.i = -1;
-	while (norm.i++ < norm.lenp)
+	while (++norm.i < norm.lenp)
 	{
 		norm.nameenv = get_env_name(envp_c[norm.i]);
 		if (my_strcmp(norm.nameenv, "PWD") == 0)
@@ -60,7 +60,7 @@ char	**edit_envp_pwd(char *ptr, char **envp_c)
 
 char	**half_v_edit(char **envp_c, t_norm norm)
 {
-	while (norm.i++ < norm.lenp)
+	while (++norm.i < norm.lenp)
 	{
 		norm.nameenv = get_env_name(envp_c[norm.i]);
 		if (my_strcmp(norm.nameenv, "_") == 0)

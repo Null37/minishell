@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:54:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 16:03:50 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 10:38:31 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	command_unset(t_commands *tmp, t_env *evp)
 	k = -1;
 	lenp = len_of_args(evp->my_env);
 	lenarg = count_arg_2(tmp);
-	while (k++ < lenarg)
+	while (++k < lenarg)
 	{
 		check_syntax(tmp, k, lenarg, 'u');
-		while (i++ < lenp)
+		while (++i < lenp)
 		{
 			if (strncmp(evp->my_env[i], tmp->arguments[k],
 					strlen(tmp->arguments[k])) == 0)

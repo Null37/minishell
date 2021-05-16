@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:31:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 17:39:39 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/16 10:40:10 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**edit_envp_shlvl(char **envp_c)
 	tee = 0;
 	t = ft_strlen(newsh);
 	i = -1;
-	while(i++ < lenp)
+	while(++i < lenp)
 	{
 		tmp = get_env_name(envp_c[i]);
 		if (my_strcmp(tmp, "SHLVL") == 0)
