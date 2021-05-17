@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 18:26:44 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:37:11 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	half_in_ou(t_commands *tmp,
 		norm.saved_input = dup(0);
 		close(0);
 		dup2(norm.fd_in, 0);
-		if (check_this_command(tmp, evp) == 2)
+		if (check_this_command(tmp, evp, norm.pipe_ch) == 2)
 			our_command(tmp, norm.ptr2, evp);
 		dup2(norm.saved_input, 0);
 		close(norm.saved_input);
@@ -33,7 +33,7 @@ void	half_in_ou(t_commands *tmp,
 		norm.saved_stdout = dup(1);
 		close(1);
 		dup2(norm.fd_o, 1);
-		if (check_this_command(tmp, evp) == 2)
+		if (check_this_command(tmp, evp, norm.pipe_ch) == 2)
 			our_command(tmp, norm.ptr2, evp);
 		dup2(norm.saved_stdout, STDOUT_FILENO);
 		close(norm.saved_stdout);
@@ -50,7 +50,7 @@ void	half_ou_two(t_commands *tmp,
 		norm.saved_stdout = dup(1);
 		close(1);
 		dup2(norm.fd_o, 1);
-		if (check_this_command(tmp, evp) == 2)
+		if (check_this_command(tmp, evp, norm.pipe_ch) == 2)
 			our_command(tmp, norm.ptr2, evp);
 		dup2(norm.saved_stdout, STDOUT_FILENO);
 		close(norm.saved_stdout);
@@ -58,7 +58,7 @@ void	half_ou_two(t_commands *tmp,
 	}
 }
 
-int	half_in(t_commands *tmp, t_norm norm, t_env *evp)
+int	half_in(t_commands *tmp, t_norm norm, t_env *evp, int pipe)
 {
 	g_all->yesdup = 1;
 	g_all->redir_fd = output_ret(tmp);
@@ -67,7 +67,7 @@ int	half_in(t_commands *tmp, t_norm norm, t_env *evp)
 	g_all->redir_fd_in = input_ret(tmp);
 	if (g_all->redir_fd_in == -100)
 		return (-1);
-	if (check_this_command(tmp, evp) == 2)
+	if (check_this_command(tmp, evp, pipe) == 2)
 		our_command(tmp, norm.ptr2, evp);
 	g_all->yesdup = 0;
 	return (0);
@@ -87,6 +87,7 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 	t_norm		norm;
 	t_filerdr	*lastnamef;
 
+	norm.pipe_ch = 0;
 	reset_red(norm);
 	t = tmp->filerdr;
 	norm.ptr2 = ptr;
@@ -95,7 +96,7 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 		lastnamef = last_name_func(tmp);
 		if (!lastnamef)
 			return ;
-		if (check_if_command_is_exist(tmp->filerdr->name, 0) == 3)
+		if (check_if_command_is_exist(tmp->filerdr->name, 0, norm.pipe_ch) == 3)
 		{
 			g_all->staus_code = 1;
 			return ;
@@ -105,7 +106,7 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 	}
 	else if (check_two_red(tmp) == 1)
 	{
-		if (half_in(tmp, norm, evp) == -1)
+		if (half_in(tmp, norm, evp, norm.pipe_ch) == -1)
 			return ;
 	}
 }

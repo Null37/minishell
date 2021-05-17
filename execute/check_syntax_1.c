@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 17:28:03 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:36:00 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,37 @@ void	check_syntax(t_commands *tmp, int k, int lenarg, char e_u)
 	}
 }
 
-void	print_error_check_commd(t_commands *tmp)
+void	print_error_check_commd(t_commands *tmp, int pipe)
 {
 	char	*eir;
 
-	eir = strerror(errno);
-	write(2, "minishell: ", 11);
-	write(2, tmp->type, ft_strlen(tmp->type));
-	write(2, ": ", 2);
-	write(2, eir, strlen(eir));
-	write(2, "\n", 1);
+	if(pipe == 0)
+	{
+		eir = strerror(errno);
+		write(2, "minishell: ", 11);
+		write(2, tmp->type, ft_strlen(tmp->type));
+		write(2, ": ", 2);
+		write(2, eir, strlen(eir));
+		write(2, "\n", 1);
+	}
 	g_all->staus_code = 127;
 }
 
-int	check_if_command_is_exist(char *path_file, int exute)
+int	check_if_command_is_exist(char *path_file, int exute, int pipe)
 {
 	int			fs;
 	struct stat	buf;
 
 	fs = stat(path_file, &buf);
-	if (fs == 0)
+	if(pipe == 0)
 	{
-		if (check_file_or_dit(path_file) == 3)
-			return (3);
-		if (check_permissions(path_file, buf, exute) == 1)
-			return (3);
+		if (fs == 0)
+		{
+			if (check_file_or_dit(path_file) == 3)
+				return (3);
+			if (check_permissions(path_file, buf, exute) == 1)
+				return (3);
+		}
 	}
 	return (fs);
 }

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 18:12:16 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:53:49 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct		s_commandg
 			int redir_fd_in;
 			int redir_fd;
 			int yesdup;
+			int pipe_err;
 }					t_commandg;
 
 typedef struct s_nor
@@ -119,15 +120,25 @@ typedef struct s_nor
 	int fd_in;
 	int fd_o;
 	char *ptr2;
+	int g;
+	int fd_l;
+	int read_fd;
+	int fd_pipe[2];
+	int write_fd;
+	int	file;
+	int fd_input;
+	int fd_out;
+	int	pipe_ch;
 }		t_norm;
 
 t_commandg *g_all;
 
 int test[2];
+void	err_this_command(t_commands *tmp, int pipe);
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
 void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);
-int check_this_command(t_commands *tmp,t_env *evp);
+int	check_this_command(t_commands *tmp, t_env *evp, int pipe);
 int         nbr_argts2(char *command);
 int		my_strcmp(char *s1, char *s2);
 int           nbr_argts(t_commands *commands);
@@ -154,7 +165,7 @@ void check_syntax(t_commands *tmp,int k, int lenarg, char e_u);
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
 char		*ft_strjoin1(char *s1, char *s2);
 char **edit_envp_pwd(char *ptr, char **envp_c);
-int check_if_command_is_exist(char *path_file, int exute);
+int check_if_command_is_exist(char *path_file, int exute, int pipe);
 int		spcle_chr(char c);
 char    *ft_strjoinchar(char *s, char c);
 int             get_char();
@@ -172,7 +183,7 @@ void command_in_the_sys(t_commands *tmp, char **envp);
 void	error_execve(t_commands *tmp);
 char **edit_evp_new_oldpwd(char *ptr, char **envp_c);
 char	**edit_envp_shlvl(char **envp_c);
-void print_error_check_commd(t_commands *tmp);
+void print_error_check_commd(t_commands *tmp, int pipe);
 char	**edit_envp_old_pwd(char **envp_c);
 char	**edit_envp_v(char **envp_c);
 void	ok_write(char **my_env, int i, int j);
@@ -192,9 +203,15 @@ int	check_file_or_dit(char *path_file);
 void	command_unset(t_commands *tmp , t_env *evp);
 t_norm *new_norm(char **envp_c);
 char  **set_norm(t_norm *norm, char *ptr, char **envp_c);
-int	half_check_c_2(t_commands *tmp, t_norm norm);
+int	half_check_c_2(t_commands *tmp, t_norm norm, int pipe);
 void	free_cmds(char **cmd);
-int	half_check_commad(t_commands *tmp, char *path);
+int	half_check_commad(t_commands *tmp, char *path, int pipe);
+t_filerdr	*last_name_func(t_commands *tmp);
+void	half_rid_zerot_commands(t_filerdr *lastnamef, t_norm *norm);
+void	half_pip_rid_one(t_norm *norm, t_filerdr *lastnamef);
+void	normal_pipe(t_norm	*norm);
+void	reset(t_norm *norm, char *ptr);
+void	parent(t_norm *norm, t_commands *tmp);
 char *g_cmds;
 int pid;
 int fuck;

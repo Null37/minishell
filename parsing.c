@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 11:07:48 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:40:23 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -969,7 +969,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			{
 				if(commands->filerdr == NULL)
 				{
-					if(check_this_command(commands, evp) == 2)
+					if(check_this_command(commands, evp, 0) == 2)
 						our_command(commands, ptr, evp);
 				}
 				else if(commands->filerdr != NULL)
@@ -982,7 +982,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 				tpp = commands;
 				while (1)
 				{
-					check_this_command(commands, evp);
+					check_this_command(commands, evp, 1);
 						// pipe_commmand_c(commands, ptr, evp);
 					if (!commands->next_p)
 						break ;
@@ -1010,7 +1010,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 			{
 				if(commands->filerdr == NULL)
 				{
-					if(check_this_command(commands, evp) == 2)
+					if (check_this_command(commands, evp, 0) == 2)
 						our_command(commands, ptr, evp);
 				}
 				else if(commands->filerdr != NULL)
@@ -1023,7 +1023,7 @@ int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds)
 				tpp = commands;
 				while (1)
 				{
-					check_this_command(commands, evp);
+					check_this_command(commands, evp, 1);
 					if (!commands->next_p)
 						break ;
 					commands = commands->next_p;

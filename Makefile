@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/16 17:55:00 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/17 15:53:10 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,14 @@ execute/env_3.c execute/env_4.c\
 execute/all_command.c execute/signal.c\
 execute/mini_func.c execute/mini_func_2.c \
 execute/env_5.c execute/check_syntax_1.c\
+execute/env_6.c\
 execute/redirection_f_1.c\
 execute/redirection_f_2.c\
 execute/unset.c\
-execute/of_redirection.c
+execute/of_redirection.c \
+execute/redirection_f_3.c \
+execute/of_pipe.c \
+execute/of_pipe_fuc.c
 
 CC = gcc
 
