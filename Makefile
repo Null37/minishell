@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/17 15:53:10 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/17 16:07:39 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ execute/unset.c\
 execute/of_redirection.c \
 execute/redirection_f_3.c \
 execute/of_pipe.c \
-execute/of_pipe_fuc.c
+execute/of_pipe_fuc.c \
+execute/of_pipe_fuc_2.c
 
 CC = gcc
 

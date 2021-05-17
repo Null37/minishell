@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:36:48 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 11:51:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 16:00:47 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_filerdr	*last_name_func(t_commands *tmp)
 {
-	t_filerdr *head;
-	t_filerdr *last;
-	t_norm	*norm;
+	t_filerdr	*head;
+	t_filerdr	*last;
+	t_norm		*norm;
 
 	norm = malloc(sizeof(t_norm));
 	char *err;

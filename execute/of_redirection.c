@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:37:11 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:59:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 		half_ou_two(tmp, norm, evp, lastnamef);
 	}
 	else if (check_two_red(tmp) == 1)
-	{
 		if (half_in(tmp, norm, evp, norm.pipe_ch) == -1)
 			return ;
-	}
 }
