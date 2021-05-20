@@ -6,11 +6,12 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 14:12:07 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 12:29:14 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
+
 
 int main(int argc, char **argv, char **envp)
 {
@@ -49,13 +50,14 @@ int main(int argc, char **argv, char **envp)
 		termcap_khedma(history);
 		g_all->ctrl_c = 0;
 		if (check_syntax_rederction(g_all->ret) == -1)
-			continue;
-		g_commands = parssing_shell(ptr, evp ,g_all->ret);
+			continue ;
+		parssing_shell(ptr, evp ,g_all->ret);
 		g_all->ctrl_quit = 0;
 		if (g_all->ret)
 		{
 			free(g_all->ret);
 			g_all->ret = NULL;
 		}
+		free(buf);
 	}
 }

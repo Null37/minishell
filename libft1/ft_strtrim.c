@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 20:33:59 by ssamadi           #+#    #+#             */
-/*   Updated: 2019/11/21 10:39:44 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/18 11:57:05 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		check_char(char s, const char *set)
+static int	check_char(char s, const char *set)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (set[i])
@@ -28,7 +28,7 @@ static	int		check_char(char s, const char *set)
 	return (0);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*p;
 	int		i;
@@ -45,7 +45,8 @@ char			*ft_strtrim(char const *s1, char const *set)
 		j--;
 	if (i > j)
 		return (ft_strdup(""));
-	if (!(p = (char *)malloc(sizeof(char) * (j - i + 2))))
+	p = (char *)malloc(sizeof(char) * (j - i + 2));
+	if (!p)
 		return (NULL);
 	n = 0;
 	while (i <= j)

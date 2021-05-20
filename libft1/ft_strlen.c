@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 11:03:17 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/03/29 18:57:56 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/18 11:58:32 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(char const *str)
 	size_t	x;
 
 	x = 0;
-	if(str == NULL)
+	if (str == NULL)
 		return (0);
 	while (str[x] != '\0')
 		x++;

@@ -37,3 +37,5 @@ edit pwd && and invermount variable
 ----------------
 *echo sdfdsfds;
 -------------------
+not do ctl-D 
+echo -n an up 

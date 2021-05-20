@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/17 16:07:39 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/20 12:30:23 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,22 @@ execute/of_redirection.c \
 execute/redirection_f_3.c \
 execute/of_pipe.c \
 execute/of_pipe_fuc.c \
-execute/of_pipe_fuc_2.c
+execute/of_pipe_fuc_2.c \
+parsing/get_command.c\
+parsing/get_command_cnt.c\
+parsing/split_pipe.c\
+parsing/split_command_rdr.c\
+parsing/files_rdr.c\
+parsing/get_rdr_file.c\
+parsing/deleterdr.c\
+parsing/deletecoats.c\
+parsing/parsing_tools.c\
+parsing/parsing_tools2.c\
+parsing/coats_file.c\
+parsing/add_vrbs.c\
+parsing/reda_tools.c\
+parsing/skip_filename.c\
+parsing/serch_i_e.c\
 
 CC = gcc
 

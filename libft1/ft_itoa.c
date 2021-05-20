@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 12:58:01 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 16:37:43 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/18 09:51:10 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ char	*ft_itoa(int nbr)
 	i = numblen(nbr);
 	n = 0;
 	x = nbr;
-	if ((str = (char *)malloc(sizeof(char) * i + 1)) == NULL)
+	str = (char *)malloc(sizeof(char) * i + 1);
+	if (str == NULL)
 		return (NULL);
 	str[i] = '\0';
 	if (nbr < 0)

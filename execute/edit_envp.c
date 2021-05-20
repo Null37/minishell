@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:31:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 11:50:48 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 12:33:18 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**half_edit_envp(char **envp_c, t_norm norm)
 				norm.tee++;
 			}
 			envp_c[norm.i][j] = '\0';
-			free(norm.tmp);
+			free(norm.n_tmp);
 			free(norm.newsh);
 			return (envp_c);
 		}
@@ -92,13 +92,13 @@ char	**edit_envp_shlvl(char **envp_c)
 	norm.i = -1;
 	while (++norm.i < lenp)
 	{
-		norm.tmp = get_env_name(envp_c[norm.i]);
-		if (my_strcmp(norm.tmp, "SHLVL") == 0)
+		norm.n_tmp = get_env_name(envp_c[norm.i]);
+		if (my_strcmp(norm.n_tmp, "SHLVL") == 0)
 		{
 			envp_c = half_edit_envp(envp_c, norm);
 			return (envp_c);
 		}
-		free(norm.tmp);
+		free(norm.n_tmp);
 	}
 	free(norm.newsh);
 	return (envp_c);

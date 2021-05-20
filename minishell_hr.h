@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 16:07:09 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 12:33:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ typedef struct		s_history{
 	struct 			s_history	*next;
 }					t_history;
 
+typedef struct		s_tmp{
+	char *s1;
+	char *s2;
+	int i;
+	int j;
+	char *ss;
+	char	*rstr;
+	int k;
+	char *test;
+	int z;
+	char *s;
+	int lenp;
+	char *buff;
+	char *fsf;
+}					t_tmp;
+
 typedef struct		s_filerdr{
 	char        	*name;
 	int	        	type;
@@ -65,7 +81,24 @@ typedef struct		s_env
 {
 	char **my_env;
 	char *save;
+	int start;//*
+	int i;//*
+	char *buf;//*
+	t_commands *tpp;//*
+	char *ptr;//*
 }					t_env;
+
+typedef struct		s_rdr
+{
+	int i;
+	int start;
+	int k;
+	int b;
+	char *rdr_cmd;
+	char *str;
+	char *t;
+	t_filerdr *tmp;
+}					t_rdr;
 
 typedef struct		s_commandg
 {
@@ -105,7 +138,7 @@ typedef struct s_nor
 	int			fd;
 	int			fd_check;
 	char	*sh;
-	char	*tmp;
+	char	*n_tmp;
 	char	*newsh;
 	int lenarg;
 	int k;
@@ -129,11 +162,15 @@ typedef struct s_nor
 	int fd_input;
 	int fd_out;
 	int	pipe_ch;
+	int     start;//*
+	t_commands  *tmp;//*
+	char *cmd;//*
+	char *cmd_tmp;//*
+	char **envp;//*
 }		t_norm;
 
 t_commandg *g_all;
 
-int test[2];
 void	err_this_command(t_commands *tmp, int pipe);
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
@@ -216,7 +253,30 @@ int		half_else_exu(t_commands *tmp, t_env *evp);
 void	pip_rid_one(t_commands *tmp, t_filerdr *lastnamef,
 	t_env *evp, t_norm *norm);
 void	start_pipe(t_norm *norm);
-char *g_cmds;
-int pid;
-int fuck;
-t_commands   *g_commands;
+int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds);//*
+t_commands  *new_commands();//*
+char	*deletespace(char *str);//*
+int	split_pipe(char **envp, t_commands *commands);//*
+t_commands	*norm_commands1(char *cmds, t_env *evp, t_commands *commands, int i);//*
+int	split_pipe(char **envp, t_commands *commands);//*
+void        trait_command(char **envp, t_commands *commands);//*
+void        split_command_rdr(char **envp, t_commands *commands, int nbr_args); //*
+char		*deleterdr(char *command);//*
+void add_null(t_commands *cmd, int nbr);//*
+char *deletecoats(char **envp, char *str);//*
+int check_echo_n(char *s);//*
+int		files_rdr(t_commands *commands);//*
+t_filerdr	*new_files_rdr();//*
+int		get_type_rdr(char *command, int i);//*
+char	*get_rdr_file(char *command, int i);//*
+int		skip_filename(char *cmds, int *i);//*
+char	*get_rdr_file(char *command, int i);//*
+char		*deleterdr(char *command);//*
+char *deletecoats(char **envp, char *str);//*
+char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp);//*
+char	*getsglcoat(char *rstr, char *str, t_tmp *tmp);//*
+char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ);//*
+char	*my_substr2(char *s, int start, int end);//*
+int syntax(char ch, int i);//*
+char *search_in_env(char *variable, char **envp);//*
+int        check_cmd(char *cmnd);//*

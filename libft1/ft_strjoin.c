@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 18:04:34 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 16:20:37 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/18 11:59:48 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	x = ft_strlen(s2);
-	if (!(p = (char *)malloc((ft_strlen(s1) + x) + 1)))
+	p = (char *)malloc((ft_strlen(s1) + x) + 1);
+	if (!p)
 		return (NULL);
 	while (i < ft_strlen(s1))
 	{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 11:49:28 by ssamadi           #+#    #+#             */
-/*   Updated: 2019/11/21 10:48:51 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/18 12:00:19 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		word_count(const char *str, char c)
+static int	word_count(const char *str, char c)
 {
 	int len;
 	int count;
@@ -31,7 +31,7 @@ static	int		word_count(const char *str, char c)
 	return (count);
 }
 
-static	char	*copy_word(char const *str, int *i, char c)
+static char	*copy_word(char const *str, int *i, char c)
 {
 	int		j;
 	int		len;
