@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 13:01:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 17:24:51 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	half_cd(char *ptr, t_env *evp, char *oldpwd)
 	write(2, "cd: error retrieving current directory: getcwd: ", 48);
 	write(2, "cannot access parent directories: ", 34);
 	write(2, "No such file or directory\n", 26);
+	free(ptr);
+	free(oldpwd);
 }
 
 int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)

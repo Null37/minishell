@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 16:13:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 16:15:32 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:11:23 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,21 +278,3 @@ int  check_syntax_rederction(char *av)
 	}
 	return (0);
 }
-
-// int main(int argc, char *av[])
-// {
-// 	int g = check_syntax_rederction(av[1]);
-// 	// if(g == -3)
-// 	// 	printf("bash: syntax error near unexpected token `>'");
-// 	// else if (g == 2)
-// 	// 	printf("bash: syntax error near unexpected token `newline'");
-// 	// else if(g == -4)
-// 	// 	printf("bash: syntax error near unexpected token `<'");
-// 	// else if(g == -5)
-// 	// 	printf("bash: syntax error near unexpected token `>>'");
-// 	if(g == -1)
-// 		printf("false");
-// 	else if(g == 0)
-// 		printf("TRUE");
-	
-// }

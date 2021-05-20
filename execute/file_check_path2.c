@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:47:01 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:40:37 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:27:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	err_this_command(t_commands *tmp, int pipe)
 {
-	if(pipe == 0)
+	if (pipe == 0)
 	{
 		write(2, "minishell: ", 11);
 		write(2, tmp->type, ft_strlen(tmp->type));
@@ -63,9 +63,15 @@ int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
 	norm.path = search_in_env2("PATH", evp->my_env);
 	norm.ck = half_check_commad(tmp, norm.path, pipe);
 	if (norm.ck == 2)
+	{
+		free(norm.path);
 		return (2);
+	}
 	else if (norm.ck == -1)
+	{
+		free(norm.path);
 		return (-1);
+	}
 	norm.com_path = ft_split(norm.path, ':');
 	norm.o = len_of_args(norm.com_path);
 	norm.i = -1;

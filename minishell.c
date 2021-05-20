@@ -6,12 +6,11 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 12:29:14 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 17:33:31 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
-
 
 int main(int argc, char **argv, char **envp)
 {
@@ -59,5 +58,6 @@ int main(int argc, char **argv, char **envp)
 			g_all->ret = NULL;
 		}
 		free(buf);
+		free(ptr);
 	}
 }

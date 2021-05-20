@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 10:06:16 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/20 15:17:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ t_commands	*parssing_shell(char *ptr, t_env *evp, char *cmds)
 	ptr = getcwd(buf, 1024);
 	evp->ptr = ptr;
 	get_commands(ptr, evp, commands, cmds);
+	free(buf);
+	free(ptr);
 	return (commands);
 }

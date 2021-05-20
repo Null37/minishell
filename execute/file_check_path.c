@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:39:42 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 14:57:13 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_cmds(char **cmd)
 
 void	erro_h_chek_c(t_commands *tmp, int pipe)
 {
-	if	(pipe == 0)
+	if (pipe == 0)
 	{
 		write(2, "minishell: ", 11);
 		write(2, tmp->type, ft_strlen(tmp->type));

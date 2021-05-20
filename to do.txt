@@ -39,3 +39,4 @@ edit pwd && and invermount variable
 -------------------
 not do ctl-D 
 echo -n an up 
+l; k

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:36:00 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 14:57:41 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print_error_check_commd(t_commands *tmp, int pipe)
 {
 	char	*eir;
 
-	if(pipe == 0)
+	if (pipe == 0)
 	{
 		eir = strerror(errno);
 		write(2, "minishell: ", 11);
@@ -71,7 +71,7 @@ int	check_if_command_is_exist(char *path_file, int exute, int pipe)
 	struct stat	buf;
 
 	fs = stat(path_file, &buf);
-	if(pipe == 0)
+	if (pipe == 0)
 	{
 		if (fs == 0)
 		{

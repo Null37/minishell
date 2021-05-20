@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:56:55 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 16:07:49 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 14:57:01 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ void	start_pipe(t_norm *norm)
 	close(norm->fd_pipe[1]);
 }
 
-int half_else_exu(t_commands *tmp, t_env *evp)
+int	half_else_exu(t_commands *tmp, t_env *evp)
 {
-    check_this_command(tmp, evp, 1);
-    if (g_all->pipe_err == 1)
+	check_this_command(tmp, evp, 1);
+	if (g_all->pipe_err == 1)
 	{
 		err_this_command(tmp, 0);
-		return -1;
+		return (-1);
 	}
 	if (execve(tmp->path, tmp->all, evp->my_env) < 0)
 		error_execve(tmp);
-    return 0;
+	return (0);
 }

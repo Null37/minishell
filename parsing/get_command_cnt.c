@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:24:13 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 12:35:17 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:21:02 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ int	norm_smpl_cpd(char *cmds, t_env *evp, t_commands *commands, int i)
 		}
 		else if (commands->filerdr != NULL)
 			mini_redrection(commands, evp->ptr, evp);
+		free(evp->buf);
+		free(evp->ptr);
 		return (1);
 	}
+	free(evp->buf);
+	free(evp->ptr);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:48:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:48:13 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 14:55:54 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ char *termcap_khedma(t_history *history)
 			break ;
 		history = history->next;
 	}
-
-
 	h_tmp = history;
 	g_all->line = NULL;
 	g_all->ret = NULL;

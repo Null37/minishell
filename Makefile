@@ -6,13 +6,13 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/20 12:30:23 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/20 15:15:29 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS =  -lcurses -fsanitize=address
+FLAGS =  -lcurses
 
 SRC = minishell.c parsing.c algo_sort.c rederction_f.c \
 termcap_fl.c execute/funct_file.c \
