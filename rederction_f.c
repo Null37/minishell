@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 16:13:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 15:11:23 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/20 18:41:56 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ int	check_rdr(char *s, int i)
 	return (1);
 }
 
-int valid_type(char c0, char c1,char c2)
+int	valid_type(char c0, char c1, char c2)
 {
-	
 	if (c1 == '>' && c2 == '<')
 	{
-		// printf("bash: syntax error near unexpected token `%c'", c1);
 		write(2, "minishell: syntax error near unexpected token ", 46);
 		write(2, "`", 1);
 		write(2, &c1, 1);
@@ -43,61 +41,53 @@ int valid_type(char c0, char c1,char c2)
 		write(2, "\n", 1);
 	}
 	else if ((c1 == '>' || c1 == '<')
-	&& (c2 == '>' || c2 == '<'))
-		{
-			//printf("bash: syntax error near unexpected token `%c%c'", c1,c2);
-			write(2, "minishell: syntax error near unexpected token ", 46);
-			write(2, "`", 1);
-			write(2, &c1, 1);
-			write(2, &c2, 1);
-			write(2, "'", 1);
-			write(2, "\n", 1);
-		}
+		&& (c2 == '>' || c2 == '<'))
+	{
+		write(2, "minishell: syntax error near unexpected token ", 46);
+		write(2, "`", 1);
+		write(2, &c1, 1);
+		write(2, &c2, 1);
+		write(2, "'", 1);
+		write(2, "\n", 1);
+	}
 	else if (c0 == ';' && c1 == ';')
-		{
-			//printf("bash: syntax error near unexpected token `%c%c'", c1,c2);
-			write(2, "minishell: syntax error near unexpected token ", 46);
-			write(2, "`", 1);
-			write(2, &c0, 1);
-			write(2, &c1, 1);
-			write(2, "'", 1);
-			write(2, "\n", 1);
-			
-		}
-		else if (c1 == '|' && c2 == '|')
-		{
-			//printf("bash: syntax error near unexpected token `%c%c'", c1,c2);
-			write(2, "minishell: syntax error near unexpected token ", 46);
-			write(2, "`", 1);
-			write(2, &c1, 1);
-			write(2, &c2, 1);
-			write(2, "'", 1);
-			write(2, "\n", 1);
-			
-		}
-		else
-		{
-			//printf("bash: syntax error near unexpected token `%c'", c1);
-			write(2, "minishell: syntax error near unexpected token ", 46);
-			write(2, "`", 1);
-			write(2, &c1, 1);
-			write(2, "'", 1);
-			write(2, "\n", 1);
-		}
-		return(-1);
+	{
+		write(2, "minishell: syntax error near unexpected token ", 46);
+		write(2, "`", 1);
+		write(2, &c0, 1);
+		write(2, &c1, 1);
+		write(2, "'", 1);
+		write(2, "\n", 1);
+	}
+	else if (c1 == '|' && c2 == '|')
+	{
+		write(2, "minishell: syntax error near unexpected token ", 46);
+		write(2, "`", 1);
+		write(2, &c1, 1);
+		write(2, &c2, 1);
+		write(2, "'", 1);
+		write(2, "\n", 1);
+	}
+	else
+	{
+		write(2, "minishell: syntax error near unexpected token ", 46);
+		write(2, "`", 1);
+		write(2, &c1, 1);
+		write(2, "'", 1);
+		write(2, "\n", 1);
+	}
+	return (-1);
 }
 
-int check_fname(int r, char *s, int i)
+int	check_fname(int r, char *s, int i)
 {
-	int b;
+	int	b;
 
 	b = 1;
 	if (r == 2)
 		i++;
 	if (s[i] == ';' && (s[i+1] == ' ' || s[i+1] == '\0'))
-	{
 		return (i);
-	}
 	while (s[++i])
 	{
 		if (s[i] == ' ')
@@ -107,18 +97,18 @@ int check_fname(int r, char *s, int i)
 			if(skip_double_coats(s, &i) == 1)
 			{
 				b = 0;
-				return -6;
+				return (-6);
 			}
-			return i;
+			return (i);
 		}
 		else if (s[i] == 39)
 		{
 			if(skip_single_coats(s, &i) == 1)
 			{
 				b = 0;
-				return -6;
+				return (-6);
 			}
-			return i;
+			return (i);
 		}
 		else if (s[i] != '|' &&  s[i] != '>' && s[i] != ';' && s[i] != '<')
 			return (--i);
@@ -127,7 +117,7 @@ int check_fname(int r, char *s, int i)
 			if (valid_type(s[i - 1], s[i], s[i + 1]) == -1)
 			{
 				b = 0;
-				return -1;
+				return (-1);
 			}
 		}
 	}
@@ -141,9 +131,11 @@ int check_fname(int r, char *s, int i)
 	return (0);
 }
 
-int check_pipp_sy(char *s)
+int	check_pipp_sy(char *s)
 {
-	int  i =-1;
+	int	i;
+
+	i = -1;
 	while (s[++i])
 	{
 		if(s[i] == 32)
@@ -156,43 +148,35 @@ int check_pipp_sy(char *s)
 			write(2, "'", 1);
 			write(2, "\n", 1);
 			g_all->staus_code = 258;
-			//printf("bash: syntax error near unexpected token `%c'\n", s[i]);
-			return -1;
+			return (-1);
 		}
 		else
 			break;
 	}
-	return 0;
+	return (0);
 }
 
-int check_syntax_number(char *av, int i, int r)
+int	check_syntax_number(char *av, int i, int r)
 {
-	int savei = i;
-		while(av[++i])
-		{
-			if(ft_isdigit(av[i]) == 1)
-				continue;
-			else if (r == 2 && (av[i + 1] == '>' || av[i + 1] == '<'))
-				return (-1);
-			else if(r <= 1 && (av[i] == '>' || av[i] == '<'))
-				return -1;
-			else if(av[i] == 32 || ft_isascii(av[i])  == 1)
-				return 0;
-		}
-		return 0;
+	while(av[++i])
+	{
+		if(ft_isdigit(av[i]) == 1)
+			continue;
+		else if (r == 2 && (av[i + 1] == '>' || av[i + 1] == '<'))
+			return (-1);
+		else if(r <= 1 && (av[i] == '>' || av[i] == '<'))
+			return -1;
+		else if(av[i] == 32 || ft_isascii(av[i])  == 1)
+			return (0);
+	}
+	return (0);
 }
 
-int  check_syntax_rederction(char *av)
+int	check_syntax_rederction(char *av)
 {
-	int i = -1;
-	int j = 0;
-	int h = 0;
-	int li = 0;
-	int right = 0;
-	int ch = 0;
-	i = 0 ;
-	
+	int i;
 	int r;
+
 	i = -1;
 	if(check_pipp_sy(av) == -1)
 		return -1;
@@ -238,41 +222,40 @@ int  check_syntax_rederction(char *av)
 			{
 				write(2, "minishell: not in subject\n", 26);
 				g_all->staus_code = 1;
-				return -1;
+				return (-1);
 			}
 			if ((i = check_fname(r, av, i))== -1)
-				return -1;
+				return (-1);
 			else if(i == -6)
 			{
-				// printf("not in subject");
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
 				g_all->staus_code = 1;
-				return -1;
+				return (-1);
 			}
 		}
 		else if (av[i] == '|')
 		{
 			if ((i = check_fname(0, av, i))== -1)
-				return -1;
+				return (-1);
 			else if(i == -6)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
 				g_all->staus_code = 1;
-				return -1;
+				return (-1);
 			}
 		}
 		else if (av[i] == ';')
 		{
 			if ((i = check_fname(0, av, i))== -1)
-				return -1;
+				return (-1);
 			else if(i == -6)
 			{
 				write(2, "minishell: not in subject", 25);
 				write(2, "\n", 1);
 				g_all->staus_code = 1;
-				return -1;
+				return (-1);
 			}
 		}
 	}
