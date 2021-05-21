@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:47:01 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 15:27:58 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:03:30 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
 		else if (norm.ck == -1)
 			return (-1);
 	}
-	free_cmds(norm.com_path);
-	free(norm.path);
+//	free_cmds(norm.com_path);
+//	free(norm.path);
 	return (0);
 }

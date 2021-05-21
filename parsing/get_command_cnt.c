@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:24:13 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 15:21:02 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:06:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	norm_smpl_cpd(char *cmds, t_env *evp, t_commands *commands, int i)
 	{
 		if (commands->filerdr == NULL)
 		{
-			if (check_this_command(commands, evp, 1) == 2)
+			if (check_this_command(commands, evp, 0) == 2)
 				our_command(commands, evp->ptr, evp);
 		}
 		else if (commands->filerdr != NULL)
