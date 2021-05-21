@@ -6,7 +6,7 @@
 #    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/20 15:15:29 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/21 11:15:22 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,9 @@ parsing/add_vrbs.c\
 parsing/reda_tools.c\
 parsing/skip_filename.c\
 parsing/serch_i_e.c\
+rederction_f_hf_1.c\
+rederction_f_hf_2.c\
+redrection_f_hf_3.c
 
 CC = gcc
 

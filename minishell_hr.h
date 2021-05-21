@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 18:37:05 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:26:13 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,19 @@ typedef struct s_nor
 t_commandg *g_all;
 
 void	err_this_command(t_commands *tmp, int pipe);
+int	check_syntax_number(char *av, int i, int r);
+int	half_check_syn_r(int *i, char *av);
+int	check_pipp_sy(char *s);
+void	errr_r2(void);
+int	valid_rdr(char c);
+int	check_fname(int r, char *s, int *i);
+int	check_rdr(char *s, int i);
 t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
 void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);
 int	check_this_command(t_commands *tmp, t_env *evp, int pipe);
+int	valid_type(char c0, char c1, char c2);
+int	err_b(int b);
 int         nbr_argts2(char *command);
 int		my_strcmp(char *s1, char *s2);
 int           nbr_argts(t_commands *commands);
@@ -207,8 +216,14 @@ int		spcle_chr(char c);
 char    *ft_strjoinchar(char *s, char c);
 int             get_char();
 char *termcap_khedma(t_history *history);
+int	half_check_fn(int *i, int *b, char *s);
+int	half_check_name(char *s, int *i, int *b);
 t_history	*new_commnd(char *cmd);
 t_filerdr *last_name_func(t_commands *tmp);
+int	half_loop(char *av, int i, int v, int r);
+int	half_r4(int *i, char *av);
+int	half_syn_r3(char *av, int *i, int r);
+int	half_check_syn_r2(int *i, char *av);
 void command_c(int signum);
 int output_ret(t_commands *tmp);
 int input_ret(t_commands *tmp);
