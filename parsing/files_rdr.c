@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_rdr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:35:07 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/18 17:16:57 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/21 17:59:05 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	files_rdr(t_commands *commands)
 	while (commands->command[++i])
 		norm_f_rdr(commands, t_cmd, &i);
 	commands->filerdr = t_cmd->tmp;
+	free(t_cmd);
 	return (0);
 }

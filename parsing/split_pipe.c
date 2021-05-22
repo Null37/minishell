@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:39:35 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 12:38:55 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 16:50:59 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	norm_pipe(t_norm *n, t_commands **commands, int i)
 {
 	if (n->cmd[i] == 124)
 	{
-		n->cmd_tmp = (*commands)->command;
-		(*commands)->command = my_substr(n->cmd, n->start, i);
-		free(n->cmd_tmp);
+		if ((*commands)->command)
+			free((*commands)->command);
+		(*commands)->command = my_substr2(n->cmd, n->start, i);
 		(*commands)->command = deletespace((*commands)->command);
 		trait_command(n->envp, *commands);
 		(*commands)->next_p = new_commands();
@@ -46,9 +46,9 @@ int	norm_pipe(t_norm *n, t_commands **commands, int i)
 	{
 		if (n->start == i)
 			return (1);
-		n->cmd_tmp = (*commands)->command;
-		(*commands)->command = my_substr(n->cmd, n->start, i);
-		free(n->cmd_tmp);
+		if ((*commands)->command)
+			free((*commands)->command);
+		(*commands)->command = my_substr2(n->cmd, n->start, i);
 		(*commands)->command = deletespace((*commands)->command);
 		trait_command(n->envp, *commands);
 		return (1);

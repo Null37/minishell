@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_rdr.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 16:33:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/18 16:04:47 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/21 17:56:13 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,6 @@ void	split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 		else if (t == 2)
 			break ;
 	}
+	free(cmd_r->rdr_cmd);
+	free(cmd_r);
 }

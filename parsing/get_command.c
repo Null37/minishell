@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 11:13:43 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 15:22:15 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/22 11:31:11 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	norm_g_cmd1(int *i, t_env *evp, t_commands **commands, char *cmds)
 	return (0);
 }
 
-int	get_commands(char *ptr, t_env *evp, t_commands *cmm, char *cmds)
+int	get_commands(char *ptr, t_env *evp, t_commands **cmm, char *cmds)
 {
 	int			i;
 	t_commands	*tmp;
@@ -90,19 +90,19 @@ int	get_commands(char *ptr, t_env *evp, t_commands *cmm, char *cmds)
 	evp->buf = NULL;
 	i = -1;
 	evp->start = 0;
-	tmp = cmm;
+	tmp = *cmm;
 	while (1)
 	{
-		if (!norm_g_cmd0(&i, cmm, cmds))
+		if (!norm_g_cmd0(&i, *cmm, cmds))
 			return (0);
 		else if (cmds[i] == '\\')
 		{
 			i++;
 			continue ;
 		}
-		if (norm_g_cmd1(&i, evp, &cmm, cmds))
+		if (norm_g_cmd1(&i, evp, cmm, cmds))
 			break ;
 	}
-	cmm = tmp;
+	*cmm = tmp;
 	return (1);
 }

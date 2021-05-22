@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:15:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/19 17:52:13 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/22 11:48:04 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_commands	*new_commands(void)
 	commands->type = NULL;
 	commands->arguments = NULL;
 	commands->filerdr = NULL;
+	commands->path = NULL;
 	commands->next = NULL;
 	commands->next_p = NULL;
 	commands->option = 0;

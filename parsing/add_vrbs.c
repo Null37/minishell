@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:48:33 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 12:15:48 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/21 15:30:55 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 		}
 	}
 	if (tamp->test)
+	{
 		tamp->ss = ft_strjoin1(tamp->ss, tamp->test);
+		free(tamp->test);
+	}
 	return (tamp->ss);
 }
 

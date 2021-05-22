@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_hr.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 11:26:13 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/22 11:31:45 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	errr_r2(void);
 int	valid_rdr(char c);
 int	check_fname(int r, char *s, int *i);
 int	check_rdr(char *s, int i);
-t_commands   *parssing_shell(char *ptr, t_env *evp, char *cmds);
+void	parssing_shell(char *ptr, t_env *evp, char *cmds);
 int our_command(t_commands *tmp, char *ptr, t_env *evp);
 void  ur_command_pipe(t_commands *tmp, char *ptr, char **envp);
 int	check_this_command(t_commands *tmp, t_env *evp, int pipe);
@@ -268,12 +268,11 @@ int		half_else_exu(t_commands *tmp, t_env *evp);
 void	pip_rid_one(t_commands *tmp, t_filerdr *lastnamef,
 	t_env *evp, t_norm *norm);
 void	start_pipe(t_norm *norm);
-int        get_commands(char *ptr, t_env *evp, t_commands *commands, char *cmds);//*
+int        get_commands(char *ptr, t_env *evp, t_commands **commands, char *cmds);//*
 t_commands  *new_commands();//*
 char	*deletespace(char *str);//*
 int	split_pipe(char **envp, t_commands *commands);//*
 t_commands	*norm_commands1(char *cmds, t_env *evp, t_commands *commands, int i);//*
-int	split_pipe(char **envp, t_commands *commands);//*
 void        trait_command(char **envp, t_commands *commands);//*
 void        split_command_rdr(char **envp, t_commands *commands, int nbr_args); //*
 char		*deleterdr(char *command);//*

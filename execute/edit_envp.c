@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edit_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:31:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 12:33:18 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 16:40:00 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	**half_edit_envp(char **envp_c, t_norm norm)
 			}
 			envp_c[norm.i][j] = '\0';
 			free(norm.n_tmp);
-			free(norm.newsh);
 			return (envp_c);
 		}
 		j++;
@@ -86,6 +85,7 @@ char	**edit_envp_shlvl(char **envp_c)
 
 	norm.sh = search_in_env2("SHLVL", envp_c);
 	norm.newsh = ft_itoa(ft_atoi(norm.sh) + 1);
+	free(norm.sh);
 	lenp = len_of_args(envp_c);
 	norm.tee = 0;
 	norm.t = ft_strlen(norm.newsh);
@@ -96,6 +96,7 @@ char	**edit_envp_shlvl(char **envp_c)
 		if (my_strcmp(norm.n_tmp, "SHLVL") == 0)
 		{
 			envp_c = half_edit_envp(envp_c, norm);
+			free(norm.newsh);
 			return (envp_c);
 		}
 		free(norm.n_tmp);

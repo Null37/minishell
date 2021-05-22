@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 13:00:15 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/21 15:09:12 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 			norm.nameenv = get_env_name(envp[norm.i]);
 			if (my_strcmp(norm.nameenv, norm.varibale) == 0)
 			{
-				norm.varibale = ft_strjoin(norm.varibale, "=");
-				envp[norm.i] = ft_strjoin(norm.varibale, norm.te);
+				norm.varibale = ft_strjoin1(norm.varibale, "=");
+				envp[norm.i] = ft_strjoin1(norm.varibale, norm.te);
 				free(norm.nameenv);
 				return (-100);
 			}

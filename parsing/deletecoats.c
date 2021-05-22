@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 18:48:58 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/18 19:08:59 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/21 16:02:25 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,15 @@ int	norm_deletcoats1(char **envp, char *str, t_tmp *tmp)
 	}
 	return (0);
 }
+char	*free_ret(t_tmp	*tmp)
+{
+	char *s;
 
+	s = tmp->rstr;
+	free(tmp->s1);
+	free(tmp);
+	return (s);
+}
 char	*deletecoats(char **envp, char *str)
 {
 	t_tmp	*tmp;
@@ -73,5 +81,5 @@ char	*deletecoats(char **envp, char *str)
 		tmp->j++;
 	}
 	free(str);
-	return (tmp->rstr);
+	return (free_ret(tmp));
 }
