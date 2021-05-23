@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:48:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 15:06:46 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/23 20:33:53 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,17 @@ char *termcap_khedma(t_history *history)
 		}
 		else if (d == KEY_DOWN)
 		{
-			tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_putc);
-			tputs(tgetstr("dl",NULL), 1, ft_putc);
+			tputs(tgoto(tgetstr("ch", NULL), 0, 8), 1, ft_putc);
+			int  k = 0;
+			while (k < 1)
+			{
+				tputs(tgetstr("dc",NULL), 1, ft_putc);
+				k++;
+			}
 			if (h_tmp && h_tmp->next)
 			{
 				h_tmp = h_tmp->next;
-				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));
 				free(g_all->ret);
 				g_all->ret = ft_strdup(h_tmp->cmd);
@@ -142,7 +147,7 @@ char *termcap_khedma(t_history *history)
 				{
 					g_all->ret = ft_strdup("");
 				}
-				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, g_all->ret, ft_strlen(g_all->ret));
 			}
 		}
@@ -152,12 +157,19 @@ char *termcap_khedma(t_history *history)
 			{
 				continue ;
 			}
-			tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_putc);
-			tputs(tgetstr("dl",NULL), 1, ft_putc);
+			int a = 8 + g_all->option;
+			fprintf(stderr, "%d", g_all->option);
+			tputs(tgoto(tgetstr("ch", NULL), 0, a), 1, ft_putc);
+			int  k = 0;
+			while (k < 1)
+			{
+				tputs(tgetstr("dc",NULL), 1, ft_putc);
+				k++;
+			}
 
 			if (h_tmp && h_tmp->preview)
 			{
-				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));
 				free(g_all->ret);
 				g_all->ret = ft_strdup(h_tmp->cmd);
@@ -165,7 +177,7 @@ char *termcap_khedma(t_history *history)
 			}
 			else if (!h_tmp->preview)
 			{
-				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 				if (h_tmp->cmd)
 				{
 					write(1, h_tmp->cmd, ft_strlen(h_tmp->cmd));

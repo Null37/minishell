@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 16:34:56 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/23 19:10:04 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ char	*half_search(char *variable, char **envp, t_norm norm)
 					free(tmp);
 					return (norm.buff);
 				}
+				free(norm.buff);
+				norm.buff = ft_strdup("k");
 				norm.j++;
 			}
-			norm.buff = "k";
 			free(tmp);
 			return (norm.buff);
 		}

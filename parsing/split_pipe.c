@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:39:35 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/21 16:50:59 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/22 19:39:20 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	norm_pipe(t_norm *n, t_commands **commands, int i)
 	{
 		if ((*commands)->command)
 			free((*commands)->command);
-		(*commands)->command = my_substr2(n->cmd, n->start, i);
+		(*commands)->command = my_substr(n->cmd, n->start, i);
 		(*commands)->command = deletespace((*commands)->command);
 		trait_command(n->envp, *commands);
 		(*commands)->next_p = new_commands();

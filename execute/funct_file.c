@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funct_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 17:20:42 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 20:37:11 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	command_pwd(char *ptr, t_env *evp)
 		write(1, "\n", 1);
 		free(ptr);
 	}
-	free(g_all->old_pwd);
 	g_all->staus_code = 0;
 }
 
@@ -78,9 +77,15 @@ void	command_echo(t_commands *tmp)
 	{
 		while (tmp->arguments[i] != NULL)
 		{
+			if (tmp->option == 1)
+				g_all->option += ft_strlen(tmp->arguments[i]);
 			ft_putchar(tmp->arguments[i]);
 			if (o > 1)
+			{
+				g_all->option += 1;
 				write(1, " ", 1);
+				
+			}
 			i++;
 		}
 		if (tmp->option == 0)

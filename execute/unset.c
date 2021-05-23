@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:54:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 17:51:52 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 10:53:08 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	half_unset(int j, int lenp, t_env *evp)
 {
+	free(evp->my_env[j]);
 	while (j < lenp - 1)
 	{
 		evp->my_env[j] = evp->my_env[j + 1];
@@ -39,8 +40,8 @@ void	command_unset(t_commands *tmp, t_env *evp)
 		check_syntax(tmp, k, lenarg, 'u');
 		while (++i < lenp)
 		{
-			if (strncmp(evp->my_env[i], tmp->arguments[k],
-					strlen(tmp->arguments[k])) == 0)
+			if (ft_strncmp(evp->my_env[i], tmp->arguments[k],
+					ft_strlen(tmp->arguments[k])) == 0)
 			{
 				j = i;
 				half_unset(j, lenp, evp);

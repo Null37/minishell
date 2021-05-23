@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:02:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 13:12:51 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 11:57:54 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_equl(int i, char **envp)
 	int	j;
 
 	j = 0;
-	while (envp[i][j])
+	while (envp[i] && envp[i][j])
 	{
 		if (envp[i][j] == '=')
 			return (1);

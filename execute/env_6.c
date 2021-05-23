@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_6.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:51:00 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 11:36:03 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 19:06:24 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_in_exp(t_commands *tmp, int k, char **my_env)
 	norm = malloc(sizeof(t_norm));
 	exp_coun(norm, tmp, k, my_env);
 	if (ft_strncmp(norm->ef, "\0", 1) == 0)
-		my_env[norm->i] = tmp->arguments[k];
+		my_env[norm->i] = ft_strdup(tmp->arguments[k]);
 	else
 	{
 		set_norm_exp2(norm, tmp, k, my_env);
@@ -91,5 +91,6 @@ void	add_in_exp(t_commands *tmp, int k, char **my_env)
 				break ;
 		}
 	}
+	free(norm->ef);
 	free(norm);
 }

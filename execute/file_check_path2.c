@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:47:01 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 12:03:30 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 11:20:37 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	half_check_w(t_commands *tmp, t_norm norm, int pipe)
 	if (norm.fs == 0)
 	{
 		tmp->path = ft_strdup(norm.com_path[norm.i]);
-		free_cmds(norm.com_path);
-		free(norm.path);
 		return (2);
 	}
 	else if (norm.fs == -1 && norm.i == norm.o - 1)
@@ -73,17 +71,24 @@ int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
 		return (-1);
 	}
 	norm.com_path = ft_split(norm.path, ':');
+	free(norm.path);
 	norm.o = len_of_args(norm.com_path);
 	norm.i = -1;
 	while (++norm.i != norm.o)
 	{
 		norm.ck = half_check_w(tmp, norm, pipe);
 		if (norm.ck == 2)
+		{
+			free_cmds(norm.com_path);
 			return (2);
+		}
 		else if (norm.ck == -1)
+		{
+			free_cmds(norm.com_path);
 			return (-1);
+		}
 	}
-//	free_cmds(norm.com_path);
-//	free(norm.path);
+	if(norm.com_path)
+		free_cmds(norm.com_path);
 	return (0);
 }

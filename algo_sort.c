@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   algo_sort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:07:58 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:47:50 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 18:50:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
 
-char	**sort_algo(char **sortest)
+void	sort_algo(t_env *evp)
 {
 	int		i;
 	int		j;
@@ -20,22 +20,19 @@ char	**sort_algo(char **sortest)
 
 	i = 0;
 	j = 0;
-	while (sortest[j] != NULL)
+	while (evp->my_env[j] != NULL)
 	{
 		i = 0;
-		while (sortest[i] != NULL)
+		while (evp->my_env[i] != NULL)
 		{
-			if (ft_strncmp(sortest[i], sortest[j], ft_strlen(sortest[j])) > 0)
+			if (ft_strncmp(evp->my_env[i], evp->my_env[j], ft_strlen(evp->my_env[j])) > 0)
 			{
-				tmp = sortest[i];
-				sortest[i] = NULL;
-				sortest[i] = sortest[j];
-				sortest[j] = NULL;
-				sortest[j] = tmp;
+				tmp = evp->my_env[i];
+				evp->my_env[i] = evp->my_env[j];
+				evp->my_env[j] = tmp;
 			}
 			i++;
 		}
 		j++;
 	}
-	return (sortest);
 }

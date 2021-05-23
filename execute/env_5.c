@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_5.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:14:24 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/16 13:10:16 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 18:53:18 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	command_export(t_commands *tmp, t_env *evp)
 	t_norm	norm;
 
 	norm.o = count_arg_2(tmp);
-	evp->my_env = sort_algo(evp->my_env);
+	//sort_algo(evp);
 	norm.lenarg = norm.o;
 	if (norm.o == 0)
 		add_double_quotes(evp->my_env);

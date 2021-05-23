@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 17:33:31 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/23 20:35:20 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main(int argc, char **argv, char **envp)
 	buf = NULL;
 	g_all = malloc(sizeof(t_commandg));
 	g_all->line = NULL;
+	g_all->old_pwd = NULL;
 	g_all->yesdup = 0;
 	evp->my_env = copy_envp(envp);
 	evp->my_env = edit_envp_shlvl(evp->my_env);
@@ -33,9 +34,11 @@ int main(int argc, char **argv, char **envp)
 	g_all->ctrl_c = 0;
 	g_all->ctrl_quit = 0;
 	g_all->staus_code = 0;
+	g_all->option = 0;
 	history = new_commnd(NULL);
 	while (1)
 	{
+		
 		signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
 		if (g_all->ctrl_c == 0)
@@ -47,6 +50,7 @@ int main(int argc, char **argv, char **envp)
 		if (ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
 		termcap_khedma(history);
+		g_all->option = 0;
 		g_all->ctrl_c = 0;
 		if (check_syntax_rederction(g_all->ret) == -1)
 			continue ;
@@ -56,6 +60,11 @@ int main(int argc, char **argv, char **envp)
 		{
 			free(g_all->ret);
 			g_all->ret = NULL;
+		}
+		if(g_all->old_pwd)
+		{
+			free(g_all->old_pwd);
+			g_all->old_pwd = NULL;
 		}
 		free(buf);
 		free(ptr);

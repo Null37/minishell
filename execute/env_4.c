@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 15:09:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/23 12:04:57 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 {
 	if (ft_strncmp(norm.ef, "\0", 1) == 0)
 	{
-		envp[norm.i] = tmp->arguments[k];
+		envp[norm.i] = ft_strdup(tmp->arguments[k]);
 		envp[norm.i + 1] = NULL;
 	}
 	else
@@ -120,5 +120,11 @@ void	add_in_env(t_commands *tmp, int k, char **envp)
 	while (envp[norm.i] != NULL)
 		norm.i++;
 	if (half_add_env(tmp, norm, envp, k) == -100)
+	{
+		free(norm.ef);
+		//free(norm.varibale);
 		return ;
+	}
+	free(norm.ef);
+	free(norm.varibale);
 }

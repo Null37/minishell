@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/22 11:31:45 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/23 20:28:20 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct		s_commandg
 			int redir_fd;
 			int yesdup;
 			int pipe_err;
+			int	option;
 }					t_commandg;
 
 typedef struct s_nor
@@ -189,7 +190,7 @@ int         nbr_argts2(char *command);
 int		my_strcmp(char *s1, char *s2);
 int           nbr_argts(t_commands *commands);
 char		*search_in_env2(char *variable, char **envp);
-char **sort_algo(char **sortest);
+void	sort_algo(t_env *evp);
 int len_of_args(char **args);
 char		*get_env_name(char *envp);
 char **copy_envp(char **envp);

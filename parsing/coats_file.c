@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coats_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:20:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/21 15:35:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/23 11:41:22 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp)
 			break ;
 		tmp->s1[0] = str[tmp->i];
 		rstr = ft_strjoin1(rstr, tmp->s1);
-		free(tmp->s1);
+		
 	}
 	return (rstr);
 }
