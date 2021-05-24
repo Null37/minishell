@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:48:04 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 20:33:53 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/24 18:36:47 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,18 @@ char *termcap_khedma(t_history *history)
 				tputs(tgetstr("dc",NULL), 1, ft_putc);
 				// tputs(tgetstr("ed",NULL), 1, ft_putc);
 			}
+			if(ft_strlen(g_all->ret) == 0)
+			{
+				free(g_all->ret);
+				g_all->ret = NULL;
+			}
 		}
 		else if (d == KEY_DOWN)
 		{
-			tputs(tgoto(tgetstr("ch", NULL), 0, 8), 1, ft_putc);
-			int  k = 0;
-			while (k < 1)
-			{
-				tputs(tgetstr("dc",NULL), 1, ft_putc);
-				k++;
-			}
+			int a = 8 + g_all->option;
+			tputs(tgoto(tgetstr("ch", NULL), 0, a), 1, ft_putc);
+			tputs(tgetstr("rc",NULL), 1, ft_putc);
+			ft_putstr_fd(tgetstr("cd", NULL), STDOUT_FILENO);
 			if (h_tmp && h_tmp->next)
 			{
 				h_tmp = h_tmp->next;
@@ -145,7 +147,7 @@ char *termcap_khedma(t_history *history)
 				}
 				else
 				{
-					g_all->ret = ft_strdup("");
+					g_all->ret = NULL;
 				}
 				//write(1, "\033[0;33mNull37$\033[0m ", 19);
 				write(1, g_all->ret, ft_strlen(g_all->ret));
@@ -158,14 +160,9 @@ char *termcap_khedma(t_history *history)
 				continue ;
 			}
 			int a = 8 + g_all->option;
-			fprintf(stderr, "%d", g_all->option);
 			tputs(tgoto(tgetstr("ch", NULL), 0, a), 1, ft_putc);
-			int  k = 0;
-			while (k < 1)
-			{
-				tputs(tgetstr("dc",NULL), 1, ft_putc);
-				k++;
-			}
+			tputs(tgetstr("rc",NULL), 1, ft_putc);
+			ft_putstr_fd(tgetstr("cd", NULL), STDOUT_FILENO);
 
 			if (h_tmp && h_tmp->preview)
 			{
@@ -194,7 +191,9 @@ char *termcap_khedma(t_history *history)
 			if(g_all->ret == NULL)
 			{
 				write(1, "\033[0;33mNull37$\033[0m ", 19);
+				ft_putstr_fd(tgetstr("sc", NULL), STDOUT_FILENO);
 			}
+			
 			if (g_all->ret != NULL)
 			{
 			if (history->cmd == NULL)

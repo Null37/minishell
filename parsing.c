@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 19:01:34 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/24 19:02:48 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void free_ags(t_commands *commands)
 	int	i;
 
 	i = -1;
+	if(commands->arguments == NULL)
+		return ;		
 	while (commands->arguments[++i])
 	{
 		free(commands->arguments[i]);
@@ -90,14 +92,20 @@ void	free_list(t_commands *commands)
 
 char	*convert_vrbs(char *cmds, t_env *evp)
 {
-	int	i;
 	t_tmp	*tmp;
 
 	tmp = malloc(sizeof(t_tmp));
-	tmp->rstr = NULL;
+	tmp->rstr = ft_strdup("");
 	tmp->i = -1;
 	while (cmds[++tmp->i])
 	{
+		if (cmds[tmp->i] == '\\' && cmds[tmp->i + 1] == '$')
+		{
+			tmp->rstr = ft_strjoinchar(tmp->rstr, '\\');
+			tmp->rstr = ft_strjoinchar(tmp->rstr, '$');
+			tmp->i++;
+			continue ;
+		}
 		if (cmds[tmp->i] == '$' && cmds[tmp->i + 1] == '?')
 		{
 			tmp->ss = ft_itoa(g_all->staus_code);
@@ -136,10 +144,4 @@ void	parssing_shell(char *ptr, t_env *evp, char *cmds)
 	free(ptr);
 	free(cmds);
 	free_list(commands);
-	int i = -1;
-	// while (evp->my_env[++i])
-	// {
-	// 	fprintf(stderr, "%s", evp->my_env[i]);
-	// }
-	
 }

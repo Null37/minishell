@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coats_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:20:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/23 11:41:22 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/24 18:44:36 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	norm_getdbc(char **envp, char **rstr, char *str, t_tmp *tmp)
 {
 	char	*ss;
 
+	if (str[tmp->i] == '\\' && str[tmp->i + 1] == '$')
+	{
+		*rstr = ft_strjoinchar(*rstr, '$');
+		tmp->i++;
+		return (1);
+	}
 	if (str[tmp->i] == '$' && str[tmp->i + 1] == '?')
 	{
 		ss = ft_itoa(g_all->staus_code);
@@ -63,7 +69,6 @@ char	*getsglcoat(char *rstr, char *str, t_tmp *tmp)
 			break ;
 		tmp->s1[0] = str[tmp->i];
 		rstr = ft_strjoin1(rstr, tmp->s1);
-		free(tmp->s1);
 	}
 	return (rstr);
 }

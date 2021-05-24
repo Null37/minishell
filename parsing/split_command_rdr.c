@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_rdr.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 16:33:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/21 17:56:13 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/24 19:51:56 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	skp_sng_db_c_n(t_rdr *cmd_r)
 
 int	rdr_norm_cmd(t_rdr *cm_r, char **envp, t_commands *commands)
 {
-	if (!skp_sng_db_c_n(cm_r) && cm_r->rdr_cmd[cm_r->i] == '\\')
+	if (cm_r->rdr_cmd && !skp_sng_db_c_n(cm_r) && cm_r->rdr_cmd[cm_r->i] == '\\')
 	{
 		(cm_r->i)++;
 		return (1);
@@ -99,7 +99,7 @@ void	split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 
 	cmd_r = newcmd_rdr();
 	cmd_r->rdr_cmd = deleterdr(commands->command);
-	if (!cmd_r->rdr_cmd)
+	if (!cmd_r->rdr_cmd || ft_strlen(cmd_r->rdr_cmd) == 0)
 		return ;
 	cmd_r->rdr_cmd = deletespace(cmd_r->rdr_cmd);
 	nbr_args = nbr_argts2(cmd_r->rdr_cmd);

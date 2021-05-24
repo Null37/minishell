@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:40:57 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/18 17:52:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/24 17:40:22 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ char	*deleterdr(char *command)
 	comd = NULL;
 	i = -1;
 	while (1)
-	{
-		if (!norm_deleterdr(command, &i, s, &comd)
-			&& command[i] == '>' && command[i + 1] == '>')
+	{	
+		if (norm_deleterdr(command, &i, s, &comd))
+			i = i;
+		else if (command[i] == '>' && command[i + 1] == '>')
 			continue ;
 		else if ((command[i] == '>' || command[i] == '<'))
 			skip_filename(command, &i);

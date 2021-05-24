@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 20:35:20 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/24 19:15:21 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **envp)
 	t_env *evp;
 	char *buf;
 	char *ptr;
-
+	//check for TERM; permission
 	evp = malloc(sizeof(t_env));
 	buf = NULL;
 	g_all = malloc(sizeof(t_commandg));
@@ -49,6 +49,7 @@ int main(int argc, char **argv, char **envp)
 		ptr = getcwd(buf, 1024);
 		if (ptr != NULL)
 			evp->my_env = edit_envp_pwd(ptr, evp->my_env);
+		ft_putstr_fd(tgetstr("sc", NULL), STDOUT_FILENO);
 		termcap_khedma(history);
 		g_all->option = 0;
 		g_all->ctrl_c = 0;

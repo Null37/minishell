@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rederction_f_hf_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 11:08:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/21 11:29:46 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/24 19:21:43 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	half_check_syn_r2(int *i, char *av)
 
 int	half_syn_r3(char *av, int *i, int r)
 {
-	if ((av[*i] == '>' || av[*i] == '<') && av[(*i) - 1] != '\\')
+	if (*i != 0 && (av[*i] == '>' || av[*i] == '<') && av[(*i) - 1] != '\\')
 	{
 		r = check_rdr(av, *i);
 		if (check_syntax_number(av, *i, r) == -1)
