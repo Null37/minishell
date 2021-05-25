@@ -6,13 +6,13 @@
 #    By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/23 13:25:30 by fbouibao         ###   ########.fr        #
+#    Updated: 2021/05/25 20:01:20 by fbouibao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS =  -lcurses -fsanitize=address
+FLAGS =  -lcurses
 
 SRC = minishell.c parsing.c algo_sort.c rederction_f.c \
 termcap_fl.c execute/funct_file.c \

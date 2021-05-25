@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 18:07:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 09:55:56 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 20:09:47 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*search_in_env(char *variable, char **envp)
 		}
 	}
 	free(tmp->fsf);
+	free(tmp);
 	return (NULL);
 }
 

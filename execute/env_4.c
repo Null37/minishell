@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 15:19:38 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 20:04:21 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	add_in_env(t_commands *tmp, int k, char **envp)
 	if (half_add_env(tmp, norm, envp, k) == -100)
 	{
 		free(norm.ef);
-		//free(norm.varibale);
+		// free(norm.varibale);
 		return ;
 	}
 	free(norm.ef);
