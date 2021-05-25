@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serch_i_e.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 18:07:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/25 20:09:47 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 20:26:13 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ char	*norm_se_env(t_tmp *tmp, char **envp)
 	return (NULL);
 }
 
+char	*free_tmp2(t_tmp *tmp)
+{
+	char	*s;
+
+	s = tmp->buff;
+	free(tmp);
+	return (s);
+}
+
 char	*search_in_env(char *variable, char **envp)
 {
 	t_tmp	*tmp;
@@ -59,11 +68,14 @@ char	*search_in_env(char *variable, char **envp)
 		{
 			if (norm_se_env(tmp, envp))
 			{
-				return (tmp->buff);
+				free(variable);
+				return (free_tmp2(tmp));
 			}
 		}
 	}
+	free(variable);
 	free(tmp->fsf);
+	free(tmp->buff);
 	free(tmp);
 	return (NULL);
 }

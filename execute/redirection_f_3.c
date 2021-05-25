@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_f_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:36:48 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 14:48:47 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 20:35:16 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,16 @@ t_filerdr	*last_name_func(t_commands *tmp)
 		if (head->type == 0)
 		{
 			if (half_lnf(&head, &last, norm) == 0)
+			{
+				free(norm);
 				return (NULL);
+			}
 		}
 		half_lnf_otw(&head, &last, norm);
 		if (!head->next)
 			break ;
 		head = head->next;
 	}
+	free(norm);
 	return (last);
 }

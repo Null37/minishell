@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 20:13:39 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 20:44:18 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_files_rder(t_commands *commands)
 			tmp = commands->filerdr->next;
 		else
 			break ;
+		free(commands->filerdr->name);
 		free(commands->filerdr);
 		commands->filerdr = tmp;
 	}

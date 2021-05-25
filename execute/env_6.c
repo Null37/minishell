@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_6.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:51:00 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 10:41:20 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 20:30:48 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	add_in_exp(t_commands *tmp, int k, char **my_env)
 				break ;
 		}
 	}
+	free(norm->varibale);
 	free(norm->ef);
 	free(norm);
 }

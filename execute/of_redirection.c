@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   of_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:59:58 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 20:40:44 by rel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 		if (check_if_command_is_exist(tmp->filerdr->name, 0, norm.pipe_ch) == 3)
 		{
 			g_all->staus_code = 1;
+			free(lastnamef);
 			return ;
 		}
 		half_in_ou(tmp, norm, evp, lastnamef);
@@ -106,5 +107,7 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 	}
 	else if (check_two_red(tmp) == 1)
 		if (half_in(tmp, norm, evp, norm.pipe_ch) == -1)
+		{
 			return ;
+		}
 }
