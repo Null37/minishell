@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 12:04:57 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:19:38 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	error_syntax(t_commands *tmp, int k)
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);
 	write(2, "\n", 1);
+	g_all->staus_code = 1;
 }
 
 int	check_syntax_export_false(t_commands *tmp, int k, int lenarg)

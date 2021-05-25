@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:56:55 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 11:38:51 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 15:12:10 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	start_pipe(t_norm *norm)
 
 int	half_else_exu(t_commands *tmp, t_env *evp)
 {
+	if (tmp->type == NULL)
+		return (0);
 	check_this_command(tmp, evp, 1);
 	if (g_all->pipe_err == 1)
 	{

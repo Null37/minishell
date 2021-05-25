@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 16:13:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 12:38:56 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 15:18:29 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	hald_valid_tp(char c0, char c1, char c2)
 		write(2, &c2, 1);
 		write(2, "'", 1);
 		write(2, "\n", 1);
+		g_all->staus_code = 258;
 	}
 	else
 	{
@@ -60,6 +61,7 @@ void	hald_valid_tp(char c0, char c1, char c2)
 		write(2, &c1, 1);
 		write(2, "'", 1);
 		write(2, "\n", 1);
+		g_all->staus_code = 258;
 	}
 }
 
@@ -72,6 +74,7 @@ int	valid_type(char c0, char c1, char c2)
 		write(2, &c1, 1);
 		write(2, "'", 1);
 		write(2, "\n", 1);
+		g_all->staus_code = 258;
 	}
 	else if ((c1 == '>' || c1 == '<')
 		&& (c2 == '>' || c2 == '<'))
@@ -82,6 +85,7 @@ int	valid_type(char c0, char c1, char c2)
 		write(2, &c2, 1);
 		write(2, "'", 1);
 		write(2, "\n", 1);
+		g_all->staus_code = 258;
 	}
 	else
 		hald_valid_tp(c0, c1, c2);

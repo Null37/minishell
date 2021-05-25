@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/24 19:02:48 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 15:49:32 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,33 @@ void	free_list(t_commands *commands)
 char	*convert_vrbs(char *cmds, t_env *evp)
 {
 	t_tmp	*tmp;
+	int		bl;
 
+	bl = 0;
 	tmp = malloc(sizeof(t_tmp));
 	tmp->rstr = ft_strdup("");
 	tmp->i = -1;
 	while (cmds[++tmp->i])
 	{
-		if (cmds[tmp->i] == '\\' && cmds[tmp->i + 1] == '$')
+		if (bl == 0 && cmds[tmp->i] == '\'' && (tmp->i == 0 || cmds[tmp->i - 1] != '\\'))
+			bl = 1;
+		else if (bl == 1 && cmds[tmp->i] == '\'')
+			bl = 0;	
+		if (bl == 0 && cmds[tmp->i] == '\\' && cmds[tmp->i + 1] == '$')
 		{
 			tmp->rstr = ft_strjoinchar(tmp->rstr, '\\');
 			tmp->rstr = ft_strjoinchar(tmp->rstr, '$');
 			tmp->i++;
 			continue ;
 		}
-		if (cmds[tmp->i] == '$' && cmds[tmp->i + 1] == '?')
+		if (bl == 0 && cmds[tmp->i] == '$' && cmds[tmp->i + 1] == '?')
 		{
 			tmp->ss = ft_itoa(g_all->staus_code);
 			tmp->rstr = ft_strjoin1(tmp->rstr, tmp->ss);
 			free(tmp->ss);
 			tmp->i++;
 		}
-		else if (cmds[tmp->i] == '$')
+		else if (bl == 0 && cmds[tmp->i] == '$')
 		{
 			tmp->rstr = add_vrbs(evp->my_env, tmp->rstr, tmp, cmds);
 		}

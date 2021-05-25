@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:02:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 11:57:54 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:19:16 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	error_syn(t_commands *tmp, int k)
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);
 	write(2, "\n", 1);
+	g_all->staus_code = 1;
 }
 
 int	syntax_true(t_commands *tmp, char **envp, int k, int lenarg)

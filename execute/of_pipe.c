@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   of_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:56:57 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/17 15:58:24 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:13:25 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	all_work_p_r(t_commands *tmp, t_filerdr *lastnamef,
 	else if (tmp->filerdr != NULL)
 		rid_with_pipe(tmp, lastnamef, evp, norm);
 	se_execute_command(tmp, norm->ptr2, evp);
+	if (tmp->type == NULL)
+		exit(0);
 	exit(127);
 }
 
