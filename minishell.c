@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/24 19:15:21 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 11:57:04 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **envp)
 	t_env *evp;
 	char *buf;
 	char *ptr;
-	//check for TERM; permission
+	//check for TERM; permission exit (-)
 	evp = malloc(sizeof(t_env));
 	buf = NULL;
 	g_all = malloc(sizeof(t_commandg));
@@ -30,7 +30,13 @@ int main(int argc, char **argv, char **envp)
 	evp->my_env = edit_envp_v(evp->my_env);
 	evp->my_env = edit_envp_old_pwd(evp->my_env);
 	evp->save = search_in_env2("HOME", evp->my_env);
-	tgetent(NULL, getenv("TERM"));
+	evp->check_term = getenv("TERM");
+	// if(evp->check_term == 0)
+	// {
+	// 	write(2, "TERM not set\n", 13);
+	// 	exit(1);
+	// }
+	tgetent(NULL, evp->check_term);
 	g_all->ctrl_c = 0;
 	g_all->ctrl_quit = 0;
 	g_all->staus_code = 0;

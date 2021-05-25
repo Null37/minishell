@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 14:57:41 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 11:43:06 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,16 @@ int	check_if_command_is_exist(char *path_file, int exute, int pipe)
 	struct stat	buf;
 
 	fs = stat(path_file, &buf);
+	if (exute == 5)
+	{
+		if (check_file_or_dit(path_file) == 3)
+			return (3);
+		if (check_permissions(path_file, buf, exute) == 1)
+			return (3);
+	}
 	if (pipe == 0)
 	{
-		if (fs == 0)
+		if (fs == 0 || exute == 5)
 		{
 			if (check_file_or_dit(path_file) == 3)
 				return (3);

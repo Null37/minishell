@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 20:28:20 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 10:52:00 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct		s_env
 	char *buf;//*
 	t_commands *tpp;//*
 	char *ptr;//*
+	char	*check_term;
 }					t_env;
 
 typedef struct		s_rdr

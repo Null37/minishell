@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:36:37 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 15:30:16 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 11:52:01 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,14 @@ void	se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 
 void	half_exit(t_commands *tmp, int i)
 {
+	int  k = 0;
 	while (tmp->arguments[0][i])
 	{
+		if((tmp->arguments[0][k] == '-' && k == 0)|| (tmp->arguments[0][k] == '+' && k == 0))
+		{
+			k++;
+			i++;
+		}
 		if (ft_isdigit2(tmp->arguments[0][i]) == 1)
 			i++;
 		else
@@ -100,7 +106,7 @@ void	command_exit(t_commands *tmp, int pipe)
 	if (pipe == 0)
 		write(2, "exit\n", 5);
 	lenarg = len_of_args(tmp->arguments);
-	if (tmp->arguments[0] != NULL)
+	if (tmp->arguments[0] != NULL && lenarg == 1)
 		half_exit(tmp, i);
 	if (lenarg == 1 || lenarg == 0)
 	{

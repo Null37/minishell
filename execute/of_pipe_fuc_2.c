@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   of_pipe_fuc_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:56:55 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 14:57:01 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 11:38:51 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	pip_rid_one(t_commands *tmp, t_filerdr *lastnamef,
 		lastnamef = last_name_func(tmp);
 		if (!lastnamef)
 			exit(1);
-		if (check_if_command_is_exist(tmp->filerdr->name, 0,
+		if (check_if_command_is_exist(tmp->filerdr->name, 5,
 				norm->pipe_ch) == 3)
 			exit(1);
 		if (lastnamef->type == 0)

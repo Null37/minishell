@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:51:00 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 19:06:24 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 10:41:20 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	set_norm_exp(t_norm *norm, t_commands *tmp, int k, char **my_env)
 	norm->j = 0;
 	norm->i = 0;
 	norm->b = 0;
-	norm->varibale = tmp->arguments[k];
+	norm->varibale = ft_strdup(tmp->arguments[k]);
 	norm->ef = search_in_env2(norm->varibale, my_env);
 	norm->lenp = len_of_args(my_env);
 }

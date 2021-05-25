@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_check_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 10:44:28 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/25 10:15:16 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	half_check_commad(t_commands *tmp, char *path, int pipe)
 	{
 		if (check_if_command_is_exist(tmp->type, 1, pipe) == 3)
 			return (-1);
-		tmp->path = tmp->type;
+		tmp->path = ft_strdup(tmp->type);
 		return (2);
 	}
 	return (0);
@@ -81,7 +81,7 @@ int	half_check_c_2(t_commands *tmp, t_norm norm, int pipe)
 	norm.fs = check_if_command_is_exist(tmp->type, 1, pipe);
 	if (norm.fs == 0)
 	{
-		tmp->path = tmp->type;
+		tmp->path = ft_strdup(tmp->type);
 		free_cmds(norm.com_path);
 		free(norm.path);
 		return (2);

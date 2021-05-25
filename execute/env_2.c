@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 19:10:04 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/25 10:50:09 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*half_h_search(char *variable, char **envp, t_norm norm)
 char	*half_search(char *variable, char **envp, t_norm norm)
 {
 	char	*tmp;
-
+	
 	while (++norm.i < norm.lenp)
 	{
 		tmp = get_env_name(envp[norm.i]);
@@ -42,10 +42,10 @@ char	*half_search(char *variable, char **envp, t_norm norm)
 					free(tmp);
 					return (norm.buff);
 				}
-				free(norm.buff);
-				norm.buff = ft_strdup("k");
 				norm.j++;
 			}
+			free(norm.buff);
+				norm.buff = ft_strdup("k");
 			free(tmp);
 			return (norm.buff);
 		}
