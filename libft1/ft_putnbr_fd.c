@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 12:17:06 by ssamadi           #+#    #+#             */
-/*   Updated: 2019/11/14 20:30:59 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/26 16:04:46 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int nbr, int fd)
 {
-	unsigned int num;
+	unsigned int	num;
 
 	num = nbr;
 	if (nbr < 0)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+         #
+#    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/25 20:01:20 by fbouibao         ###   ########.fr        #
+#    Updated: 2021/05/26 16:17:42 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,13 +58,12 @@ CC = gcc
 
 all: libft1 $(NAME)
 
-
 $(NAME): $(SRC)
 	cp ./libft1/libft.a .
 	$(CC) -g $(FLAGS) $(SRC) libft.a -o $(NAME)
 
 libft1:
-	$(MAKE) -C  libft1
+	cd libft && $(MAKE) clean
 
 clean: libftclean
 

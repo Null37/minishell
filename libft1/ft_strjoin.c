@@ -6,39 +6,36 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 18:04:34 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/18 11:59:48 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/26 16:13:49 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../minishell_hr.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t		i;
-	size_t		x;
-	size_t		j;
-	char		*p;
+	t_libftn	lib;
 
-	j = 0;
-	i = 0;
+	lib.j3 = 0;
+	lib.i3 = 0;
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	x = ft_strlen(s2);
-	p = (char *)malloc((ft_strlen(s1) + x) + 1);
-	if (!p)
+	lib.x3 = ft_strlen(s2);
+	lib.p = (char *)malloc((ft_strlen(s1) + lib.x3) + 1);
+	if (!lib.p)
 		return (NULL);
-	while (i < ft_strlen(s1))
+	while (lib.i3 < ft_strlen(s1))
 	{
-		p[i] = s1[i];
-		i++;
+		lib.p[lib.i3] = s1[lib.i3];
+		lib.i3++;
 	}
-	while (j < x)
+	while (lib.j3 < lib.x3)
 	{
-		p[i] = s2[j];
-		j++;
-		i++;
+		lib.p[lib.i3] = s2[lib.j3];
+		lib.j3++;
+		lib.i3++;
 	}
-	free(s1);
-	p[i] = '\0';
-	return (p);
+	lib.p[lib.i3] = '\0';
+	return (lib.p);
 }

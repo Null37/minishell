@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_hr.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 10:52:00 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 16:11:23 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ typedef struct		s_tmp{
 	char *buff;
 	char *fsf;
 }					t_tmp;
+
+typedef struct s_libf
+{
+	long x;
+	int n;
+	int i;
+	char *str;
+	int i2;
+	int j;
+	char **pm;
+	size_t		i3;
+	size_t		x3;
+	size_t		j3;
+	char		*p;
+}	t_libftn;
 
 typedef struct		s_filerdr{
 	char        	*name;

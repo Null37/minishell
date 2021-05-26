@@ -6,16 +6,17 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 11:49:28 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/18 12:00:19 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/26 16:08:47 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../minishell_hr.h"
 
 static int	word_count(const char *str, char c)
 {
-	int len;
-	int count;
+	int	len;
+	int	count;
 
 	len = 1;
 	count = 0;
@@ -44,7 +45,8 @@ static char	*copy_word(char const *str, int *i, char c)
 		len++;
 		j++;
 	}
-	if (!(word = (char *)malloc(sizeof(char) * (len + 1))))
+	word = (char *)malloc(sizeof(char) * (len + 1));
+	if (word == NULL)
 		return (NULL);
 	j = 0;
 	while (str[*i] && str[*i] != c)
@@ -67,31 +69,31 @@ static	void	ft_free(char ***pm, int *j)
 	free(*pm);
 }
 
-char			**ft_split(char const *str, char c)
+char	**ft_split(char const *str, char c)
 {
-	int				i;
-	int				j;
-	char			**pm;
+	t_libftn	lib;
 
-	i = 0;
-	j = 0;
+	lib.i2 = 0;
+	lib.j = 0;
 	if (!str)
 		return (NULL);
-	if (!(pm = (char **)malloc(sizeof(char *) * (word_count(str, c) + 1))))
+	lib.pm = (char **)malloc(sizeof(char *) * (word_count(str, c) + 1));
+	if (lib.pm == NULL)
 		return (NULL);
-	while (str[i] && j < word_count(str, c))
+	while (str[lib.i2] && lib.j < word_count(str, c))
 	{
-		if (str[i] != c)
+		if (str[lib.i2] != c)
 		{
-			if ((pm[j++] = copy_word(str, &i, c)) == NULL)
+			lib.pm[lib.j++] = copy_word(str, &lib.i2, c);
+			if (lib.pm == NULL)
 			{
-				ft_free(&pm, &j);
+				ft_free(&lib.pm, &lib.j);
 				return (NULL);
 			}
 		}
 		else
-			i++;
+			lib.i2++;
 	}
-	pm[j] = NULL;
-	return (pm);
+	lib.pm[lib.j] = NULL;
+	return (lib.pm);
 }

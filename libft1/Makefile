@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssamadi <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/09 15:13:12 by ssamadi           #+#    #+#              #
-#    Updated: 2019/11/19 18:28:00 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/26 16:12:23 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-.PHONY = all clean fclean re bonus
+
 
 NAME=libft.a
 
@@ -47,7 +47,6 @@ SRC =  ft_memset.c\
 		ft_strmapi.c\
 		ft_putchar_fd.c\
 		ft_putstr_fd.c\
-		ft_putendl_fd.c\
 		ft_putnbr_fd.c
 
 SRC_B =  ft_lstnew_bonus.c\
