@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_check_path2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:47:01 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 11:42:54 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:30:16 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,8 @@ int	half_check_w(t_commands *tmp, t_norm norm, int pipe)
 	return (0);
 }
 
-int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
+int	loop_chk_command(t_norm	norm, t_commands *tmp, int pipe)
 {
-	t_norm	norm;
-
-	g_all->pipe_err = 0;
-	if (tmp->type == NULL)
-		return (-1);
-	norm.path = search_in_env2("PATH", evp->my_env);
-	norm.ck = half_check_commad(tmp, norm.path, pipe);
-	if (norm.ck == 2)
-	{
-		free(norm.path);
-		return (2);
-	}
-	else if (norm.ck == -1)
-	{
-		free(norm.path);
-		return (-1);
-	}
-	norm.com_path = ft_split(norm.path, ':');
-	free(norm.path);
-	norm.o = len_of_args(norm.com_path);
-	norm.i = -1;
 	while (++norm.i != norm.o)
 	{
 		norm.ck = half_check_w(tmp, norm, pipe);
@@ -88,7 +67,47 @@ int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
 			return (-1);
 		}
 	}
-	if(norm.com_path)
+	return (0);
+}
+
+int	chek_fre(t_norm	norm)
+{
+	if (norm.ck == 2)
+	{
+		free(norm.path);
+		return (2);
+	}
+	else if (norm.ck == -1)
+	{
+		free(norm.path);
+		return (-1);
+	}
+	return (0);
+}
+
+int	check_this_command(t_commands *tmp, t_env *evp, int pipe)
+{
+	t_norm	norm;
+
+	g_all->pipe_err = 0;
+	if (tmp->type == NULL)
+		return (-1);
+	norm.path = search_in_env2("PATH", evp->my_env);
+	norm.ck = half_check_commad(tmp, norm.path, pipe);
+	if (chek_fre(norm) == 2)
+		return (2);
+	else if (chek_fre(norm) == -1)
+		return (-1);
+	norm.com_path = ft_split(norm.path, ':');
+	free(norm.path);
+	norm.o = len_of_args(norm.com_path);
+	norm.i = -1;
+	norm.ck2 = loop_chk_command(norm, tmp, pipe);
+	if (norm.ck2 == 2)
+		return (2);
+	else if (norm.ck2 == -1)
+		return (-1);
+	if (norm.com_path)
 		free_cmds(norm.com_path);
 	return (0);
 }

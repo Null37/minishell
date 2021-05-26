@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:36:37 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 13:22:25 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:02:55 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
-	char	*test;
-
-	test = search_in_env2("PWD", evp->my_env);
-	if (ft_strncmp(test, "", 1) != 0)
+	evp->test = search_in_env2("PWD", evp->my_env);
+	if (ft_strncmp(evp->test, "", 1) != 0)
 		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
-	free(test);
+	free(evp->test);
 	if (tmp->type == NULL && !tmp->next)
 		return (0);
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
@@ -38,11 +36,7 @@ int	our_command(t_commands *tmp, char *ptr, t_env *evp)
 		command_echo(tmp);
 	else
 		command_in_the_sys(tmp, evp->my_env);
-	if (g_all->old_pwd)
-	{
-		free(g_all->old_pwd);
-		g_all->old_pwd = NULL;
-	}
+	free_all();
 	return (0);
 }
 
@@ -82,7 +76,8 @@ void	half_exit(t_commands *tmp, int i)
 	k = 0;
 	while (tmp->arguments[0][i])
 	{
-		if((tmp->arguments[0][k] == '-' && k == 0)|| (tmp->arguments[0][k] == '+' && k == 0))
+		if ((tmp->arguments[0][k] == '-' && k == 0)
+			|| (tmp->arguments[0][k] == '+' && k == 0))
 		{
 			k++;
 			i++;
@@ -103,14 +98,15 @@ void	half_exit(t_commands *tmp, int i)
 	}
 }
 
-int check_number(t_commands *tmp, int i)
+int	check_number(t_commands *tmp, int i)
 {
-	int  k;
+	int	k;
 
 	k = 0;
 	while (tmp->arguments[0][i])
 	{
-		if((tmp->arguments[0][k] == '-' && k == 0)|| (tmp->arguments[0][k] == '+' && k == 0))
+		if ((tmp->arguments[0][k] == '-' && k == 0)
+			|| (tmp->arguments[0][k] == '+' && k == 0))
 		{
 			k++;
 			i++;
@@ -119,18 +115,15 @@ int check_number(t_commands *tmp, int i)
 			i++;
 		else
 		{
-			write(2, "minishell: ", 11);
-			write(2, "exit: ", 6);
-			write(2, tmp->arguments[0], strlen(tmp->arguments[0]));
-			write(2, ": ", 2);
-			write(2, "numeric argument required\n", 26);
+			err_number(tmp);
 			free(tmp->arguments[0]);
 			tmp->arguments[0] = NULL;
 			return (-1);
 		}
 	}
-	return 0;
+	return (0);
 }
+
 void	command_exit(t_commands *tmp, int pipe)
 {
 	int	lenarg;
@@ -153,27 +146,6 @@ void	command_exit(t_commands *tmp, int pipe)
 		tmp->arguments[0] = NULL;
 		exit(ex);
 	}
-	else if (lenarg > 1)
-	{
-		if (check_number(tmp, i) == 0)
-		{
-			write(2, "minishell: exit: too many arguments\n", 36);
-			g_all->staus_code = 1;
-		}
-		else
-			exit(-1);
-	}
-}
-
-void	error_execve(t_commands *tmp)
-{
-	char	*error;
-
-	error = strerror(errno);
-	write(2, "minishell: ", 11);
-	write(2, tmp->type, ft_strlen(tmp->type));
-	write(2, ": ", 2);
-	write(2, error, ft_strlen(error));
-	write(2, "\n", 1);
-	g_all->staus_code = 127;
+	if (len_many(lenarg, tmp, i) == -1)
+		exit(-1);
 }

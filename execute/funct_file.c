@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funct_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 13:10:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:31:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	command_echo(t_commands *tmp)
 			ft_putchar(tmp->arguments[i]);
 			if (o > 1)
 			{
-				if(tmp->arguments[i+1] != NULL)
+				if (tmp->arguments[i + 1] != NULL)
 					write(1, " ", 1);
 			}
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_hr.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 16:11:23 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/26 19:58:51 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct		s_env
 	t_commands *tpp;//*
 	char *ptr;//*
 	char	*check_term;
+	char	*test;
 }					t_env;
 
 typedef struct		s_rdr
@@ -184,6 +185,8 @@ typedef struct s_nor
 	char *cmd;//*
 	char *cmd_tmp;//*
 	char **envp;//*
+	char *tmp33;//*
+	int ck2;
 }		t_norm;
 
 t_commandg *g_all;
@@ -223,12 +226,14 @@ void se_execute_command(t_commands *tmp, char *ptr, t_env *evp);
 char	*my_substr(char *s, int start, int end);
 int		skip_double_coats(char *cmds, int *i);
 int		skip_single_coats(char *cmds, int *i);
+void	free_no(t_norm	*norm);
 int check_syntax_rederction(char *av);
 void check_syntax(t_commands *tmp,int k, int lenarg, char e_u);
 void	mini_redrection(t_commands *tmp, char *ptr,t_env *evp);
 char		*ft_strjoin1(char *s1, char *s2);
 char **edit_envp_pwd(char *ptr, char **envp_c);
 int check_if_command_is_exist(char *path_file, int exute, int pipe);
+int 	loop_add_env(t_commands *tmp, t_norm norm, char **envp, char *s);
 int		spcle_chr(char c);
 char    *ft_strjoinchar(char *s, char c);
 int             get_char();
@@ -310,4 +315,10 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ);//*
 char	*my_substr2(char *s, int start, int end);//*
 int syntax(char ch, int i);//*
 char *search_in_env(char *variable, char **envp);//*
+int	len_many(int lenarg, t_commands *tmp, int i);
+void	free_all(void);
+void	err_number(t_commands *tmp);
+int	check_number(t_commands *tmp, int i);
 int        check_cmd(char *cmnd);//*
+t_tmp	*new_tmp_search(char **envp);//p*
+char	*convert_vrbs(char *cmds, t_env *evp);//p*

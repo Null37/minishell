@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   serch_i_e.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 18:07:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/25 20:26:13 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:25:21 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
-
-t_tmp	*new_tmp_search(char **envp)
-{
-	t_tmp	*tmp;
-
-	tmp = malloc(sizeof(t_tmp));
-	tmp->i = -1;
-	tmp->j = 0;
-	tmp->lenp = len_of_args(envp);
-	tmp->buff = ft_strdup("");
-	tmp->fsf = ft_strdup(" ");
-	return (tmp);
-}
 
 char	*norm_se_env(t_tmp *tmp, char **envp)
 {

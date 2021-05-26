@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   of_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 20:40:44 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:31:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,5 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 	}
 	else if (check_two_red(tmp) == 1)
 		if (half_in(tmp, norm, evp, norm.pipe_ch) == -1)
-		{
 			return ;
-		}
 }

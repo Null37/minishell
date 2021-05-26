@@ -6,11 +6,24 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:20:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/24 18:44:36 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:25:58 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
+
+t_tmp	*new_tmp_search(char **envp)
+{
+	t_tmp	*tmp;
+
+	tmp = malloc(sizeof(t_tmp));
+	tmp->i = -1;
+	tmp->j = 0;
+	tmp->lenp = len_of_args(envp);
+	tmp->buff = ft_strdup("");
+	tmp->fsf = ft_strdup(" ");
+	return (tmp);
+}
 
 int	norm_getdbc(char **envp, char **rstr, char *str, t_tmp *tmp)
 {
@@ -56,7 +69,6 @@ char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp)
 			break ;
 		tmp->s1[0] = str[tmp->i];
 		rstr = ft_strjoin1(rstr, tmp->s1);
-		
 	}
 	return (rstr);
 }

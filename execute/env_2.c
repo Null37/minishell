@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 11:09:18 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:18:04 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,28 @@ char	*half_h_search(char *variable, char **envp, t_norm norm)
 
 char	*half_search(char *variable, char **envp, t_norm norm)
 {
-	char	*tmp;
-	char	*s;
-	
 	while (++norm.i < norm.lenp)
 	{
-		tmp = get_env_name(envp[norm.i]);
-		if (my_strcmp(tmp, variable) == 0)
+		norm.tmp33 = get_env_name(envp[norm.i]);
+		if (my_strcmp(norm.tmp33, variable) == 0)
 		{
 			norm.j = 0;
 			while (envp[norm.i][norm.j])
 			{
 				if (envp[norm.i][norm.j] == '=')
 				{
-					
 					norm.buff = half_h_search(variable, envp, norm);
-					free(tmp);
+					free(norm.tmp33);
 					return (norm.buff);
 				}
 				norm.j++;
 			}
 			free(norm.buff);
 			norm.buff = ft_strdup("k");
-			free(tmp);
+			free(norm.tmp33);
 			return (norm.buff);
 		}
-		free(tmp);
+		free(norm.tmp33);
 	}
 	return (norm.buff);
 }

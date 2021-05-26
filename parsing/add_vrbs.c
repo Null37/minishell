@@ -3,18 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   add_vrbs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:48:33 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/25 20:21:18 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:25:44 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
+void	norm_add_v(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
+{
+	char	*tmmp;
+
+	tamp->test = my_substr(typ, tamp->k + 1, tmp->i);
+	tmmp = tamp->test;
+	tamp->test = search_in_env(tamp->test, envp);
+	--(tmp->i);
+}
+
 char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 {
-	char *tmmp;
+	char	*tmmp;
+
 	tamp->z = -1;
 	while (1)
 	{
@@ -26,10 +37,7 @@ char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 		}
 		else if (!syntax(typ[tmp->i], tamp->z))
 		{
-			tamp->test = my_substr(typ, tamp->k + 1, tmp->i);
-			tmmp = tamp->test;
-			tamp->test = search_in_env(tamp->test, envp);
-			--(tmp->i);
+			norm_add_v(envp, tamp, tmp, typ);
 			break ;
 		}
 	}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
+#    By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/26 16:17:42 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/05/26 19:58:00 by fbouibao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,11 @@ parsing/skip_filename.c\
 parsing/serch_i_e.c\
 rederction_f_hf_1.c\
 rederction_f_hf_2.c\
-redrection_f_hf_3.c
+redrection_f_hf_3.c\
+parsing/convert_vrbs_file.c\
+parsing/trait_command.c\
+execute/mor_fun_ac.c\
+execute/mor_fun_env_6.c
 
 CC = gcc
 

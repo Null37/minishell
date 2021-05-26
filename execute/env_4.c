@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 13:32:42 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 18:19:39 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	check_syntax_export_true(t_commands *tmp, int k, int lenarg)
 
 int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 {
-	char *s;
+	char	*s;
+
 	if (ft_strncmp(norm.ef, "\0", 1) == 0)
 	{
 		envp[norm.i] = ft_strdup(tmp->arguments[k]);
@@ -85,20 +86,8 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 		norm.te = (tmp->arguments[k] + norm.b);
 		norm.lenp = len_of_args(envp);
 		norm.i = -1;
-		while (++norm.i < norm.lenp)
-		{
-			norm.nameenv = get_env_name(envp[norm.i]);
-			if (my_strcmp(norm.nameenv, norm.varibale) == 0)
-			{
-				norm.varibale = ft_strjoin1(norm.varibale, "=");
-				s = envp[norm.i];
-				envp[norm.i] = ft_strjoin1(norm.varibale, norm.te);
-				free(s);
-				free(norm.nameenv);
-				return (-100);
-			}
-			free(norm.nameenv);
-		}
+		if (loop_add_env(tmp, norm, envp, s) == -100)
+			return (-100);
 	}
 	return (0);
 }
