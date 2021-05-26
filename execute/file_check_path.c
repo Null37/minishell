@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 10:15:16 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 11:48:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,11 @@ int	half_check_c_2(t_commands *tmp, t_norm norm, int pipe)
 	if (norm.fs == 0)
 	{
 		tmp->path = ft_strdup(tmp->type);
-		free_cmds(norm.com_path);
-		free(norm.path);
 		return (2);
 	}
 	else if (norm.fs == -1 && norm.i == norm.o - 1)
 	{
 		print_error_check_commd(tmp, pipe);
-		free_cmds(norm.com_path);
-		free(norm.path);
 		return (-1);
 	}
 	return (0);

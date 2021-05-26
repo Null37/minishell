@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:53:02 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 11:57:03 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 13:12:44 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,6 @@ int	check_echo_n(char *s)
 		if (s[i] != 'n')
 			return (1);
 	}
+	free(s);
 	return (0);
 }

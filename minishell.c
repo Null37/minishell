@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 11:57:04 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 11:38:23 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,22 @@ int main(int argc, char **argv, char **envp)
 		g_all->option = 0;
 		g_all->ctrl_c = 0;
 		if (check_syntax_rederction(g_all->ret) == -1)
+		{
+			if (g_all->ret)
+			{
+				free(g_all->ret);
+				g_all->ret = NULL;
+			}
+			free(buf);
+			free(ptr);
 			continue ;
+		}
 		parssing_shell(ptr, evp ,g_all->ret);
 		g_all->ctrl_quit = 0;
 		if (g_all->ret)
 		{
 			free(g_all->ret);
 			g_all->ret = NULL;
-		}
-		if(g_all->old_pwd)
-		{
-			free(g_all->old_pwd);
-			g_all->old_pwd = NULL;
 		}
 		free(buf);
 		free(ptr);

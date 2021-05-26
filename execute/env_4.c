@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 20:04:21 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 13:32:42 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	check_syntax_export_true(t_commands *tmp, int k, int lenarg)
 
 int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 {
+	char *s;
 	if (ft_strncmp(norm.ef, "\0", 1) == 0)
 	{
 		envp[norm.i] = ft_strdup(tmp->arguments[k]);
@@ -90,7 +91,9 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 			if (my_strcmp(norm.nameenv, norm.varibale) == 0)
 			{
 				norm.varibale = ft_strjoin1(norm.varibale, "=");
+				s = envp[norm.i];
 				envp[norm.i] = ft_strjoin1(norm.varibale, norm.te);
+				free(s);
 				free(norm.nameenv);
 				return (-100);
 			}
@@ -123,7 +126,6 @@ void	add_in_env(t_commands *tmp, int k, char **envp)
 	if (half_add_env(tmp, norm, envp, k) == -100)
 	{
 		free(norm.ef);
-		// free(norm.varibale);
 		return ;
 	}
 	free(norm.ef);

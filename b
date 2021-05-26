@@ -1,0 +1,23 @@
+2
+3
+Makefile
+Minishell.dSYM
+README.md
+a
+a.out.dSYM
+algo_sort.c
+b
+execute
+libft.a
+libft1
+minishell
+minishell.c
+minishell_hr.h
+parsing
+parsing.c
+rederction_f.c
+rederction_f_hf_1.c
+rederction_f_hf_2.c
+redrection_f_hf_3.c
+termcap_fl.c
+to do.txt

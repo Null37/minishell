@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/24 12:59:23 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 13:10:12 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,9 @@ void	command_echo(t_commands *tmp)
 	{
 		while (tmp->arguments[i] != NULL)
 		{
-			if (tmp->option == 1)
-				g_all->option += ft_strlen(tmp->arguments[i]);
 			ft_putchar(tmp->arguments[i]);
 			if (o > 1)
 			{
-				g_all->option += 1;
 				if(tmp->arguments[i+1] != NULL)
 					write(1, " ", 1);
 			}

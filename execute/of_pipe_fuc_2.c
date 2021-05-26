@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:56:55 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 15:12:10 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 11:06:30 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	pip_rid_one(t_commands *tmp, t_filerdr *lastnamef,
 			exit(1);
 		if (check_if_command_is_exist(tmp->filerdr->name, 5,
 				norm->pipe_ch) == 3)
+		{
+			free(lastnamef);
 			exit(1);
+		}
 		if (lastnamef->type == 0)
 			half_rid_zerot_commands(lastnamef, norm);
 		else if (lastnamef->type == 1)

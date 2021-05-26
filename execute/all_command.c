@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:36:37 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 11:52:01 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/26 13:22:25 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int	our_command(t_commands *tmp, char *ptr, t_env *evp)
 		command_echo(tmp);
 	else
 		command_in_the_sys(tmp, evp->my_env);
+	if (g_all->old_pwd)
+	{
+		free(g_all->old_pwd);
+		g_all->old_pwd = NULL;
+	}
 	return (0);
 }
 
@@ -72,7 +77,9 @@ void	se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 
 void	half_exit(t_commands *tmp, int i)
 {
-	int  k = 0;
+	int	k;
+
+	k = 0;
 	while (tmp->arguments[0][i])
 	{
 		if((tmp->arguments[0][k] == '-' && k == 0)|| (tmp->arguments[0][k] == '+' && k == 0))
@@ -96,6 +103,34 @@ void	half_exit(t_commands *tmp, int i)
 	}
 }
 
+int check_number(t_commands *tmp, int i)
+{
+	int  k;
+
+	k = 0;
+	while (tmp->arguments[0][i])
+	{
+		if((tmp->arguments[0][k] == '-' && k == 0)|| (tmp->arguments[0][k] == '+' && k == 0))
+		{
+			k++;
+			i++;
+		}
+		if (ft_isdigit2(tmp->arguments[0][i]) == 1)
+			i++;
+		else
+		{
+			write(2, "minishell: ", 11);
+			write(2, "exit: ", 6);
+			write(2, tmp->arguments[0], strlen(tmp->arguments[0]));
+			write(2, ": ", 2);
+			write(2, "numeric argument required\n", 26);
+			free(tmp->arguments[0]);
+			tmp->arguments[0] = NULL;
+			return (-1);
+		}
+	}
+	return 0;
+}
 void	command_exit(t_commands *tmp, int pipe)
 {
 	int	lenarg;
@@ -120,8 +155,13 @@ void	command_exit(t_commands *tmp, int pipe)
 	}
 	else if (lenarg > 1)
 	{
-		write(2, "minishell: exit: too many arguments\n", 36);
-		g_all->staus_code = 1;
+		if (check_number(tmp, i) == 0)
+		{
+			write(2, "minishell: exit: too many arguments\n", 36);
+			g_all->staus_code = 1;
+		}
+		else
+			exit(-1);
 	}
 }
 
