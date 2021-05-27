@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:52:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/14 15:10:04 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:42:02 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	ok_write(char **my_env, int i, int j)
 
 void	add_double_quotes(char **my_env)
 {
-	int	lenp;
-	int	lenarg;
 	int	j;
 	int	i;
 

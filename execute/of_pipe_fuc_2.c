@@ -6,14 +6,14 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:56:55 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 11:06:30 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:49:43 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
 void	pip_rid_one(t_commands *tmp, t_filerdr *lastnamef,
-	t_env *evp, t_norm *norm)
+	t_norm *norm)
 {
 	norm->pipe_ch = 1;
 	if (check_two_red(tmp) == 0)

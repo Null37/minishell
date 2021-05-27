@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:51:19 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 19:48:07 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:53:07 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,13 @@ void	parssing_shell(char *ptr, t_env *evp, char *cmds)
 {
 	char		*buf;
 	t_commands	*commands;
-	t_commands	*tmp;
 
 	buf = NULL;
 	cmds = convert_vrbs(cmds, evp);
 	commands = new_commands();
 	ptr = getcwd(buf, 1024);
 	evp->ptr = ptr;
-	get_commands(ptr, evp, &commands, cmds);
+	get_commands(evp, &commands, cmds);
 	free(buf);
 	free(ptr);
 	free(cmds);

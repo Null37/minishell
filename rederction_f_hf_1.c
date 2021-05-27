@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 11:08:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 12:18:48 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:57:53 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ int	check_syntax_rederction(char *av)
 	int	r;
 	int	v;
 
+	v = 0;
 	i = -1;
+	r = 0;
 	if (check_pipp_sy(av) == -1)
 		return (-1);
 	v = half_loop(av, i, v, r);

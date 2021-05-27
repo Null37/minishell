@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_5.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:14:24 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:19:55 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:46:13 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	half_export(t_commands *tmp, t_env *evp, t_norm norm)
 	norm.k = 0;
 	while (norm.k < norm.lenarg)
 	{
-		if (syntax_true(tmp, evp->my_env, norm.k, norm.lenarg) == 0)
+		if (syntax_true(tmp, evp->my_env, norm.k) == 0)
 		{
-			if (check_syntax_export_false(tmp, norm.k, norm.lenarg) == 0)
+			if (check_syntax_export_false(tmp, norm.k) == 0)
 				add_in_exp(tmp, norm.k, evp->my_env);
 		}
 		norm.k++;

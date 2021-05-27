@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_6.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:51:00 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:22:12 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:47:22 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	exp_coun(t_norm *norm, t_commands *tmp, int k, char **my_env)
 		(norm->i)++;
 }
 
-void	set_norm_exp2(t_norm *norm, t_commands *tmp, int k, char **my_env)
+void	set_norm_exp2(t_norm *norm, t_commands *tmp, int k)
 {
 	norm->b += 1;
 	norm->te = (tmp->arguments[k] + norm->b);
@@ -75,7 +75,7 @@ void	add_in_exp(t_commands *tmp, int k, char **my_env)
 		my_env[norm->i] = ft_strdup(tmp->arguments[k]);
 	else
 	{
-		set_norm_exp2(norm, tmp, k, my_env);
+		set_norm_exp2(norm, tmp, k);
 		while (++norm->i < norm->lenp)
 		{
 			norm->g = 0;

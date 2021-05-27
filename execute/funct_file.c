@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funct_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:31:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:39:06 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ t_history	*new_commnd(char *cmd)
 
 void	command_pwd(char *ptr, t_env *evp)
 {
-	char	*ech;
-
 	if (ptr != NULL)
 	{
 		write(1, ptr, strlen(ptr));
@@ -93,7 +91,6 @@ void	command_echo(t_commands *tmp)
 
 void	command_in_the_sys(t_commands *tmp, char **envp)
 {
-	char	*error;
 	int		pid;
 
 	pid = fork();

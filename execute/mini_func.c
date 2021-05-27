@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:02:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 15:19:16 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:45:41 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	error_syn(t_commands *tmp, int k)
 	g_all->staus_code = 1;
 }
 
-int	syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
+int	syntax_true(t_commands *tmp, char **envp, int k)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ int	syntax_true(t_commands *tmp, char **envp, int k, int lenarg)
 		}
 		if (tmp->arguments[k][i] == '=')
 		{
-			if (check_syntax_export_true(tmp, k, lenarg) == 0)
+			if (check_syntax_export_true(tmp, k) == 0)
 				add_in_env(tmp, k, envp);
 			return (1);
 		}

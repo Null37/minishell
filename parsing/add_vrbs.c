@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:48:33 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/26 18:25:44 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:56:59 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	norm_add_v(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 
 char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 {
-	char	*tmmp;
-
 	tamp->z = -1;
 	while (1)
 	{
@@ -51,8 +49,6 @@ char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 
 char	*n1_add_vrbs(char *str, t_tmp *tamp, char *typ)
 {
-	char	*s;
-
 	if (typ[tamp->k + 1] == 39 || typ[tamp->k + 1] == 34)
 	{
 		if (!str)
@@ -72,8 +68,6 @@ char	*n1_add_vrbs(char *str, t_tmp *tamp, char *typ)
 
 char	*n2_add_vrbs(char *str, t_tmp *tamp, char *typ)
 {
-	char	*s;
-
 	if (typ[tamp->k + 1] == '\0' || typ[tamp->k + 1] == ' '
 		|| typ[tamp->k + 1] == '\\')
 	{

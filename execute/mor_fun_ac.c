@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mor_fun_ac.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 17:58:59 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:13:18 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:58:43 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	error_execve(t_commands *tmp)
 	g_all->staus_code = 127;
 }
 
-int 	loop_add_env(t_commands *tmp, t_norm norm, char **envp, char *s)
+int 	loop_add_env(t_norm norm, char **envp, char *s)
 {
 	while (++norm.i < norm.lenp)
 	{

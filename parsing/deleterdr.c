@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:40:57 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/24 17:40:22 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:54:50 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*deleterdr(char *command)
 	while (1)
 	{	
 		if (norm_deleterdr(command, &i, s, &comd))
-			i = i;
+			continue ;
 		else if (command[i] == '>' && command[i + 1] == '>')
 			continue ;
 		else if ((command[i] == '>' || command[i] == '<'))

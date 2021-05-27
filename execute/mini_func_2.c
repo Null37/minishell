@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:16:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 11:30:43 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:45:55 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	my_strcmp(char *s1, char *s2)
 int	check_file_or_dit(char *path_file)
 {
 	DIR				*dir;
-	struct dirent	*dp;
 
 	dir = opendir(path_file);
 	if (dir != NULL)

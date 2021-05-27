@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:18:04 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:41:34 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
-char	*half_h_search(char *variable, char **envp, t_norm norm)
+char	*half_h_search(char **envp, t_norm norm)
 {
 	norm.j += 1;
 	while (envp[norm.i][norm.j])
@@ -36,7 +36,7 @@ char	*half_search(char *variable, char **envp, t_norm norm)
 			{
 				if (envp[norm.i][norm.j] == '=')
 				{
-					norm.buff = half_h_search(variable, envp, norm);
+					norm.buff = half_h_search(envp, norm);
 					free(norm.tmp33);
 					return (norm.buff);
 				}

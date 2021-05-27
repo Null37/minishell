@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_f_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:34:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/15 15:42:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:47:50 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	check_two_red(t_commands *tmp)
 	t_filerdr	*head;
 	int			cpt;
 	int			cpt2;
-	char		*err;
 
 	cpt = 0;
 	cpt2 = 0;

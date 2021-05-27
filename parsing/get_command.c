@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 11:13:43 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/23 11:18:22 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:52:24 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	norm_g_cmd1(int *i, t_env *evp, t_commands **commands, char *cmds)
 	return (0);
 }
 
-int	get_commands(char *ptr, t_env *evp, t_commands **cmm, char *cmds)
+int	get_commands(t_env *evp, t_commands **cmm, char *cmds)
 {
 	int			i;
 	t_commands	*tmp;

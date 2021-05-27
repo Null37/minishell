@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:19:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/18 17:38:09 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:51:37 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ char	*deletespace(char *str)
 
 char	*get_rdr_file(char *command, int i)
 {
-	char	*flname;
 	int		start;
 
 	i--;

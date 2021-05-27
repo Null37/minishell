@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd_function.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/20 17:24:51 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:40:33 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ void	command_cd(char *ptr, t_commands *tmp, t_env *evp)
 	char	*home;
 	char	*oldpwd;
 
+	home = NULL;
+	oldpwd = NULL;
+	eee = 0;
 	if (ptr != NULL)
 		evp->my_env = edit_evp_new_oldpwd(ptr, evp->my_env);
 	if (ptr == NULL && ft_strncmp(tmp->arguments[0], ".", 2) == 0)

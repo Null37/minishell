@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:54:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/23 10:53:08 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:48:07 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	command_unset(t_commands *tmp, t_env *evp)
 	lenarg = count_arg_2(tmp);
 	while (++k < lenarg)
 	{
-		check_syntax(tmp, k, lenarg, 'u');
+		check_syntax(tmp, k, 'u');
 		while (++i < lenp)
 		{
 			if (ft_strncmp(evp->my_env[i], tmp->arguments[k],

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 15:04:02 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:46:49 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	err_syn(t_commands *tmp, char e_u, int k)
 	write(2, "\n", 1);
 }
 
-void	check_syntax(t_commands *tmp, int k, int lenarg, char e_u)
+void	check_syntax(t_commands *tmp, int k, char e_u)
 {
 	int	i;
 

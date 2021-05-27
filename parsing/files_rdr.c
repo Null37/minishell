@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:35:07 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/25 16:05:15 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:51:20 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	files_rdr(t_commands *commands)
 	i = -1;
 	t_cmd = malloc(sizeof(t_rdr));
 	t_cmd->tmp = NULL;
-	while (++i < ft_strlen(commands->command))
+	while (++i < (int)ft_strlen(commands->command))
 		norm_f_rdr(commands, t_cmd, &i);
 	commands->filerdr = t_cmd->tmp;
 	free(t_cmd);

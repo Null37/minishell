@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:58:09 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 15:44:01 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:44:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	command_c(int signum)
 {
+	signum = 0;
 	g_all->staus_code = 1;
 	write(1, "\n", 1);
 	write(1, "\033[0;33mNull37$\033[0m ", 19);

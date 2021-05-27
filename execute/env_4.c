@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 18:19:39 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:59:09 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	error_syntax(t_commands *tmp, int k)
 	g_all->staus_code = 1;
 }
 
-int	check_syntax_export_false(t_commands *tmp, int k, int lenarg)
+int	check_syntax_export_false(t_commands *tmp, int k)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ int	check_syntax_export_false(t_commands *tmp, int k, int lenarg)
 	return (0);
 }
 
-int	check_syntax_export_true(t_commands *tmp, int k, int lenarg)
+int	check_syntax_export_true(t_commands *tmp, int k)
 {
 	int	i;
 
@@ -75,6 +75,7 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 {
 	char	*s;
 
+	s = NULL;
 	if (ft_strncmp(norm.ef, "\0", 1) == 0)
 	{
 		envp[norm.i] = ft_strdup(tmp->arguments[k]);
@@ -86,7 +87,7 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 		norm.te = (tmp->arguments[k] + norm.b);
 		norm.lenp = len_of_args(envp);
 		norm.i = -1;
-		if (loop_add_env(tmp, norm, envp, s) == -100)
+		if (loop_add_env(norm, envp, s) == -100)
 			return (-100);
 	}
 	return (0);

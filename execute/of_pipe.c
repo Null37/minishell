@@ -6,16 +6,16 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:56:57 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 20:07:48 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 12:50:29 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
 void	rid_with_pipe(t_commands *tmp, t_filerdr *lastnamef,
-	t_env *evp, t_norm *norm)
+	t_norm *norm)
 {
-	pip_rid_one(tmp, lastnamef, evp, norm);
+	pip_rid_one(tmp, lastnamef, norm);
 	if (check_two_red(tmp) == 1)
 	{
 		norm->fd_out = output_ret(tmp);
@@ -37,7 +37,7 @@ void	all_work_p_r(t_commands *tmp, t_filerdr *lastnamef,
 	if (tmp != NULL && tmp->filerdr == NULL)
 		normal_pipe(norm);
 	else if (tmp->filerdr != NULL)
-		rid_with_pipe(tmp, lastnamef, evp, norm);
+		rid_with_pipe(tmp, lastnamef, norm);
 	se_execute_command(tmp, norm->ptr2, evp);
 	if (tmp->type == NULL)
 		exit(0);
@@ -71,6 +71,7 @@ void	pipe_commmand_c(t_commands *tmp, char *ptr, t_env *evp)
 	int			i;
 
 	i = 0;
+	lastnamef = NULL;
 	norm = malloc(sizeof(t_norm));
 	reset(norm, ptr);
 	start_loop(tmp, lastnamef, evp, norm);
