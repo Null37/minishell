@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 16:33:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/24 19:51:56 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:05:32 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void	split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 
 	cmd_r = newcmd_rdr();
 	cmd_r->rdr_cmd = deleterdr(commands->command);
+	cmd_r->rdr_cmd = deletespace(cmd_r->rdr_cmd);
 	if (!cmd_r->rdr_cmd || ft_strlen(cmd_r->rdr_cmd) == 0)
 		return ;
-	cmd_r->rdr_cmd = deletespace(cmd_r->rdr_cmd);
 	nbr_args = nbr_argts2(cmd_r->rdr_cmd);
 	commands->arguments = malloc(sizeof(char *) * (nbr_args));
 	commands->all = malloc(sizeof(char *) * (nbr_args + 1));

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 13:23:07 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:32:04 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	main(int argc, char **argv, char **envp)
 	argv = 0;
 	evp = malloc(sizeof(t_env));
 	set_main(&evp, &buf, envp);
-	if (evp->check_term == 0)
-	{
-		write(2, "TERM not set\n", 13);
-		exit(1);
-	}
+	// if (evp->check_term == 0)
+	// {
+	// 	write(2, "TERM not set\n", 13);
+	// 	exit(1);
+	// }
 	tgetent(NULL, evp->check_term);
 	history = new_commnd(NULL);
 	signal(SIGINT, command_c);

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 19:46:15 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/26 19:48:24 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:27:23 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ void	trait_command(char **envp, t_commands *commands)
 	i = -1;
 	nbr_args = 0;
 	split_command_rdr(envp, commands, nbr_args);
-	files_rdr(commands);
+	files_rdr(envp, commands);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_f_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-bour <rel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:36:48 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/25 20:35:16 by rel-bour         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:57:27 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,17 @@ int	half_lnf(t_filerdr **head, t_filerdr **last, t_norm *norm)
 	return (1);
 }
 
-void	half_lnf_otw(t_filerdr **head, t_filerdr **last, t_norm *norm)
+int	half_lnf_otw(t_filerdr **head, t_filerdr **last, t_norm *norm)
 {
+	if	(ft_strncmp((*head)->name, "", 1) == 0)
+	{
+		write(2, "minishell: ", 11);
+		write(2, (*head)->name, ft_strlen((*head)->name));
+		write(2, ": ", 2);
+		ft_putstr_fd("No such file or directory", 2);
+		write(2, "\n", 1);
+		return (0);
+	}
 	if ((*head)->type == 1)
 	{
 		norm->fd_l = open((*head)->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -46,6 +55,7 @@ void	half_lnf_otw(t_filerdr **head, t_filerdr **last, t_norm *norm)
 		*last = *head;
 		close(norm->fd_l);
 	}
+	return (1);
 }
 
 t_filerdr	*last_name_func(t_commands *tmp)
@@ -67,7 +77,11 @@ t_filerdr	*last_name_func(t_commands *tmp)
 				return (NULL);
 			}
 		}
-		half_lnf_otw(&head, &last, norm);
+		if (half_lnf_otw(&head, &last, norm) == 0)
+		{
+			free(norm);
+			return (NULL);
+		}
 		if (!head->next)
 			break ;
 		head = head->next;

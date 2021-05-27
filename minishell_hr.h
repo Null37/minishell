@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 13:01:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:31:24 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,12 +318,11 @@ char		*deleterdr(char *command);
 void		add_null(t_commands *cmd, int nbr);
 char		*deletecoats(char **envp, char *str);
 int			check_echo_n(char *s);
-int			files_rdr(t_commands *commands);
+int			files_rdr(char **envp, t_commands *commands);
 t_filerdr	*new_files_rdr(void);
 int			get_type_rdr(char *command, int i);
-char		*get_rdr_file(char *command, int i);
+char		*get_rdr_file(char **envp, char *command, int i);
 int			skip_filename(char *cmds, int *i);
-char		*get_rdr_file(char *command, int i);
 char		*deleterdr(char *command);
 char		*deletecoats(char **envp, char *str);
 char		*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp);

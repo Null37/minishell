@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:20:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/26 18:25:58 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:59:02 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ int	norm_getdbc(char **envp, char **rstr, char *str, t_tmp *tmp)
 
 char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp)
 {
+	if (str[tmp->i + 1] == 34)
+	{
+		tmp->i++;
+		tmp->s1[0] = '\0';
+		rstr = ft_strjoin1(rstr, tmp->s1);
+		return (rstr);
+	}
 	while (str[++(tmp->i)])
 	{
 		if (norm_getdbc(envp, &rstr, str, tmp))
@@ -75,6 +82,13 @@ char	*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp)
 
 char	*getsglcoat(char *rstr, char *str, t_tmp *tmp)
 {
+	if (str[tmp->i + 1] == 39)
+	{
+		tmp->i++;
+		tmp->s1[0] = '\0';
+		rstr = ft_strjoin1(rstr, tmp->s1);
+		return (rstr);
+	}
 	while (str[++(tmp->i)])
 	{
 		if (str[tmp->i] == 39)
