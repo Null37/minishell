@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:35:07 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 15:30:07 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 17:27:01 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	norm_f_rdr(char **envp, t_commands *commands, t_rdr *t_cmd, int *i)
 		skip_double_coats(commands->command, i);
 	else if (commands->command[*i] == 39)
 		skip_single_coats(commands->command, i);
+	else if (commands->command[*i] == '\\')
+	{
+		(*i)++;
+		return ;
+	}
 	else if (commands->command[*i] == '>' || commands->command[*i] == '<')
 	{
 		if (!commands->filerdr)

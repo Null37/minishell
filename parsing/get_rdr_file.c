@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:19:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 15:37:42 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:59:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*deletespace(char *str)
 	start = -1;
 	end = -1;
 	if (!str)
-		return (NULL);	
+		return (NULL);
 	norm_deletespace(str, &i, &size, &start);
 	i = size;
 	while (--i >= 0)

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:36:48 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 15:57:27 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:57:39 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	half_lnf(t_filerdr **head, t_filerdr **last, t_norm *norm)
 
 int	half_lnf_otw(t_filerdr **head, t_filerdr **last, t_norm *norm)
 {
-	if	(ft_strncmp((*head)->name, "", 1) == 0)
+	if (ft_strncmp((*head)->name, "", 1) == 0)
 	{
 		write(2, "minishell: ", 11);
 		write(2, (*head)->name, ft_strlen((*head)->name));
@@ -58,34 +58,43 @@ int	half_lnf_otw(t_filerdr **head, t_filerdr **last, t_norm *norm)
 	return (1);
 }
 
+int	loop_lnf(t_filerdr **head, t_filerdr **last, t_norm **norm)
+{
+	while (1)
+	{
+		if ((*head)->type == 0)
+		{
+			if (half_lnf(head, last, *norm) == 0)
+			{
+				free(*norm);
+				return (1);
+			}
+		}
+		if (half_lnf_otw(head, last, *norm) == 0)
+		{
+			free(*norm);
+			return (1);
+		}
+		if (!(*head)->next)
+			break ;
+		(*head) = (*head)->next;
+	}
+	return (0);
+}
+
 t_filerdr	*last_name_func(t_commands *tmp)
 {
 	t_filerdr	*head;
 	t_filerdr	*last;
 	t_norm		*norm;
+	int			o;
 
 	norm = malloc(sizeof(t_norm));
 	norm->fd_l = -70;
 	head = tmp->filerdr;
-	while (1)
-	{
-		if (head->type == 0)
-		{
-			if (half_lnf(&head, &last, norm) == 0)
-			{
-				free(norm);
-				return (NULL);
-			}
-		}
-		if (half_lnf_otw(&head, &last, norm) == 0)
-		{
-			free(norm);
-			return (NULL);
-		}
-		if (!head->next)
-			break ;
-		head = head->next;
-	}
+	o = loop_lnf(&head, &last, &norm);
+	if (o == 1)
+		return (NULL);
 	free(norm);
 	return (last);
 }
