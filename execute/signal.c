@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:58:09 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:44:35 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 13:09:58 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	command_c(int signum)
 {
+	if (g_all->ctrl_c == 1)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
 	signum = 0;
 	g_all->staus_code = 1;
 	write(1, "\n", 1);
@@ -24,7 +29,6 @@ void	command_c(int signum)
 		free(g_all->ret);
 		g_all->ret = NULL;
 	}
-	g_all->ctrl_c = 1;
 }
 
 void	cntrol_quit(int quit)
@@ -36,3 +40,13 @@ void	cntrol_quit(int quit)
 		write(2, "\n", 1);
 	}
 }
+/*
+ERROR HANDLING:
+> > file
+*echo hello > file\ 2
+< < file
+*echo \\'$HOME'
+export abc='\abc''\"'"\"'"
+*/
+
+

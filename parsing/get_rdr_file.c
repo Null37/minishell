@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:19:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 16:59:35 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:21:59 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ char	*deletespace(char *str)
 char	*get_rdr_file(char **envp, char *command, int i)
 {
 	int		start;
-	char	*s;
 
 	i--;
 	start = 0;
@@ -111,15 +110,17 @@ char	*get_rdr_file(char **envp, char *command, int i)
 		break ;
 	}
 	start = i;
-	while (command[i])
+	while (i < (int)ft_strlen(command))
 	{	
 		if (command[i] == 34)
 			skip_double_coats(command, &i);
 		else if (command[i] == 39)
 			skip_single_coats(command, &i);
+		else if (command[i] == '\\')
+			i++;
 		else if (command[i] == '>' || command[i] == '<' || command[i] == ' ')
 			break ;
 		i++;
 	}
-	return ((s = deletecoats(envp, deletespace(my_substr(command, start, i)))));
+	return (deletecoats(envp, deletespace(my_substr(command, start, i))));
 }

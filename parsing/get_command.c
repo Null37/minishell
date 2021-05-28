@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 11:13:43 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 12:52:24 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:04:22 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,13 @@ t_commands	*norm_commands2(char *cmds, t_env *evp, t_commands *commands, int i)
 
 int	norm_g_cmd0(int *i, t_commands *commands, char *cmds)
 {
-	if ((cmds[++(*i)] == 34 && *i == 0)
-		|| (cmds[*i] == 34 && cmds[*i - 1] != '\\'))
+	if (cmds[++(*i)] == 34)
 	{
 		commands->multiple = skip_double_coats(cmds, i);
 		if (commands->multiple)
 			return (0);
 	}
-	else if ((cmds[*i] == 39 && *i == 0)
-		|| (cmds[*i] == 39 && cmds[*i - 1] != '\\'))
+	else if (cmds[*i] == 39)
 	{
 		commands->multiple = skip_single_coats(cmds, i);
 		if (commands->multiple)

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 18:37:01 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 16:50:53 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:49:59 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,14 @@ char	*convert_vrbs(char *cmds, t_env *evp)
 	tmp->i = -1;
 	while (cmds[++tmp->i])
 	{
-		if (bl == 0 && cmds[tmp->i] == '\''
-			&& (tmp->i == 0 || cmds[tmp->i - 1] != '\\'))
+		if (cmds[tmp->i] == '\\')
+		{
+			tmp->rstr = ft_strjoinchar(tmp->rstr, '\\');
+			tmp->rstr = ft_strjoinchar(tmp->rstr, cmds[tmp->i + 1]);
+			(tmp->i)++;
+			continue ;
+		}
+		if (bl == 0 && cmds[tmp->i] == '\'')
 			bl = 1;
 		else if (bl == 1 && cmds[tmp->i] == '\'')
 			bl = 0;

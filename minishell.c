@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 17:19:16 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:34:03 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	set_main(t_env **evp, char **buf, char **envp)
 	(*evp)->my_env = edit_envp_old_pwd((*evp)->my_env);
 	(*evp)->save = search_in_env2("HOME", (*evp)->my_env);
 	(*evp)->check_term = getenv("TERM");
-	g_all->ctrl_c = 0;
 	g_all->ctrl_quit = 0;
+	g_all->ctrl_c = 0;
 	g_all->staus_code = 0;
 	g_all->option = 0;
 }
@@ -58,24 +58,24 @@ void	check_free(void)
 
 void	main_loop(char **buf, char **ptr, t_history **history, t_env **evp)
 {
+	g_all->ctrl_c = 0;
 	while (1)
 	{
+		signal(SIGINT, command_c);
+		signal(SIGQUIT, cntrol_quit);
 		if (g_all->ctrl_c == 0)
-		{
 			write(1, "\033[0;33mNull37$\033[0m ", 19);
-			g_all->ctrl_c = 1;
-		}
 		*ptr = getcwd(*buf, 1024);
 		if (*ptr != NULL)
 			(*evp)->my_env = edit_envp_pwd(*ptr, (*evp)->my_env);
 		ft_putstr_fd(tgetstr("sc", NULL), STDOUT_FILENO);
 		termcap_khedma(*history);
 		g_all->option = 0;
-		g_all->ctrl_c = 0;
 		if (half_main(buf, ptr) == 2)
 			continue ;
 		parssing_shell(*ptr, *evp, g_all->ret);
 		g_all->ctrl_quit = 0;
+		g_all->ctrl_c = 0;
 		check_free();
 		free(*buf);
 		free(*ptr);
@@ -100,7 +100,5 @@ int	main(int argc, char **argv, char **envp)
 	// }
 	tgetent(NULL, evp->check_term);
 	history = new_commnd(NULL);
-	signal(SIGINT, command_c);
-	signal(SIGQUIT, cntrol_quit);
 	main_loop(&buf, &ptr, &history, &evp);
 }

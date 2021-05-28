@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:52:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:42:02 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 13:11:57 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	half_write(char **my_env, int i, int j)
 {
 	while (my_env[i][j])
 	{
-		if (my_env[i][j] == '\\' || my_env[i][j] == '$')
+		if (my_env[i][j] == '\\' || my_env[i][j] == '$' || my_env[i][j] == 34)
 			write(1, "\\", 1);
 		write(1, &my_env[i][j], 1);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 18:00:12 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/20 10:07:40 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:26:45 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	skip_filename(char *cmds, int *i)
 	while (cmds[++(*i)])
 		if (cmds[*i] != '>' && cmds[*i] != '<' && cmds[*i] != ' ')
 			break ;
-	while (cmds[*i])
+	while (*i < (int)ft_strlen(cmds))
 	{
 		if (cmds[*i] == 34)
 			skip_double_coats(cmds, i);
@@ -25,7 +25,7 @@ int	skip_filename(char *cmds, int *i)
 			skip_single_coats(cmds, i);
 		else if (cmds[*i] == '\\')
 		{
-			i++;
+			(*i) += 2;
 			continue ;
 		}
 		if (cmds[*i] == '>' || cmds[*i] == '<'
