@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_check_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/26 11:48:35 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 14:08:45 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	built_check(t_commands *tmp)
 
 int	half_check_commad(t_commands *tmp, char *path, int pipe)
 {
+	;
 	if (built_check(tmp) == 2)
 		return (2);
 	if (tmp->type[0] == '\0')
@@ -89,5 +90,7 @@ int	half_check_c_2(t_commands *tmp, t_norm norm, int pipe)
 		print_error_check_commd(tmp, pipe);
 		return (-1);
 	}
+	if (norm.fs == 3)
+		return (-1);
 	return (0);
 }

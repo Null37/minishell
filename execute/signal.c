@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:58:09 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 13:09:58 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 13:48:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ ERROR HANDLING:
 < < file
 *echo \\'$HOME'
 export abc='\abc''\"'"\"'"
+cat < /dev
 */
 
 
