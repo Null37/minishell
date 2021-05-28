@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd_function.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:40:33 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:11:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 		if (ft_strncmp(home, "", 1) == 0)
 		{
 			write(2, "minishell: cd: HOME not set\n", 28);
+			free(home);
 			g_all->staus_code = 1;
 			return (-9);
 		}
+		free(home);
 	}
 	else if (ft_strncmp(tmp->arguments[0], "~", 2) == 0)
 	{
@@ -51,6 +53,7 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 			chdir(evp->save);
 		else
 			eee = chdir(home);
+		free(home);
 	}
 	else
 		eee = chdir(tmp->arguments[0]);

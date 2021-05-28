@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:58:09 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 13:48:34 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:12:15 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,3 @@ void	cntrol_quit(int quit)
 		write(2, "\n", 1);
 	}
 }
-/*
-ERROR HANDLING:
-> > file
-*echo hello > file\ 2
-< < file
-*echo \\'$HOME'
-export abc='\abc''\"'"\"'"
-cat < /dev
-*/
-
-

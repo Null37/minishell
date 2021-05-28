@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 20:34:03 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:17:05 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	main(int argc, char **argv, char **envp)
 	argv = 0;
 	evp = malloc(sizeof(t_env));
 	set_main(&evp, &buf, envp);
-	// if (evp->check_term == 0)
-	// {
-	// 	write(2, "TERM not set\n", 13);
-	// 	exit(1);
-	// }
+	if (evp->check_term == 0)
+	{
+		write(2, "TERM not set\n", 13);
+		exit(1);
+	}
 	tgetent(NULL, evp->check_term);
 	history = new_commnd(NULL);
 	main_loop(&buf, &ptr, &history, &evp);

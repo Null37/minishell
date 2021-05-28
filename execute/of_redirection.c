@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 17:53:52 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 13:46:17 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/28 15:06:34 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	mini_redrection(t_commands *tmp, char *ptr, t_env *evp)
 		if (check_if_command_is_exist(tmp->filerdr->name, 0, norm.pipe_ch) == 3)
 		{
 			g_all->staus_code = 1;
-			free(lastnamef);
 			return ;
 		}
 		half_in_ou(tmp, norm, evp, lastnamef);

@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 14:08:45 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:12:33 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	built_check(t_commands *tmp)
 
 int	half_check_commad(t_commands *tmp, char *path, int pipe)
 {
-	;
 	if (built_check(tmp) == 2)
 		return (2);
 	if (tmp->type[0] == '\0')

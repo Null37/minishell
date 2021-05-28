@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_vrbs_file.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 18:37:01 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 20:49:59 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:15:46 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,20 @@ int	norm_cnvr_vbs(int *bl, char *cmds, t_env *evp, t_tmp *tmp)
 	return (0);
 }
 
+void	half_convert(int *bl, t_tmp	**tmp)
+{
+	*bl = 0;
+	*tmp = malloc(sizeof(t_tmp));
+	(*tmp)->rstr = ft_strdup("");
+	(*tmp)->i = -1;
+}
+
 char	*convert_vrbs(char *cmds, t_env *evp)
 {
 	t_tmp	*tmp;
 	int		bl;
 
-	bl = 0;
-	tmp = malloc(sizeof(t_tmp));
-	tmp->rstr = ft_strdup("");
-	tmp->i = -1;
+	half_convert(&bl, &tmp);
 	while (cmds[++tmp->i])
 	{
 		if (cmds[tmp->i] == '\\')

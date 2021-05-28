@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:36:37 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 19:52:39 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:11:05 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int	our_command(t_commands *tmp, char *ptr, t_env *evp)
 {
 	g_all->ctrl_c = 1;
-	evp->test = search_in_env2("PWD", evp->my_env);
-	if (ft_strncmp(evp->test, "", 1) != 0)
-		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
-	free(evp->test);
+	old_pwd(evp);
 	if (tmp->type == NULL && !tmp->next)
 		return (0);
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)

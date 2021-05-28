@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_func_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:16:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:45:55 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:08:01 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int	check_file_or_dit(char *path_file)
 		write(2, ": ", 2);
 		write(2, "is a directory\n", 15);
 		g_all->staus_code = 126;
+		free(dir);
+		free(path_file);
 		return (3);
 	}
+	free(dir);
 	return (0);
 }
 

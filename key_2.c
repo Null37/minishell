@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 11:33:39 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 13:02:24 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:12:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,12 @@ char	*termcap_khedma(t_history *history)
 	g_all->line = NULL;
 	g_all->ret = NULL;
 	return (loop_termcap(&history, &h_tmp, tm, a));
+}
+
+void	old_pwd(t_env *evp)
+{
+	evp->test = search_in_env2("PWD", evp->my_env);
+	if (ft_strncmp(evp->test, "", 1) != 0)
+		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
+	free(evp->test);
 }

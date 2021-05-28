@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_hr.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 20:25:03 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:10:58 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,4 +338,5 @@ int			check_number(t_commands *tmp, int i);
 int			check_cmd(char *cmnd);
 t_tmp		*new_tmp_search(char **envp);
 char		*convert_vrbs(char *cmds, t_env *evp);
+void		old_pwd(t_env *evp);
 #endif
