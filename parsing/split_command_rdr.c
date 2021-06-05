@@ -6,29 +6,17 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 16:33:46 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 15:05:32 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:09:12 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
-t_rdr	*newcmd_rdr(void)
-{
-	t_rdr	*r;
-
-	r = malloc(sizeof(t_rdr));
-	r->b = 0;
-	r->k = 0;
-	r->i = -1;
-	r->start = 0;
-	return (r);
-}
-
-void	nrm_rdr_args(t_rdr	*cmd_r, char **envp, t_commands *commands)
+void	nrm_rdr_args(t_rdr	*cmd_r, t_commands *commands)
 {
 	cmd_r->str = my_substr(cmd_r->rdr_cmd, cmd_r->start, cmd_r->i + 1);
 	cmd_r->str = deletespace(cmd_r->str);
-	cmd_r->str = deletecoats(envp, cmd_r->str);
+	cmd_r->str = deletecoats(cmd_r->str);
 	if (cmd_r->str)
 	{
 		if (cmd_r->b == 1 || my_strcmp(commands->type, "echo") == 1
@@ -64,7 +52,7 @@ int	skp_sng_db_c_n(t_rdr *cmd_r)
 	return (0);
 }
 
-int	rdr_norm_cmd(t_rdr *cm_r, char **envp, t_commands *commands)
+int	rdr_norm_cmd(t_rdr *cm_r, t_commands *commands)
 {
 	if (cm_r->rdr_cmd && !skp_sng_db_c_n(cm_r) && cm_r->rdr_cmd[cm_r->i] == '\\')
 	{
@@ -78,13 +66,13 @@ int	rdr_norm_cmd(t_rdr *cm_r, char **envp, t_commands *commands)
 		{
 			commands->type = my_substr(cm_r->rdr_cmd, cm_r->start, cm_r->i + 1);
 			commands->type = deletespace(commands->type);
-			commands->type = deletecoats(envp, commands->type);
+			commands->type = deletecoats(commands->type);
 			if (!commands->type)
 				commands->type = ft_strdup("\0");
 			commands->all[0] = commands->type;
 		}
 		else
-			nrm_rdr_args(cm_r, envp, commands);
+			nrm_rdr_args(cm_r, commands);
 		cm_r->start = cm_r->i + 1;
 	}
 	if (cm_r->rdr_cmd[cm_r->i] == '\0')
@@ -92,15 +80,32 @@ int	rdr_norm_cmd(t_rdr *cm_r, char **envp, t_commands *commands)
 	return (0);
 }
 
-void	split_command_rdr(char **envp, t_commands *commands, int nbr_args)
+int	loop_s_c_r(t_env *evp, t_commands *commands, t_rdr *cmd_r)
+{
+	cmd_r->rdr_cmd = deleterdr(commands->command);
+	if (!cmd_r->rdr_cmd || ft_strlen(cmd_r->rdr_cmd) == 0)
+	{
+		free(cmd_r->rdr_cmd);
+		free(cmd_r);
+		return (1);
+	}
+	cmd_r->rdr_cmd = convert_vrbs(cmd_r->rdr_cmd, evp);
+	cmd_r->rdr_cmd = deletespace(cmd_r->rdr_cmd);
+	if (!cmd_r->rdr_cmd || ft_strlen(cmd_r->rdr_cmd) == 0)
+	{
+		free(cmd_r);
+		return (1);
+	}
+	return (0);
+}
+
+void	split_command_rdr(t_env *evp, t_commands *commands, int nbr_args)
 {
 	t_rdr	*cmd_r;
 	int		t;
 
 	cmd_r = newcmd_rdr();
-	cmd_r->rdr_cmd = deleterdr(commands->command);
-	cmd_r->rdr_cmd = deletespace(cmd_r->rdr_cmd);
-	if (!cmd_r->rdr_cmd || ft_strlen(cmd_r->rdr_cmd) == 0)
+	if (loop_s_c_r(evp, commands, cmd_r))
 		return ;
 	nbr_args = nbr_argts2(cmd_r->rdr_cmd);
 	commands->arguments = malloc(sizeof(char *) * (nbr_args));
@@ -108,7 +113,7 @@ void	split_command_rdr(char **envp, t_commands *commands, int nbr_args)
 	add_null(commands, nbr_args + 1);
 	while (1)
 	{
-		t = rdr_norm_cmd(cmd_r, envp, commands);
+		t = rdr_norm_cmd(cmd_r, commands);
 		if (t == 1)
 			continue ;
 		else if (t == 2)

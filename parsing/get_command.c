@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 11:13:43 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/28 12:04:22 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/05/29 11:58:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_commands	*norm_commands2(char *cmds, t_env *evp, t_commands *commands, int i)
 	evp->ptr = getcwd(evp->buf, 1024);
 	commands->command = my_substr(cmds, evp->start, i);
 	commands->command = deletespace(commands->command);
-	split_pipe(evp->my_env, commands);
+	split_pipe(evp, commands);
 	if (commands->next_p == NULL)
 		ext_cmd_norm(evp, commands);
 	else if (commands->next_p != NULL)

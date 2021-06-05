@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:19:32 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/28 12:21:59 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:38:43 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*deletespace(char *str)
 	return (get_right_path(str, start, end));
 }
 
-char	*get_rdr_file(char **envp, char *command, int i)
+char	*get_rdr_file(char *command, int i)
 {
 	int		start;
 
@@ -122,5 +122,5 @@ char	*get_rdr_file(char **envp, char *command, int i)
 			break ;
 		i++;
 	}
-	return (deletecoats(envp, deletespace(my_substr(command, start, i))));
+	return (deletecoats(deletespace(my_substr(command, start, i))));
 }

@@ -6,13 +6,13 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 18:48:58 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/26 18:23:24 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:36:51 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_hr.h"
 
-int	norm_deletcoats(char **envp, char *str, t_tmp	*tmp)
+int	norm_deletcoats(char *str, t_tmp	*tmp)
 {
 	if (str[tmp->i] == '\\')
 	{
@@ -23,7 +23,7 @@ int	norm_deletcoats(char **envp, char *str, t_tmp	*tmp)
 	}
 	if (str[tmp->i] == 34)
 	{
-		tmp->rstr = getdblcoat(envp, tmp->rstr, str, tmp);
+		tmp->rstr = getdblcoat(tmp->rstr, str, tmp);
 		return (1);
 	}
 	if (str[tmp->i] == 39)
@@ -62,7 +62,7 @@ char	*free_ret(t_tmp	*tmp)
 	return (s);
 }
 
-char	*deletecoats(char **envp, char *str)
+char	*deletecoats(char *str)
 {
 	t_tmp	*tmp;
 
@@ -74,9 +74,7 @@ char	*deletecoats(char **envp, char *str)
 	tmp->rstr = NULL;
 	while (str[++(tmp->i)])
 	{
-		if (norm_deletcoats(envp, str, tmp))
-			continue ;
-		if (norm_deletcoats1(envp, str, tmp))
+		if (norm_deletcoats(str, tmp))
 			continue ;
 		tmp->s1[0] = str[tmp->i];
 		tmp->rstr = ft_strjoin1(tmp->rstr, tmp->s1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_func_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:16:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 16:08:01 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/06/04 16:00:43 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	check_file_or_dit(char *path_file)
 		free(path_file);
 		return (3);
 	}
-	free(dir);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_hr.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 16:10:58 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/06/05 16:15:33 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_tmp{
 	int		lenp;
 	char	*buff;
 	char	*fsf;
+	int		dl;
 }					t_tmp;
 
 typedef struct s_libf
@@ -185,13 +186,15 @@ typedef struct s_nor
 	t_commands	*tmp;
 	char		*cmd;
 	char		*cmd_tmp;
-	char		**envp;
+	t_env		*evp;
 	char		*tmp33;
 	int			ck2;
 }		t_norm;
 
 t_commandg	*g_all;
 
+int			err_handling(t_commands *tmp);
+int			err_half_command(t_commands *tmp);
 void		err_this_command(t_commands *tmp, int pipe);
 int			check_syntax_number(char *av, int i, int r);
 int			half_check_syn_r(int *i, char *av);
@@ -308,24 +311,23 @@ int			get_commands(t_env *evp,
 				t_commands **commands, char *cmds);
 t_commands	*new_commands(void);
 char		*deletespace(char *str);
-int			split_pipe(char **envp, t_commands *commands);
+int			split_pipe(t_env *evp, t_commands *commands);
 t_commands	*norm_commands1(char *cmds, t_env *evp,
 				t_commands *commands, int i);
-void		trait_command(char **envp, t_commands *commands);
-void		split_command_rdr(char **envp,
+void		trait_command(t_env *envp, t_commands *commands);
+void		split_command_rdr(t_env *envp,
 				t_commands *commands, int nbr_args);
 char		*deleterdr(char *command);
 void		add_null(t_commands *cmd, int nbr);
-char		*deletecoats(char **envp, char *str);
 int			check_echo_n(char *s);
-int			files_rdr(char **envp, t_commands *commands);
+int			files_rdr(t_env *envp, t_commands *commands);
 t_filerdr	*new_files_rdr(void);
 int			get_type_rdr(char *command, int i);
-char		*get_rdr_file(char **envp, char *command, int i);
+char		*get_rdr_file(char *command, int i);
 int			skip_filename(char *cmds, int *i);
 char		*deleterdr(char *command);
-char		*deletecoats(char **envp, char *str);
-char		*getdblcoat(char **envp, char *rstr, char *str, t_tmp *tmp);
+char		*deletecoats(char *str);
+char		*getdblcoat(char *rstr, char *str, t_tmp *tmp);
 char		*getsglcoat(char *rstr, char *str, t_tmp *tmp);
 char		*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ);
 char		*my_substr2(char *s, int start, int end);
@@ -339,4 +341,5 @@ int			check_cmd(char *cmnd);
 t_tmp		*new_tmp_search(char **envp);
 char		*convert_vrbs(char *cmds, t_env *evp);
 void		old_pwd(t_env *evp);
+t_rdr		*newcmd_rdr(void);
 #endif

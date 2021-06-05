@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command_cnt.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:24:13 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/21 12:06:58 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/05/29 12:01:37 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	norm_smpl_cpd(char *cmds, t_env *evp, t_commands *commands, int i)
 	evp->ptr = getcwd(evp->buf, 1024);
 	commands->command = my_substr(cmds, evp->start, i);
 	commands->command = deletespace(commands->command);
-	split_pipe(evp->my_env, commands);
+	split_pipe(evp, commands);
 	if (commands->next_p == NULL)
 	{
 		if (commands->filerdr == NULL)

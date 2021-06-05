@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:59:09 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:44:35 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	check_syntax_export_false(t_commands *tmp, int k)
 			i++;
 		else
 		{
+			g_all->staus_code = 1;
 			error_syntax(tmp, k);
 			g_all->staus_code = 1;
 			return (1);

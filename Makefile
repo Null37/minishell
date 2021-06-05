@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
+#    By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/05/28 15:07:25 by ssamadi          ###   ########.fr        #
+#    Updated: 2021/06/05 16:14:56 by fbouibao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS =  -lcurses -Wall -Wextra -Werror
+FLAGS = -lcurses -fsanitize=address -Wall -Werror -Wextra
 
 SRC = minishell.c parsing.c rederction_f.c \
 termcap_fl.c execute/funct_file.c \
@@ -58,6 +58,7 @@ parsing/trait_command.c\
 execute/mor_fun_ac.c\
 execute/mor_fun_env_6.c\
 key_termcap.c\
+execute/norm_f.c\
 key_2.c
 
 CC = gcc

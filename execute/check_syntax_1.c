@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:46:49 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:45:12 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	err_syn(t_commands *tmp, char e_u, int k)
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);
 	write(2, "\n", 1);
+	g_all->staus_code = 1;
 }
 
 void	check_syntax(t_commands *tmp, int k, char e_u)

@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:48:33 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 12:56:59 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:53:10 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,24 @@ char	*add_vrbs_norm(char **envp, t_tmp *tamp, t_tmp *tmp, char *typ)
 	return (tamp->ss);
 }
 
-char	*n1_add_vrbs(char *str, t_tmp *tamp, char *typ)
+char	*n1_add_vrbs(int dl, char *str, t_tmp *tamp, char *typ)
 {
+	if (dl == 2 && (typ[tamp->k + 1] == 39 || typ[tamp->k + 1] == 34))
+	{
+		if (!str)
+			return (ft_strdup("$"));
+		else
+		{
+			tamp->test = ft_strdup("$");
+			tamp->s = ft_strjoin1(str, tamp->test);
+			free(tamp->test);
+			return (tamp->s);
+		}
+	}
 	if (typ[tamp->k + 1] == 39 || typ[tamp->k + 1] == 34)
 	{
 		if (!str)
-		{
 			return (ft_strdup(""));
-		}
 		else
 		{
 			tamp->test = ft_strdup("");
@@ -93,7 +103,7 @@ char	*add_vrbs(char **envp, char *str, t_tmp *tmp, char *typ)
 
 	tamp = malloc(sizeof(t_tmp));
 	tamp->k = tmp->i;
-	tamp->s1 = n1_add_vrbs(str, tamp, typ);
+	tamp->s1 = n1_add_vrbs(tmp->dl, str, tamp, typ);
 	if (tamp->s1)
 	{
 		s = tamp->s1;

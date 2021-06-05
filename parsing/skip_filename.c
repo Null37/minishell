@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 18:00:12 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/28 12:26:45 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:09:20 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ int	get_type_rdr(char *command, int i)
 	else if (command[i] == '<')
 		return (0);
 	return (-1);
+}
+
+t_rdr	*newcmd_rdr(void)
+{
+	t_rdr	*r;
+
+	r = malloc(sizeof(t_rdr));
+	r->b = 0;
+	r->k = 0;
+	r->i = -1;
+	r->start = 0;
+	return (r);
 }
