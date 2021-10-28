@@ -82,3 +82,26 @@ void	old_pwd(t_env *evp)
 		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
 	free(evp->test);
 }
+
+void	key_remove(int d)
+{
+	int	i;
+
+	i = 0;
+	if (d == KEY_REMOVE)
+	{
+		if (ft_strlen(g_all->ret) > 0)
+		{
+			while (i < ((int)ft_strlen(g_all->ret) - 1))
+				i++;
+			g_all->ret[i] = '\0';
+			tputs(tgetstr("le", NULL), 1, ft_putc);
+			tputs(tgetstr("dc", NULL), 1, ft_putc);
+		}
+		if (ft_strlen(g_all->ret) == 0)
+		{
+			free(g_all->ret);
+			g_all->ret = NULL;
+		}
+	}
+}

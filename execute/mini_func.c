@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:02:50 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:45:41 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:26:46 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	len_of_args(char **args)
 	int		i;
 
 	i = 0;
-	while (args[i] != NULL)
+	while (args && args[i] != NULL)
 		i++;
 	return (i);
 }
@@ -51,7 +51,7 @@ void	error_syn(t_commands *tmp, int k)
 	write(2, "minishell: ", 11);
 	write(2, "export: ", 7);
 	write(2, "`", 1);
-	write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+	write(2, tmp->arguments[k], ft_strlen(tmp->arguments[k]));
 	write(2, "'", 1);
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);

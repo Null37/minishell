@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:24:10 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 16:12:33 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/06/11 11:46:49 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	half_check_commad(t_commands *tmp, char *path, int pipe)
 		erro_h_chek_c(tmp, pipe);
 		return (-1);
 	}
-	if (ft_strncmp(path, "", 1) == 0)
+	if (path == NULL)
 	{
 		if (check_if_command_is_exist(tmp->type, 1, pipe) != 3)
 		{

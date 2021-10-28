@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:58:25 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/06/05 15:45:12 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:26:46 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	err_syn(t_commands *tmp, char e_u, int k)
 	else if (e_u == 'e')
 		write(1, "export: ", 8);
 	write(2, "`", 1);
-	write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+	write(2, tmp->arguments[k], ft_strlen(tmp->arguments[k]));
 	write(2, "'", 1);
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);
@@ -60,7 +60,7 @@ void	print_error_check_commd(t_commands *tmp, int pipe)
 		write(2, "minishell: ", 11);
 		write(2, tmp->type, ft_strlen(tmp->type));
 		write(2, ": ", 2);
-		write(2, eir, strlen(eir));
+		write(2, eir, ft_strlen(eir));
 		write(2, "\n", 1);
 	}
 	g_all->staus_code = 127;

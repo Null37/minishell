@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:02:46 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:41:34 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/11 10:43:46 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 char	*half_h_search(char **envp, t_norm norm)
 {
 	norm.j += 1;
+	if (envp[norm.i][norm.j] == '\0')
+	{
+		norm.fsf[0] = envp[norm.i][norm.j];
+		norm.buff = ft_strjoin1(norm.buff, norm.fsf);
+		return (norm.buff);
+	}
 	while (envp[norm.i][norm.j])
 	{
 		norm.fsf[0] = envp[norm.i][norm.j];
@@ -42,7 +48,6 @@ char	*half_search(char *variable, char **envp, t_norm norm)
 				}
 				norm.j++;
 			}
-			free(norm.buff);
 			norm.buff = ft_strdup("k");
 			free(norm.tmp33);
 			return (norm.buff);
@@ -58,7 +63,7 @@ char	*search_in_env2(char *variable, char **envp)
 
 	norm.j = 0;
 	norm.fsf = ft_strdup(" ");
-	norm.buff = ft_strdup("");
+	norm.buff = NULL;
 	norm.lenp = len_of_args(envp);
 	norm.i = -1;
 	norm.buff = half_search(variable, envp, norm);

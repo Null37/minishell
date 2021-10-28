@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:14:40 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/06/05 15:25:14 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/11 11:12:40 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ void	main_loop(char **buf, char **ptr, t_history **history, t_env **evp)
 		signal(SIGINT, command_c);
 		signal(SIGQUIT, cntrol_quit);
 		if (g_all->ctrl_c == 0)
+		{
 			write(1, "\033[0;33mNull37$\033[0m ", 19);
+		}
 		*ptr = getcwd(*buf, 1024);
 		if (*ptr != NULL)
 			(*evp)->my_env = edit_envp_pwd(*ptr, (*evp)->my_env);

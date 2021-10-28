@@ -40,7 +40,7 @@ void	command_export(t_commands *tmp, t_env *evp)
 		norm.tprr = malloc(sizeof(char *) * (norm.lenp + norm.o + 1));
 		norm.tprr[norm.lenp + norm.o] = NULL;
 		norm.z = -1;
-		while (norm.tprr[++norm.z] != NULL)
+		while (++norm.z < (norm.lenp + norm.o))
 			norm.tprr[norm.z] = NULL;
 		norm.z = -1;
 		while (evp->my_env[++norm.z] != NULL)

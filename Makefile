@@ -3,17 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+         #
+#    By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 08:26:47 by ssamadi           #+#    #+#              #
-#    Updated: 2021/06/05 16:14:56 by fbouibao         ###   ########.fr        #
+#    Updated: 2021/06/12 13:23:59 by ssamadi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS = -lcurses -fsanitize=address -Wall -Werror -Wextra
-
+FLAGS = -lcurses -Wall -Wextra -Werror 
 SRC = minishell.c parsing.c rederction_f.c \
 termcap_fl.c execute/funct_file.c \
 execute/cmd_cd_function.c \
@@ -59,7 +58,8 @@ execute/mor_fun_ac.c\
 execute/mor_fun_env_6.c\
 key_termcap.c\
 execute/norm_f.c\
-key_2.c
+key_2.c\
+termcap_tools.c\
 
 CC = gcc
 
@@ -67,7 +67,7 @@ all: libft1 $(NAME)
 
 $(NAME): $(SRC)
 	cp ./libft1/libft.a .
-	$(CC) -g $(FLAGS) $(SRC) libft.a -o $(NAME)
+	$(CC) $(FLAGS) $(SRC) libft.a -o $(NAME)
 
 libft1:
 	cd libft && $(MAKE) clean

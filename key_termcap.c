@@ -6,16 +6,29 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 11:27:47 by fbouibao          #+#    #+#             */
-/*   Updated: 2021/05/27 13:01:16 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/12 13:09:30 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_hr.h"
 
+void	key_up_cnt(t_history **h_tmp)
+{
+	if ((*h_tmp)->cmd)
+	{
+		write(1, (*h_tmp)->cmd, ft_strlen((*h_tmp)->cmd));
+		free(g_all->ret);
+		g_all->ret = ft_strdup((*h_tmp)->cmd);
+	}
+	g_all->termcap_mod = 0;
+}
+
 int	key_up(t_history **history, int d, t_history **h_tmp, int a)
 {
 	if (d == KEY_UP)
 	{
+		if (g_all->termcap_mod == 4)
+			get_last_cmd(history, h_tmp);
 		if ((*history)->cmd == NULL && g_all->line && !(*h_tmp)->preview)
 			return (1);
 		a = 8 + g_all->option;
@@ -24,31 +37,25 @@ int	key_up(t_history **history, int d, t_history **h_tmp, int a)
 		ft_putstr_fd(tgetstr("cd", NULL), STDOUT_FILENO);
 		if ((*h_tmp) && (*h_tmp)->preview)
 		{
+			if (g_all->termcap_mod == 1)
+				(*h_tmp) = (*h_tmp)->preview;
 			write_key_up(h_tmp);
 			g_all->ret = ft_strdup((*h_tmp)->cmd);
-			(*h_tmp) = (*h_tmp)->preview;
+			g_all->termcap_mod = 1;
 		}
 		else if (!(*h_tmp)->preview)
-		{
-			if ((*h_tmp)->cmd)
-			{
-				write(1, (*h_tmp)->cmd, ft_strlen((*h_tmp)->cmd));
-				free(g_all->ret);
-				g_all->ret = ft_strdup((*h_tmp)->cmd);
-			}
-		}
+			key_up_cnt(h_tmp);
 	}
 	return (0);
 }
 
 void	key_down(t_history	**h_tmp, int d)
 {
-	int	a;
-
 	if (d == KEY_DOWN)
 	{
-		a = 8 + g_all->option;
-		tputs(tgoto(tgetstr("ch", NULL), 0, a), 1, ft_putc);
+		if (g_all->termcap_mod == 4)
+			get_last_cmd2(h_tmp);
+		tputs(tgoto(tgetstr("ch", NULL), 0, (8 + g_all->option)), 1, ft_putc);
 		tputs(tgetstr("rc", NULL), 1, ft_putc);
 		ft_putstr_fd(tgetstr("cd", NULL), STDOUT_FILENO);
 		if ((*h_tmp) && (*h_tmp)->next)
@@ -57,39 +64,10 @@ void	key_down(t_history	**h_tmp, int d)
 			write(1, (*h_tmp)->cmd, ft_strlen((*h_tmp)->cmd));
 			free(g_all->ret);
 			g_all->ret = ft_strdup((*h_tmp)->cmd);
+			g_all->termcap_mod = 1;
 		}
 		else
-		{
-			free(g_all->ret);
-			if (g_all->line)
-				g_all->ret = ft_strdup(g_all->line);
-			else
-				g_all->ret = NULL;
-			write(1, g_all->ret, ft_strlen(g_all->ret));
-		}
-	}
-}
-
-void	key_remove(int d)
-{
-	int	i;
-
-	i = 0;
-	if (d == KEY_REMOVE)
-	{
-		if (ft_strlen(g_all->ret) > 0)
-		{
-			while (i < ((int)ft_strlen(g_all->ret) - 1))
-				i++;
-			g_all->ret[i] = '\0';
-			tputs(tgetstr("le", NULL), 1, ft_putc);
-			tputs(tgetstr("dc", NULL), 1, ft_putc);
-		}
-		if (ft_strlen(g_all->ret) == 0)
-		{
-			free(g_all->ret);
-			g_all->ret = NULL;
-		}
+			key_down_cnt();
 	}
 }
 
@@ -97,6 +75,7 @@ int	key_enter(int d, t_history **history, t_history **h_tmp)
 {
 	if (d == ENTER)
 	{
+		g_all->termcap_mod = 0;
 		free_n_enter();
 		if (g_all->ret == NULL)
 		{
@@ -128,7 +107,7 @@ int	half_termcap(int d)
 	{
 		if (g_all->ret == NULL)
 		{
-			write(1, "exit", 4);
+			write(1, "exit\n", 5);
 			return (-666);
 		}
 	}

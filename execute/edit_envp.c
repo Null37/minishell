@@ -84,6 +84,8 @@ char	**edit_envp_shlvl(char **envp_c)
 	t_norm	norm;
 
 	norm.sh = search_in_env2("SHLVL", envp_c);
+	if (norm.sh == NULL)
+		return (NULL);
 	norm.newsh = ft_itoa(ft_atoi(norm.sh) + 1);
 	free(norm.sh);
 	lenp = len_of_args(envp_c);

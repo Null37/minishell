@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:52:12 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 13:11:57 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:26:46 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ int	count_arg_2(t_commands *tmp)
 
 void	ft_putchar(char *str)
 {
-	write(1, str, strlen(str));
+	write(1, str, ft_strlen(str));
 }

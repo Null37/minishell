@@ -14,9 +14,11 @@
 
 void	command_c(int signum)
 {
+	g_all->termcap_mod = 4;
 	if (g_all->ctrl_c == 1)
 	{
 		write(1, "\n", 1);
+		g_all->ctrl_c = 1;
 		return ;
 	}
 	signum = 0;

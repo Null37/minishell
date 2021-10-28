@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:10:22 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/06/05 15:44:35 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:26:46 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	error_syntax(t_commands *tmp, int k)
 	write(2, "minishell: ", 11);
 	write(2, "export: ", 7);
 	write(2, "`", 1);
-	write(2, tmp->arguments[k], strlen(tmp->arguments[k]));
+	write(2, tmp->arguments[k], ft_strlen(tmp->arguments[k]));
 	write(2, "'", 1);
 	write(2, ": ", 2);
 	write(2, "not a valid identifier", 22);
@@ -77,7 +77,7 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 	char	*s;
 
 	s = NULL;
-	if (ft_strncmp(norm.ef, "\0", 1) == 0)
+	if (norm.ef == NULL)
 	{
 		envp[norm.i] = ft_strdup(tmp->arguments[k]);
 		envp[norm.i + 1] = NULL;
@@ -85,7 +85,7 @@ int	half_add_env(t_commands *tmp, t_norm norm, char **envp, int k)
 	else
 	{
 		norm.b += 1;
-		norm.te = (tmp->arguments[k] + norm.b);
+		norm.te = ft_strdup(tmp->arguments[k] + norm.b);
 		norm.lenp = len_of_args(envp);
 		norm.i = -1;
 		if (loop_add_env(norm, envp, s) == -100)

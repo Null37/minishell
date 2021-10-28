@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:54:51 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:48:07 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/12 13:23:35 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,43 @@ void	half_unset(int j, int lenp, t_env *evp)
 	evp->my_env[j] = NULL;
 }
 
-void	command_unset(t_commands *tmp, t_env *evp)
+int	cnt_unset(t_commands *tmp, t_env *evp, int k)
 {
-	int		lenp;
-	int		lenarg;
-	int		k;
 	int		i;
-	int		j;
+	char	*name;
+	int		lenp;
 
 	i = -1;
-	k = -1;
 	lenp = len_of_args(evp->my_env);
+	while (++i < lenp)
+	{
+		name = get_env_name(evp->my_env[i]);
+		if (ft_strncmp(name, tmp->arguments[k],
+				ft_strlen(tmp->arguments[k]) + 1) == 0)
+		{
+			half_unset(i, lenp, evp);
+			lenp = len_of_args(evp->my_env);
+			free(name);
+			name = NULL;
+			return (1);
+		}
+		free(name);
+		name = NULL;
+	}
+	return (0);
+}
+
+void	command_unset(t_commands *tmp, t_env *evp)
+{
+	int		lenarg;
+	int		k;
+
+	k = -1;
 	lenarg = count_arg_2(tmp);
 	while (++k < lenarg)
 	{
 		check_syntax(tmp, k, 'u');
-		while (++i < lenp)
-		{
-			if (ft_strncmp(evp->my_env[i], tmp->arguments[k],
-					ft_strlen(tmp->arguments[k])) == 0)
-			{
-				j = i;
-				half_unset(j, lenp, evp);
-				lenp = len_of_args(evp->my_env);
-			}
-		}
+		cnt_unset(tmp, evp, k);
 	}
 }
 

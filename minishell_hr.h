@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:38:42 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/06/05 16:15:33 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/12 13:09:53 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_commandg
 	int		yesdup;
 	int		pipe_err;
 	int		option;
+	int		termcap_mod;
 }					t_commandg;
 
 typedef struct s_nor
@@ -342,4 +343,7 @@ t_tmp		*new_tmp_search(char **envp);
 char		*convert_vrbs(char *cmds, t_env *evp);
 void		old_pwd(t_env *evp);
 t_rdr		*newcmd_rdr(void);
+void		get_last_cmd(t_history **history, t_history **h_tmp);
+void		get_last_cmd2(t_history **h_tmp);
+void		key_down_cnt(void);
 #endif

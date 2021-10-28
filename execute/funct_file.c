@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funct_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 16:58:35 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 19:51:56 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/11 11:47:17 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	command_pwd(char *ptr, t_env *evp)
 {
 	if (ptr != NULL)
 	{
-		write(1, ptr, strlen(ptr));
+		write(1, ptr, ft_strlen(ptr));
 		write(1, "\n", 1);
 	}
 	else
 	{
 		ptr = search_in_env2("PWD", evp->my_env);
-		if (ft_strncmp(ptr, "", 1) == 0)
+		if (ptr == NULL)
 			write(1, g_all->old_pwd, ft_strlen(g_all->old_pwd));
 		else
-			write(1, ptr, strlen(ptr));
+			write(1, ptr, ft_strlen(ptr));
 		write(1, "\n", 1);
 		free(ptr);
 	}

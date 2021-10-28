@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 13:03:15 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 16:11:58 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/06/11 11:47:23 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	half_cd(char *ptr, t_env *evp, char *oldpwd)
 {
-	ptr = search_in_env2("PWD", evp->my_env);
 	oldpwd = ft_strdup(ptr);
-	if (ft_strncmp(ptr, "", 1) != 0)
+	if (ptr == NULL)
 	{
+		ptr = search_in_env2("PWD", evp->my_env);
 		ptr = ft_strjoin1(ptr, "/.");
 		evp->my_env = edit_evp_new_oldpwd(oldpwd, evp->my_env);
 		evp->my_env = edit_envp_pwd(ptr, evp->my_env);
@@ -37,7 +37,7 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 	{
 		home = search_in_env2("HOME", evp->my_env);
 		eee = chdir(home);
-		if (ft_strncmp(home, "", 1) == 0)
+		if (home == NULL)
 		{
 			write(2, "minishell: cd: HOME not set\n", 28);
 			free(home);
@@ -49,7 +49,7 @@ int	half_cd_2(t_commands *tmp, t_env *evp, char *home, int eee)
 	else if (ft_strncmp(tmp->arguments[0], "~", 2) == 0)
 	{
 		home = search_in_env2("HOME", evp->my_env);
-		if (ft_strncmp(home, "", 1) == 0)
+		if (home == NULL)
 			chdir(evp->save);
 		else
 			eee = chdir(home);
@@ -72,7 +72,7 @@ void	erro_cd(char *home, t_commands *tmp)
 		write(2, home, ft_strlen(home));
 	write(2, ": ", 2);
 	ee = strerror(errno);
-	write(2, ee, strlen(ee));
+	write(2, ee, ft_strlen(ee));
 	write(2, "\n", 1);
 	g_all->staus_code = 1;
 }

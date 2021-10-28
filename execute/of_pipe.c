@@ -56,6 +56,7 @@ void	start_loop(t_commands *tmp, t_filerdr *lastnamef,
 		else
 			norm->write_fd = dup(1);
 		g_all->ctrl_quit = 1;
+		g_all->ctrl_c = 1;
 		if (fork() == 0)
 			all_work_p_r(tmp, lastnamef, evp, norm);
 		else

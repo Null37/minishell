@@ -6,7 +6,7 @@
 /*   By: ssamadi <ssamadi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 12:36:37 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/28 16:11:05 by ssamadi          ###   ########.fr       */
+/*   Updated: 2021/06/11 11:45:14 by ssamadi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	se_execute_command(t_commands *tmp, char *ptr, t_env *evp)
 	char	*test;
 
 	test = search_in_env2("PWD", evp->my_env);
-	if (ft_strncmp(test, "", 1) != 0)
+	if (test == NULL)
 		g_all->old_pwd = search_in_env2("PWD", evp->my_env);
 	free(test);
 	if (ft_strncmp(tmp->type, "cd", 3) == 0)
@@ -87,7 +87,7 @@ void	half_exit(t_commands *tmp, int i)
 		{
 			write(2, "minishell: ", 11);
 			write(2, "exit: ", 6);
-			write(2, tmp->arguments[0], strlen(tmp->arguments[0]));
+			write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
 			write(2, ": ", 2);
 			write(2, "numeric argument required\n", 26);
 			free(tmp->arguments[0]);

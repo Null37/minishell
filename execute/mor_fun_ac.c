@@ -6,7 +6,7 @@
 /*   By: fbouibao <fbouibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 17:58:59 by ssamadi           #+#    #+#             */
-/*   Updated: 2021/05/27 12:58:43 by fbouibao         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:26:46 by fbouibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	err_number(t_commands *tmp)
 {
 	write(2, "minishell: ", 11);
 	write(2, "exit: ", 6);
-	write(2, tmp->arguments[0], strlen(tmp->arguments[0]));
+	write(2, tmp->arguments[0], ft_strlen(tmp->arguments[0]));
 	write(2, ": ", 2);
 	write(2, "numeric argument required\n", 26);
 }
@@ -68,6 +68,7 @@ int 	loop_add_env(t_norm norm, char **envp, char *s)
 			norm.varibale = ft_strjoin1(norm.varibale, "=");
 			s = envp[norm.i];
 			envp[norm.i] = ft_strjoin1(norm.varibale, norm.te);
+			free(norm.te);
 			free(s);
 			free(norm.nameenv);
 			return (-100);
